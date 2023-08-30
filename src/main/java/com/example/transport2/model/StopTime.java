@@ -27,5 +27,5 @@ public class StopTime { //WeekStopTime
     RouteStops routeStops;
     @Enumerated(EnumType.STRING)
     DayOfWeek dayOfWeek;
-    LocalTime time; //вынести в отдельную таблицу ?
+    LocalTime time;
 }

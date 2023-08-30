@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+//@Repository
 public interface TransportRepository extends JpaRepository<Transport, Integer> { //<тип сущности, тип айдишника>
     Optional<Transport> findByNameAndType(String name, TransportType t);
     Optional<Transport> findByName(String name);

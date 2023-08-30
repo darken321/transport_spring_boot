@@ -18,7 +18,7 @@ public class Stop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    String stopName;
+    String name;
     @Embedded
     Coordinate coordinate;
 }
