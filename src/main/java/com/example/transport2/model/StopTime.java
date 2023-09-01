@@ -1,8 +1,7 @@
 package com.example.transport2.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.DayOfWeek;
@@ -18,8 +17,11 @@ import java.time.LocalTime;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StopTime { //WeekStopTime
+public class StopTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;

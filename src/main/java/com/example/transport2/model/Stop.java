@@ -1,18 +1,20 @@
 package com.example.transport2.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 /**
  * Класс описисывает остановку
- * stopName - название остановки
+ * name - название остановки
  * coordinate координаты остановки
  */
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Stop {
     @Id

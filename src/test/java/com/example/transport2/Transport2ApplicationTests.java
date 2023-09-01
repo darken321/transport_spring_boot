@@ -27,44 +27,7 @@ class Transport2ApplicationTests {
     TransportRepository transportRepository;
 
     @Test
-    void saveTransportTest() {
-        Transport transport;
-        for (int i = 0; i <= 9; i++) {
-            transport = Transport.builder()
-                    .type(TROLLEYBUS)
-                    .name("10" + i)
-                    .build();
-            transportRepository.save(transport);
-        }
-        List<String> autobus = new ArrayList<>(Arrays.asList("1", "1А", "2", "2А", "3", "5", "6"));
-        for (String s : autobus) {
-            transport = Transport.builder()
-                    .type(BUS)
-                    .name(s)
-                    .build();
-            transportRepository.save(transport);
-        }
-    }
-
-    @Test
     void findTransport() {
-        Transport transport;
-        for (int i = 0; i <= 9; i++) {
-            transport = Transport.builder()
-                    .type(TROLLEYBUS)
-                    .name("10" + i)
-                    .build();
-            transportRepository.save(transport);
-        }
-        List<String> autobus = new ArrayList<>(Arrays.asList("1", "1А", "2", "2А", "3", "5", "6"));
-        for (String s : autobus) {
-            transport = Transport.builder()
-                    .type(BUS)
-                    .name(s)
-                    .build();
-            transportRepository.save(transport);
-        }
-
         Transport findById = transportRepository
                 .findById(14).orElseThrow(() -> new EntityNotFoundException("не нашел запись"));
         log.info(findById.toString());

@@ -1,8 +1,7 @@
 package com.example.transport2.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 /**
@@ -11,8 +10,12 @@ import lombok.experimental.FieldDefaults;
  * stop        -- айди остановки
  * stopOrder   -- порядковый номер остановки в маршруте
  */
+
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RouteStops {
     @Id
@@ -22,5 +25,5 @@ public class RouteStops {
     TransportRoute route;
     @ManyToOne
     Stop stop;
-    Integer stopOrder; //TODO индексы или список и почему
+    Integer stopOrder;
 }
