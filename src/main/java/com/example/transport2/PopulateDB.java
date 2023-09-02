@@ -1,23 +1,23 @@
 package com.example.transport2;
 
-import com.example.transport2.model.RouteStops;
-import com.example.transport2.model.Stop;
-import com.example.transport2.model.Transport;
-import com.example.transport2.model.TransportRoute;
-import com.example.transport2.repository.RouteStopRepository;
-import com.example.transport2.repository.StopRepository;
-import com.example.transport2.repository.TransportRepository;
-import com.example.transport2.repository.TransportRouteRepository;
+import com.example.transport2.model.*;
+import com.example.transport2.repository.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.ManyToOne;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static com.example.transport2.model.TransportType.BUS;
 import static com.example.transport2.model.TransportType.TROLLEYBUS;
@@ -30,18 +30,21 @@ public class PopulateDB {
     private final StopRepository stopRepository;
     private final TransportRouteRepository transportRouteRepository;
     private final RouteStopRepository routeStopRepository;
+    private final StopTimeRepository stopTimeRepository;
 
 
     @Autowired
     public PopulateDB(TransportRepository transportRepository,
                       StopRepository stopRepository,
                       TransportRouteRepository transportRouteRepository,
-                      RouteStopRepository routeStopRepository) {
+                      RouteStopRepository routeStopRepository,
+                      StopTimeRepository stopTimeRepository) {
 
         this.transportRepository = transportRepository;
         this.stopRepository = stopRepository;
         this.transportRouteRepository = transportRouteRepository;
         this.routeStopRepository = routeStopRepository;
+        this.stopTimeRepository = stopTimeRepository;
     }
 
     @PostConstruct
@@ -150,7 +153,21 @@ public class PopulateDB {
                     .build();
             routeStopRepository.save(routeStops);
         }
-
+//        Заполнить один день понеделник одной остановки одного троллейбуса 101
+        Random random = new Random();
+        StopTime stopTime;
+        for (int k = 1; k <= 5; k++) { //цикл по остановкам маршрута
+            for (DayOfWeek day : DayOfWeek.values()) { //дни недели
+                for (int j = 0; j < 10; j++) { //время прибытия
+                    stopTime = StopTime.builder()
+                            .time(LocalTime.of(random.nextInt(24), random.nextInt(60)))
+                            .dayOfWeek(day)
+                            .routeStops(routeStopRepository.findById(k).orElseThrow())
+                            .build();
+                    stopTimeRepository.save(stopTime);
+                }
+            }
+        }
 
         //поиск записей
         Transport findById = transportRepository
