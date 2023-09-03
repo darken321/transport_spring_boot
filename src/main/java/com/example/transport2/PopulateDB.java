@@ -153,12 +153,13 @@ public class PopulateDB {
                     .build();
             routeStopRepository.save(routeStops);
         }
-//        Заполнить один день понеделник одной остановки одного троллейбуса 101
+
+        //вставка значений в таблицу stop_time - время прибытия по остановкам маршрутов
         Random random = new Random();
         StopTime stopTime;
         for (int k = 1; k <= 5; k++) { //цикл по остановкам маршрута
             for (DayOfWeek day : DayOfWeek.values()) { //дни недели
-                for (int j = 0; j < 10; j++) { //время прибытия
+                for (int j = 0; j < 10; j++) { //время прибытия рандом
                     stopTime = StopTime.builder()
                             .time(LocalTime.of(random.nextInt(24), random.nextInt(60)))
                             .dayOfWeek(day)
