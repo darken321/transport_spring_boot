@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface StopRepository extends JpaRepository<Stop, Integer> { //<тип сущности, тип айдишника>
+public interface StopRepository extends JpaRepository<Stop, Integer> {
     Optional<Stop> findByName(String name);
+    List<Stop> findAllByName(String name);
 }

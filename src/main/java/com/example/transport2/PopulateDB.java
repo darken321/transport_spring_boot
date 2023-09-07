@@ -4,12 +4,11 @@ import com.example.transport2.model.*;
 import com.example.transport2.repository.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
@@ -23,36 +22,31 @@ import static com.example.transport2.model.TransportType.BUS;
 import static com.example.transport2.model.TransportType.TROLLEYBUS;
 
 @Slf4j
+@AllArgsConstructor
 @Component
 public class PopulateDB {
 
+    private final LocationRepository locationRepository;
     private final TransportRepository transportRepository;
     private final StopRepository stopRepository;
     private final TransportRouteRepository transportRouteRepository;
     private final RouteStopRepository routeStopRepository;
     private final StopTimeRepository stopTimeRepository;
 
-
-    @Autowired
-    public PopulateDB(TransportRepository transportRepository,
-                      StopRepository stopRepository,
-                      TransportRouteRepository transportRouteRepository,
-                      RouteStopRepository routeStopRepository,
-                      StopTimeRepository stopTimeRepository) {
-
-        this.transportRepository = transportRepository;
-        this.stopRepository = stopRepository;
-        this.transportRouteRepository = transportRouteRepository;
-        this.routeStopRepository = routeStopRepository;
-        this.stopTimeRepository = stopTimeRepository;
-    }
-
     @PostConstruct
     public void init() {
+        //Добавляю город
+        Location location;
+        location = Location.builder()
+                .name("Брест")
+                .build();
+        locationRepository.save(location);
+
         //Заношу transport
         Transport transport;
         for (int i = 0; i <= 9; i++) {
             transport = Transport.builder()
+                    .location(locationRepository.findByName("Брест").orElseThrow())
                     .type(TROLLEYBUS)
                     .name("10" + i)
                     .build();
@@ -62,6 +56,7 @@ public class PopulateDB {
         List<String> autobus = new ArrayList<>(Arrays.asList("1", "1А", "2", "2А", "3", "5", "6"));
         for (String s : autobus) {
             transport = Transport.builder()
+                    .location(locationRepository.findByName("Брест").orElseThrow())
                     .type(BUS)
                     .name(s)
                     .build();
@@ -103,6 +98,7 @@ public class PopulateDB {
 
         for (String s : stopList) {
             stop = Stop.builder()
+                    .location(locationRepository.findByName("Брест").orElseThrow())
                     .name(s)
                     .build();
             stopRepository.save(stop);
@@ -171,21 +167,24 @@ public class PopulateDB {
         }
 
         //поиск записей
+        Location brest = locationRepository.
+                findByName("Брест").orElseThrow(() -> new EntityNotFoundException("не нашел запись"));
+        log.warn("Города " + brest);
         Transport findById = transportRepository
                 .findById(14).orElseThrow(() -> new EntityNotFoundException("не нашел запись"));
 
-        log.info("ID 14 " + findById.toString());
+        log.warn("ID 14 " + findById.toString());
 
         Transport findByName = transportRepository
                 .findByName("101").orElseThrow(() -> new EntityNotFoundException("не нашел запись"));
-        log.info("Name 101 " + findByName.toString());
+        log.warn("Name 101 " + findByName.toString());
 
         Transport findByNameAndType = transportRepository
                 .findByNameAndType("105", TROLLEYBUS).orElseThrow(() -> new EntityNotFoundException("не нашел запись"));
-        log.info("TROLLEYBUS name 105 " + findByNameAndType.toString());
+        log.warn("TROLLEYBUS name 105 " + findByNameAndType.toString());
 
         List<Transport> findAllByType = transportRepository
                 .findAllByType(BUS);
-        log.info("List of BUS " + findAllByType.toString());
+        log.warn("List of BUS " + findAllByType.toString());
     }
 }

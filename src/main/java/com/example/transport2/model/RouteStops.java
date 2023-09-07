@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
  * Класс описывает остановки маршрута
  * route       -- айдишник маршрута
  * stop        -- айди остановки
+ * distance    -- расстояние от первой остановки
  * stopOrder   -- порядковый номер остановки в маршруте
  */
 
@@ -25,5 +26,6 @@ public class RouteStops {
     TransportRoute route;
     @ManyToOne
     Stop stop;
+    Integer distance;
     Integer stopOrder;
-}
+    }

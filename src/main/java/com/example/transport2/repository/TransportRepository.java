@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface TransportRepository extends JpaRepository<Transport, Integer> { //<тип сущности, тип айдишника>
     Optional<Transport> findByNameAndType(String name, TransportType t);
     Optional<Transport> findByName(String name);
+    List<Transport> findAllByName(String name);
     List<Transport> findAllByType(TransportType t);
 }

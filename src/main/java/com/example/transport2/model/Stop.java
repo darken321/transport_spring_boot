@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 /**
  * Класс описисывает остановку
  * name - название остановки
- * coordinate координаты остановки
+ * location - местоположение, город
  */
 
 @Entity
@@ -21,7 +21,7 @@ public class Stop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String name;
-    @Embedded
-    Coordinate coordinate;
+    @ManyToOne
+    Location location;
 }
 

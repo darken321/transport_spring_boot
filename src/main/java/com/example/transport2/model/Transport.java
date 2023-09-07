@@ -5,9 +5,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 /** Класс описывает транспорт
- * transportName - название транспорта
- * transportType - тип автобус, троллейбус, трамвай
- * transportNumber - номер транспорта (маршрута)
+ * name - название транспорта
+ * type - тип автобус, троллейбус, трамвай
+ * location - местоположение, город
  */
 @Entity
 @Data
@@ -22,4 +22,6 @@ public class Transport {
     String name;
     @Enumerated(EnumType.STRING)
     TransportType type;
+    @ManyToOne
+    Location location;
 }

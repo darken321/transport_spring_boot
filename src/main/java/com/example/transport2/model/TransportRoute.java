@@ -9,7 +9,9 @@ import lombok.experimental.FieldDefaults;
  * transport   - айдишник транспортного средства
  * startStop   - айди начальной остановки
  * endStop     - айди конечной остановки
- * name   - название маршрута
+ * name        - название маршрута
+ * note        - заметка, комментарий по маршруту
+ * mapImage    - картинка маршрута
  */
 @Entity
 @Data
@@ -29,5 +31,6 @@ public class TransportRoute {
     @ManyToOne
     Stop endStop;
     String name;
-
+    String note;
+//    Object mapImage;
 }
