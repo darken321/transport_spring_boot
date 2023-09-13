@@ -1,6 +1,7 @@
 package com.example.transport2.service;
 
 import com.example.transport2.model.Transport;
+import com.example.transport2.model.TransportType;
 import com.example.transport2.repository.TransportRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +16,13 @@ import java.util.List;
 public class TransportService {
     private final TransportRepository transportRepository;
 
-    public Page<Transport> getAll(int page, int size) {
+    public Page<Transport> getAllPages(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return transportRepository.findAll(pageRequest);
+    }
+
+    public List<Transport> getAll() {
+        return transportRepository.findAll();
     }
 
     public Transport getById(Integer id) {
@@ -25,4 +30,7 @@ public class TransportService {
                 .orElseThrow(() -> new EntityNotFoundException("transport with id " + id + " not found in DB."));
     }
 
+    public List<Transport> getByLocationIdAndType(int locationId, TransportType transportType) {
+        return transportRepository.findAllByLocationIdAndTypeOrderByName(locationId, transportType);
+    }
 }

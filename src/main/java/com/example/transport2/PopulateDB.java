@@ -165,26 +165,5 @@ public class PopulateDB {
                 }
             }
         }
-
-        //поиск записей
-        Location brest = locationRepository.
-                findByName("Брест").orElseThrow(() -> new EntityNotFoundException("не нашел запись"));
-        log.warn("Города " + brest);
-        Transport findById = transportRepository
-                .findById(14).orElseThrow(() -> new EntityNotFoundException("не нашел запись"));
-
-        log.warn("ID 14 " + findById.toString());
-
-        Transport findByName = transportRepository
-                .findByName("101").orElseThrow(() -> new EntityNotFoundException("не нашел запись"));
-        log.warn("Name 101 " + findByName.toString());
-
-        Transport findByNameAndType = transportRepository
-                .findByNameAndType("105", TROLLEYBUS).orElseThrow(() -> new EntityNotFoundException("не нашел запись"));
-        log.warn("TROLLEYBUS name 105 " + findByNameAndType.toString());
-
-        List<Transport> findAllByType = transportRepository
-                .findAllByType(BUS);
-        log.warn("List of BUS " + findAllByType.toString());
     }
 }

@@ -9,6 +9,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StopRepository extends JpaRepository<Stop, Integer> {
-    Optional<Stop> findByName(String name);
-    List<Stop> findAllByName(String name);
+    List<Stop> findAllByNameContaining(String name);
 }
