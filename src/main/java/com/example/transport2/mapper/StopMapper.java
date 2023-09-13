@@ -32,14 +32,8 @@ public class StopMapper {
     }
 
     public List<Stop> allFromDto(List<StopDto> dtolist) {
-        List<Stop> list = new ArrayList<>();
-        for (StopDto dto : dtolist) {
-            list.add(Stop.builder()
-                    .id(dto.getId())
-                    .name(dto.getName())
-                    .location(dto.getLocation())
-                    .build());
-        }
-        return list;
+        return dtolist.stream()
+                .map(this::fromDto)
+                .toList();
     }
 }

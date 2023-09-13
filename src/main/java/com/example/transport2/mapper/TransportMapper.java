@@ -27,15 +27,24 @@ public class TransportMapper {
     }
 
     public List<TransportDto> allToDto(List<Transport> transportList) {
-        List<TransportDto> list = new ArrayList<>();
-        for (Transport transport : transportList) {
-            list.add(TransportDto.builder()
-                    .id(transport.getId())
-                    .name(transport.getName())
-                    .location(transport.getLocation())
-                    .build());
-        }
-        return list;
+        return transportList.stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    public Transport fromDto(TransportDto dto) {
+        return Transport.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .type(dto.getType())
+                .location(dto.getLocation())
+                .build();
+    }
+
+    public List<Transport> allFromDto(List<TransportDto> list) {
+        return list.stream()
+                .map(this::fromDto)
+                .toList();
     }
 
     public PageDto<TransportDto> pageToDto(Page<Transport> pageTransport) {
