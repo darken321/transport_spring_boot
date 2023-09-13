@@ -33,23 +33,8 @@ public class TransportApi {
     public List<TransportDto> getByFilters(@RequestParam(required = false) String name,
                                            @RequestParam(required = false) String type) {
 
-
-        //поиск по части имени и типу
-        if (name != null && type != null) {
-            List<Transport> list = new ArrayList<>();
-            return transportMapper.allToDto(transportRepository
-                    .findByNameContainingAndType(name, TransportType.valueOf(type)));
-        }
-
-        //поиск по части имени
-        if (name != null) {
-            return transportMapper.allToDto(transportRepository.findAllByNameContaining(name));
-        }
-        //поиск по типу
-        if (type != null) {
-            return transportMapper.allToDto(transportRepository.findAllByType(TransportType.valueOf(type)));
-        }
-        return transportMapper.allToDto(transportService.getAll());
+        List<Transport> transportList = transportService.getByFilters(name, type);
+        return transportMapper.allToDto(transportList);
     }
 
     @GetMapping("page")
@@ -60,9 +45,9 @@ public class TransportApi {
 
     @GetMapping("location/{locationId}/type/{transportType}")
     public LocationTransportDto getByLocationIdAndType(@PathVariable int locationId,
-                                                     @PathVariable TransportType transportType) {
+                                                       @PathVariable TransportType transportType) {
         transportService.getByLocationIdAndType(locationId, transportType);
 
-    return null;
+        return null;
     }
 }
