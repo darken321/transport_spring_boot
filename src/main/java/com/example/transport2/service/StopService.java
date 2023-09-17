@@ -17,7 +17,7 @@ public class StopService {
         return stopRepository.findAll();
     }
 
-    public List<Stop> getAllByName(String name) {
+    public List<Stop> findAllByNameContaining(String name) {
         return stopRepository.findAllByNameContaining(name);
     }
 
@@ -26,12 +26,11 @@ public class StopService {
                 .orElseThrow(() -> new EntityNotFoundException("stop with id " + id + " not found in DB"));
     }
 
-    public Stop saveDto(Stop stop) {
+    public Stop save(Stop stop) {
         return stopRepository.save(stop);
     }
 
-    public void deleteDto(Stop stop) {
-        stopRepository.delete(stop);
+    public void delete(int id) {
+        stopRepository.deleteById(id);
     }
-
 }

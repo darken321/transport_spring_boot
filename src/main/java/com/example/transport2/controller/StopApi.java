@@ -1,20 +1,14 @@
 package com.example.transport2.controller;
 
 import com.example.transport2.dto.StopDto;
-import com.example.transport2.dto.TransportDto;
+import com.example.transport2.dto.StopSaveDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.model.Stop;
-import com.example.transport2.model.Transport;
-import com.example.transport2.model.TransportType;
-import com.example.transport2.repository.StopRepository;
-import com.example.transport2.repository.TransportRepository;
 import com.example.transport2.service.StopService;
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,7 +16,6 @@ import java.util.List;
 @RequestMapping("api/v1/stops")
 public class StopApi {
 
-    private final StopRepository stopRepository;
     private final StopService stopService;
     private final StopMapper stopMapper;
 
@@ -30,10 +23,9 @@ public class StopApi {
     public List<StopDto> getByFilters(@RequestParam(required = false) String name) {
 
         if (name != null) {
-            return stopMapper.allToDto(stopRepository.findAllByNameContaining(name));
+            return stopMapper.toDto(stopService.findAllByNameContaining(name));
         }
-
-        return stopMapper.allToDto(stopService.getAll());
+        return stopMapper.toDto(stopService.getAll());
     }
 
     @GetMapping("{id}")
@@ -43,16 +35,14 @@ public class StopApi {
     }
 
     @PostMapping
-    public StopDto saveDto(@RequestBody StopDto dto) {
+    public StopDto save(@RequestBody @Valid StopSaveDto dto) {
         Stop stop = stopMapper.fromDto(dto);
-        stopService.saveDto(stop);
-        return dto;
+        Stop save = stopService.save(stop);
+        return stopMapper.toDto(save);
     }
 
-    @DeleteMapping
-    public StopDto deleteDto(@RequestBody StopDto dto) {
-        Stop stop = stopMapper.fromDto(dto);
-        stopService.deleteDto(stop);
-        return dto;
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Integer id) {
+        stopService.delete(id);
     }
 }

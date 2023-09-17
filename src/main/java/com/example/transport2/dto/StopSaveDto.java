@@ -1,5 +1,7 @@
 package com.example.transport2.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -8,9 +10,10 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StopDto {
-
-    Integer id;
+public class StopSaveDto {
+    @NotBlank
     String name;
+    @NotBlank
+    @Size(min = 3)
     String location;
 }

@@ -1,7 +1,5 @@
 package com.example.transport2.dto;
 
-import com.example.transport2.model.Location;
-import com.example.transport2.model.TransportType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

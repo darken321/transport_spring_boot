@@ -53,7 +53,8 @@ public class PopulateDB {
             transportRepository.save(transport);
         }
 
-        List<String> autobus = new ArrayList<>(Arrays.asList("1", "1А", "2", "2А", "3", "5", "6"));
+//        List<String> autobus = new ArrayList<>(Arrays.asList("1", "1А", "2", "2А", "3", "5", "6"));
+        List<String> autobus = new ArrayList<>(Arrays.asList("2", "2А", "1А", "1", "3", "5", "6"));
         for (String s : autobus) {
             transport = Transport.builder()
                     .location(locationRepository.findByName("Брест").orElseThrow())

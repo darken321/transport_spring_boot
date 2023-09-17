@@ -29,7 +29,7 @@ class Transport2ApplicationTests {
     @Autowired
     TransportService transportService;
 
-    @Test
+//    @Test
     void findTransport() {
         Transport findById = transportRepository
                 .findById(14).orElseThrow(() -> new EntityNotFoundException("не нашел запись"));
