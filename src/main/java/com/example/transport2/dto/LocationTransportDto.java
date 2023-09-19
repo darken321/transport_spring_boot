@@ -1,6 +1,8 @@
 package com.example.transport2.dto;
 
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,8 +17,13 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 public class LocationTransportDto {
-    List<ShortTransportDto> transports;
-    String locationName;
-    String transportType;
 
+    @NotNull
+    List<ShortTransportDto> transports;
+
+    @Size(min=3)
+    String locationName;
+
+    @NotNull
+    String transportType;
 }

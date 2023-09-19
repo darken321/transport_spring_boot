@@ -10,4 +10,5 @@ import java.util.Optional;
 
 public interface StopRepository extends JpaRepository<Stop, Integer> {
     List<Stop> findAllByNameContaining(String name);
+    boolean existsByNameLikeIgnoreCase(String name);
 }

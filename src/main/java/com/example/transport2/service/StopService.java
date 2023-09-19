@@ -2,6 +2,7 @@ package com.example.transport2.service;
 
 import com.example.transport2.model.Stop;
 import com.example.transport2.repository.StopRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,10 @@ public class StopService {
     }
 
     public Stop save(Stop stop) {
+
+        if (stopRepository.existsByNameLikeIgnoreCase(stop.getName())) {
+            throw new EntityExistsException("Остановка " + stop.getName() + " уже есть в базе данных");
+        }
         return stopRepository.save(stop);
     }
 

@@ -3,6 +3,10 @@ package com.example.transport2.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/** description - именительный падеж
+ * descriptionA - расписание одного транспортА
+ * descriptionOf - список многих транспортOF
+ */
 @AllArgsConstructor
 @Getter
 public enum TransportType {

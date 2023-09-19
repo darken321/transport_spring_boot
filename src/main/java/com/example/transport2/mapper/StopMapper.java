@@ -2,8 +2,10 @@ package com.example.transport2.mapper;
 
 import com.example.transport2.dto.StopDto;
 import com.example.transport2.dto.StopSaveDto;
+import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.model.Location;
 import com.example.transport2.model.Stop;
+import com.example.transport2.model.Transport;
 import com.example.transport2.repository.LocationRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -54,4 +56,21 @@ public class StopMapper {
                 .map(this::toDto)
                 .toList();
     }
+
+    public StopTransportDto toDto(Stop stop, List<Transport> transports) {
+        return StopTransportDto.builder()
+                .id(stop.getId())
+                .name(stop.getName())
+                .location(stop.getLocation().getName())
+                .transports(transports.stream()
+                        .map(t -> StopTransportDto.StopTransportInfoDto.builder()
+                                .id(t.getId())
+                                .name(t.getName())
+                                .transportType(t.getType())
+                                .build())
+                        .toList()
+                )
+                .build();
+    }
+
 }

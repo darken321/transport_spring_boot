@@ -3,6 +3,7 @@ package com.example.transport2.mapper;
 import com.example.transport2.dto.PageDto;
 import com.example.transport2.dto.ShortTransportDto;
 import com.example.transport2.dto.TransportDto;
+import com.example.transport2.model.Location;
 import com.example.transport2.model.Transport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,8 @@ public class TransportMapper {
                 .id(transport.getId())
                 .name(transport.getName())
                 .type(transport.getType())
-                .location(transport.getLocation())
+                .locationId(transport.getLocation().getId())
+                .locationName(transport.getLocation().getName())
                 .build();
     }
 
@@ -48,7 +50,10 @@ public class TransportMapper {
                 .id(dto.getId())
                 .name(dto.getName())
                 .type(dto.getType())
-                .location(dto.getLocation())
+                .location(Location.builder()
+                        .id(dto.getLocationId())
+                        .name(dto.getLocationName())
+                        .build())
                 .build();
     }
 

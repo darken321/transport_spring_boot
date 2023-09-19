@@ -1,8 +1,10 @@
 package com.example.transport2.service;
 
-import com.example.transport2.mapper.TransportMapper;
+import com.example.transport2.model.RouteStops;
 import com.example.transport2.model.Transport;
+import com.example.transport2.model.TransportRoute;
 import com.example.transport2.model.TransportType;
+import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.TransportRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -10,14 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class TransportService {
     private final TransportRepository transportRepository;
-    private final TransportMapper transportMapper;
+    private final RouteStopRepository routeStopRepository;
 
 
     public Page<Transport> getAllPages(int page, int size) {
@@ -38,17 +39,24 @@ public class TransportService {
         return transportRepository.findAllByLocationIdAndTypeOrderByName(locationId, transportType);
     }
 
-    public List<Transport> getByFilters(String name, String type) {
-        if (name != null && type != null) {
-            return transportRepository.findByNameContainingAndType(name, TransportType.valueOf(type));
+    public List<Transport> getByFilters(String name, TransportType transportType) {
+        if (name != null && transportType != null) {
+            return transportRepository.findByNameContainingAndType(name, transportType);
         }
         if (name != null) {
             return transportRepository.findAllByNameContaining(name);
         }
-        if (type != null) {
-            return transportRepository.findAllByType(TransportType.valueOf(type));
+        if (transportType != null) {
+            return transportRepository.findAllByType(transportType);
         }
         return transportRepository.findAll();
+    }
 
+    public List<Transport> getByStopId(Integer stopId) {
+        return routeStopRepository.findAllByStopId(stopId).stream()
+                .map(RouteStops::getRoute)
+                .map(TransportRoute::getTransport)
+                .distinct()
+                .toList();
     }
 }
