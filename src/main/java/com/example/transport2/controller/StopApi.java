@@ -38,7 +38,7 @@ public class StopApi {
     }
 
     @GetMapping("{id}")
-    public StopTransportDto getById(@PathVariable @Positive Integer id) {
+    public StopTransportDto getById(@PathVariable Integer id) {
         Stop stop = stopService.getById(id);
         List<Transport> transports = transportService.getByStopId(id);
         return stopMapper.toDto(stop, transports);
@@ -52,7 +52,7 @@ public class StopApi {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable @Positive Integer id) {
+    public void delete(@PathVariable Integer id) {
         stopService.delete(id);
     }
 }

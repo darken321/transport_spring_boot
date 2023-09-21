@@ -41,13 +41,13 @@ public class TransportApi {
     }
 
     @GetMapping("page")
-    public PageDto<TransportDto> getAll(@RequestParam(required = false, defaultValue = "0") @Positive int page,
-                                        @RequestParam(required = false, defaultValue = "20") @Positive int size) {
+    public PageDto<TransportDto> getAll(@RequestParam(required = false, defaultValue = "0") int page,
+                                        @RequestParam(required = false, defaultValue = "20") int size) {
         return transportMapper.pageToDto(transportService.getAllPages(page, size));
     }
 
     @GetMapping("location/{locationId}/type/{transportType}")
-    public LocationTransportDto getByLocationIdAndType(@PathVariable @Positive int locationId,
+    public LocationTransportDto getByLocationIdAndType(@PathVariable int locationId,
                                                        @PathVariable @NotNull TransportType transportType) {
         List<Transport> byLocationIdAndType = transportService.getByLocationIdAndType(locationId, transportType);
         return LocationTransportDto.builder()
