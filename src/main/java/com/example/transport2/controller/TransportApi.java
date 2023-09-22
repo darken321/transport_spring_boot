@@ -52,7 +52,7 @@ public class TransportApi {
         List<Transport> byLocationIdAndType = transportService.getByLocationIdAndType(locationId, type);
         return LocationTransportDto.builder()
                 .locationName(locationService.getLocationById(locationId).getName())
-                .transportType(type.getDescriptionOf())
+                .transportType(type.name())
                 .transports(transportMapper.toShortTransportDto(byLocationIdAndType))
                 .build();
     }
