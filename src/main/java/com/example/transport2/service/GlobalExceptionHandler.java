@@ -8,6 +8,8 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @AllArgsConstructor
 @Slf4j
-public class ExceptionHandler {
+public class GlobalExceptionHandler {
     ExceptionMapper dtoMapper;
     //TODO
 //    public ExceptionDto handleException(Exception ex, HttpStatus httpStatus) {
@@ -31,25 +33,31 @@ public class ExceptionHandler {
 //        return exceptionDto;
 //    }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionDto handleUserNotFoundException(EntityNotFoundException exception) {
-        ExceptionDto exceptionDto = dtoMapper.exceptionToDto(exception);
-        log.warn(String.valueOf(exceptionDto));
-        return exceptionDto;
+        return handleException(exception);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(EntityExistsException.class)
+    @ExceptionHandler(EntityExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ExceptionDto handleUserExistException(EntityExistsException exception) {
-        ExceptionDto exceptionDto = dtoMapper.exceptionToDto(exception);
-        log.warn(String.valueOf(exceptionDto));
-        return exceptionDto;
+        return handleException(exception);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionDto handleBadRequestException(ConstraintViolationException exception) {
+        return handleException(exception);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDto handleNotValidArgumentException(MethodArgumentNotValidException exception) {
+        return handleException(exception);
+    }
+
+    private ExceptionDto handleException(Exception exception) {
         ExceptionDto exceptionDto = dtoMapper.exceptionToDto(exception);
         log.warn(String.valueOf(exceptionDto));
         return exceptionDto;

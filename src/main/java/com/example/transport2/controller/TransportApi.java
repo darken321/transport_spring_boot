@@ -27,7 +27,7 @@ public class TransportApi {
     private final TransportMapper transportMapper;
 
     @GetMapping("{id}")
-    public TransportDto getById(@PathVariable @Positive Integer id) {
+    public TransportDto getById(@PathVariable Integer id) {
         Transport transport = transportService.getById(id);
         return transportMapper.toDto(transport);
     }
