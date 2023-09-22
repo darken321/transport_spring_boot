@@ -27,16 +27,16 @@ public class TransportApi {
     private final TransportMapper transportMapper;
 
     @GetMapping("{id}")
-    public TransportDto getById(@PathVariable @Positive Integer id) {
+    public TransportDto getById(@PathVariable Integer id) {
         Transport transport = transportService.getById(id);
         return transportMapper.toDto(transport);
     }
 
     @GetMapping
     public List<TransportDto> getByFilters(@RequestParam(required = false) String name,
-                                           @RequestParam(required = false) @NotNull TransportType transportType) {
+                                           @RequestParam(required = false) TransportType type) {
 
-        List<Transport> transportList = transportService.getByFilters(name, transportType);
+        List<Transport> transportList = transportService.getByFilters(name, type);
         return transportMapper.toDto(transportList);
     }
 
@@ -46,13 +46,13 @@ public class TransportApi {
         return transportMapper.pageToDto(transportService.getAllPages(page, size));
     }
 
-    @GetMapping("location/{locationId}/type/{transportType}")
+    @GetMapping("location/{locationId}/type/{type}")
     public LocationTransportDto getByLocationIdAndType(@PathVariable int locationId,
-                                                       @PathVariable @NotNull TransportType transportType) {
-        List<Transport> byLocationIdAndType = transportService.getByLocationIdAndType(locationId, transportType);
+                                                       @PathVariable TransportType type) {
+        List<Transport> byLocationIdAndType = transportService.getByLocationIdAndType(locationId, type);
         return LocationTransportDto.builder()
                 .locationName(locationService.getLocationById(locationId).getName())
-                .transportType(transportType.getDescriptionOf())
+                .transportType(type.getDescriptionOf())
                 .transports(transportMapper.toShortTransportDto(byLocationIdAndType))
                 .build();
     }

@@ -7,19 +7,18 @@ import com.example.transport2.model.Location;
 import com.example.transport2.model.Stop;
 import com.example.transport2.model.Transport;
 import com.example.transport2.repository.LocationRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @AllArgsConstructor
 public class StopMapper {
     LocationRepository locationRepository;
 
-    public Stop fromDto(StopDto dto) {
+    public Stop fromDto(@Valid StopDto dto) {
         return Stop.builder()
                 .id(dto.getId())
                 .name(dto.getName())
@@ -27,7 +26,7 @@ public class StopMapper {
                 .build();
     }
 
-    public Stop fromDto(StopSaveDto dto) {
+    public Stop fromDto(@Valid StopSaveDto dto) {
         return Stop.builder()
                 .name(dto.getName())
                 .location(Location.builder()
@@ -37,13 +36,13 @@ public class StopMapper {
                 .build();
     }
 
-    public List<Stop> fromDto(List<StopDto> dtolist) {
+    public List<Stop> fromDto(@Valid List<StopDto> dtolist) {
         return dtolist.stream()
                 .map(this::fromDto)
                 .toList();
     }
 
-    public StopDto toDto(Stop stop) {
+    public StopDto toDto(@Valid Stop stop) {
         return StopDto.builder()
                 .id(stop.getId())
                 .name(stop.getName())
@@ -51,13 +50,13 @@ public class StopMapper {
                 .build();
     }
 
-    public List<StopDto> toDto(List<Stop> stopList) {
+    public List<StopDto> toDto(@Valid List<Stop> stopList) {
         return stopList.stream()
                 .map(this::toDto)
                 .toList();
     }
 
-    public StopTransportDto toDto(Stop stop, List<Transport> transports) {
+    public StopTransportDto toDto(@Valid Stop stop, List<Transport> transports) {
         return StopTransportDto.builder()
                 .id(stop.getId())
                 .name(stop.getName())

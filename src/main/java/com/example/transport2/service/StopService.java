@@ -4,6 +4,7 @@ import com.example.transport2.model.Stop;
 import com.example.transport2.repository.StopRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class StopService {
                 .orElseThrow(() -> new EntityNotFoundException("stop with id " + id + " not found in DB"));
     }
 
-    public Stop save(Stop stop) {
+    public Stop save(@Valid Stop stop) {
 
         if (stopRepository.existsByNameLikeIgnoreCase(stop.getName())) {
             throw new EntityExistsException("Остановка " + stop.getName() + " уже есть в базе данных");

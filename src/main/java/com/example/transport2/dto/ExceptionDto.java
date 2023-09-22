@@ -16,6 +16,4 @@ public class ExceptionDto {
     String message;
     UUID uuid;
     ZonedDateTime exceptionServerTime;
-//    String path;
 }
-

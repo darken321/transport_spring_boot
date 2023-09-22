@@ -3,11 +3,7 @@ package com.example.transport2;
 import com.example.transport2.model.*;
 import com.example.transport2.repository.*;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -67,7 +63,7 @@ public class PopulateDB {
         //Заношу остановки - stop
         Stop stop;
         List<String> stopList = new ArrayList<>(Arrays.asList(
-                "Тельминский лес",
+                "Тельминский лёс",
                 "Восточный микрорайон",
                 "Детский городок",
                 "Парк Воинов-интернац-ов",
@@ -95,7 +91,8 @@ public class PopulateDB {
                 "Новая",
                 "Театр",
                 "Интурист",
-                "Музей спасенных ценностей"));
+                "Музей спасенных ценностей"
+        ));
 
         for (String s : stopList) {
             stop = Stop.builder()

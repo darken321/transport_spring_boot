@@ -26,8 +26,10 @@ public class StopTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @ManyToOne
+    @NonNull
     RouteStops routeStops;
     @Enumerated(EnumType.STRING)
     DayOfWeek dayOfWeek;
+    @NonNull
     LocalTime time;
 }

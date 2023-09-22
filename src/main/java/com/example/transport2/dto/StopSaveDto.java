@@ -15,11 +15,11 @@ public class StopSaveDto {
 
     @NotBlank
     @Size(min = 2)
-    @Pattern(regexp = "[а-яА-Я0-9-]+")
+    @Pattern(regexp = "^[а-яА-ЯёЁ0-9\\-]+(\\s[а-яА-ЯёЁ0-9\\-]+)*$")
     String name;
 
     @NotBlank
     @Size(min = 3)
-    @Pattern(regexp = "[а-яА-Я0-9-]+")
+    @Pattern(regexp = "^[а-яА-ЯёЁ0-9\\-]+(\\s[а-яА-ЯёЁ0-9\\-]+)*$")
     String location;
 }

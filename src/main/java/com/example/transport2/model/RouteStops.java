@@ -23,9 +23,12 @@ public class RouteStops {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @ManyToOne
+    @NonNull
     TransportRoute route;
     @ManyToOne
+    @NonNull
     Stop stop;
     Integer distance;
+    @NonNull
     Integer stopOrder;
     }
