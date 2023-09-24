@@ -34,7 +34,7 @@ public class TransportApi {
 
     @GetMapping
     public List<TransportDto> getByFilters(@RequestParam(required = false) String name,
-                                           @RequestParam(required = false) TransportType type) {
+                                           @RequestParam(required = false) @NotNull TransportType type) {
 
         List<Transport> transportList = transportService.getByFilters(name, type);
         return transportMapper.toDto(transportList);
@@ -48,7 +48,7 @@ public class TransportApi {
 
     @GetMapping("location/{locationId}/type/{type}")
     public LocationTransportDto getByLocationIdAndType(@PathVariable int locationId,
-                                                       @PathVariable TransportType type) {
+                                                       @PathVariable @NotNull TransportType type) {
         List<Transport> byLocationIdAndType = transportService.getByLocationIdAndType(locationId, type);
         return LocationTransportDto.builder()
                 .locationName(locationService.getLocationById(locationId).getName())

@@ -21,7 +21,7 @@ public class Stop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Pattern(regexp = "^[а-яА-ЯёЁ0-9\\-]+(\\s[а-яА-ЯёЁ0-9\\-]+)*$")
+    @Pattern(regexp = "^[а-яА-ЯёЁ0-9№\\-]+(\\s[а-яА-ЯёЁ0-9№\\-]+)*$")
 //    @Pattern(regexp = "[а-яА-ЯёЁ0-9-]")
     String name;
     @ManyToOne

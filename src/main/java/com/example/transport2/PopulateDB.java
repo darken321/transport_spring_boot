@@ -63,19 +63,20 @@ public class PopulateDB {
         //Заношу остановки - stop
         Stop stop;
         List<String> stopList = new ArrayList<>(Arrays.asList(
-                "Тельминский лёс",
+                "Областная больница",
+                "Тельминский лес",
                 "Восточный микрорайон",
                 "Детский городок",
-                "Парк Воинов-интернац-ов",
+                "Парк Воинов-интернац-ов",//5
                 "Технический университет",
                 "Богданчука",
                 "Завод",
                 "ЦМТ",
-                "Зеленая",
+                "Зеленая",//10
                 "МОПРа",
                 "Проспект Машерова",
                 "ЦУМ",
-                "Ленина",
+                "Ленина",//14
                 "Сквер Иконикова",
                 "Стадион",
                 "БТИ",
@@ -87,11 +88,19 @@ public class PopulateDB {
                 "Махновича",
                 "Грюнвальдская",
                 "Благовещенская",
-                "Мытная",
+                "Мытная", //26
                 "Новая",
+                "Грибоедова",
                 "Театр",
-                "Интурист",
-                "Музей спасенных ценностей"
+                "Интурист",//30
+                "Музей спасенных ценностей",
+                "Карла Маркса",
+                "Гимназия №1",
+                "Промстройбанк",
+                "Автовокзал",//35
+                "Комсомольская",
+                "Маяковского",
+                "Спортшкола" //38
         ));
 
         for (String s : stopList) {
@@ -102,15 +111,14 @@ public class PopulateDB {
             stopRepository.save(stop);
         }
 
-        //Вставка значений в таблицу transport_route - маршруты транспорта
+        //Вставка значений в таблицу transport_route - маршруты транспорта, 100 и 101 троллейбус
         TransportRoute transportRoute;
-        int[][] routeArray = new int[6][3];
-        routeArray[0] = new int[]{1, 3, 8};
-        routeArray[1] = new int[]{1, 8, 3};
-        routeArray[2] = new int[]{2, 1, 4};
-        routeArray[3] = new int[]{2, 4, 1};
-        routeArray[4] = new int[]{3, 5, 10};
-        routeArray[5] = new int[]{3, 10, 5};
+        int[][] routeArray = new int[4][3];
+        routeArray[0] = new int[]{1, 1, 26};
+        routeArray[1] = new int[]{1, 26, 1};
+        routeArray[2] = new int[]{2, 1, 35};
+        routeArray[3] = new int[]{2, 35, 1};
+
         for (int[] ints : routeArray) {
             transportRoute = TransportRoute.builder()
                     .transport(transportRepository.findById(ints[0]).orElseThrow())
@@ -119,20 +127,39 @@ public class PopulateDB {
                     .build();
             transportRouteRepository.save(transportRoute);
         }
-        int[][] routeStopsArray = new int[12][2];
-        routeStopsArray[0] = new int[]{1, 3};
-        routeStopsArray[1] = new int[]{1, 4};
-        routeStopsArray[2] = new int[]{1, 5};
-        routeStopsArray[3] = new int[]{1, 6};
-        routeStopsArray[4] = new int[]{1, 7};
-        routeStopsArray[5] = new int[]{1, 8};
+        //100 троллейбус туда обратно
+        int[][] routeStopsArray = new int[86][2];
+        for (int i = 1; i <= 26; i++) {
+            routeStopsArray[i - 1] = new int[]{1, i};
+            routeStopsArray[26 + i - 1] = new int[]{2, 26 - i + 1};
+        }
+        //101 троллейбус туда +17
+        for (int i = 1; i <= 13; i++) {
+            routeStopsArray[i + 52 - 1] = new int[]{3, i};
+        }
+        routeStopsArray[65] = new int[]{3, 32};
+        routeStopsArray[66] = new int[]{3, 33};
+        routeStopsArray[67] = new int[]{3, 34};
+        routeStopsArray[68] = new int[]{3, 35};
 
-        routeStopsArray[6] = new int[]{2, 8};
-        routeStopsArray[7] = new int[]{2, 7};
-        routeStopsArray[8] = new int[]{2, 6};
-        routeStopsArray[9] = new int[]{2, 5};
-        routeStopsArray[10] = new int[]{2, 4};
-        routeStopsArray[11] = new int[]{2, 3};
+        //101 троллейбус обратно
+        routeStopsArray[69] = new int[]{4, 35};
+        routeStopsArray[70] = new int[]{4, 36};
+        routeStopsArray[71] = new int[]{4, 37};
+        routeStopsArray[72] = new int[]{4, 38};
+        routeStopsArray[73] = new int[]{4, 13};
+        routeStopsArray[74] = new int[]{4, 12};
+        routeStopsArray[75] = new int[]{4, 11};
+        routeStopsArray[76] = new int[]{4, 10};
+        routeStopsArray[77] = new int[]{4, 9};
+        routeStopsArray[78] = new int[]{4, 8};
+        routeStopsArray[79] = new int[]{4, 7};
+        routeStopsArray[80] = new int[]{4, 6};
+        routeStopsArray[81] = new int[]{4, 5};
+        routeStopsArray[82] = new int[]{4, 4};
+        routeStopsArray[83] = new int[]{4, 3};
+        routeStopsArray[84] = new int[]{4, 2};
+        routeStopsArray[85] = new int[]{4, 1};
 
         //Вставка значений в таблицу route_stops остановки маршрутов
         RouteStops routeStops;

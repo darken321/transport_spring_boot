@@ -56,6 +56,7 @@ public class StopMapper {
                 .toList();
     }
 
+    //    public StopTransportDto toDto(@Valid Stop stop, List<Transport> transports, List<TransportRoute> routes) {
     public StopTransportDto toDto(@Valid Stop stop, List<Transport> transports) {
         return StopTransportDto.builder()
                 .id(stop.getId())
@@ -69,7 +70,16 @@ public class StopMapper {
                                 .build())
                         .toList()
                 )
+//                .routesTime(routes.stream()
+//                        .map(t -> StopTransportDto.StopTransportTimeDto.builder()
+//                                .id(t.getId())
+//                                .name(t.getTransport().getName())
+//                                .transportType(t.getTransport().getType())
+//                                .routeName(t.getStartStop() + " - " + t.getEndStop())
+//                                .arrivalTime(LocalDateTime.now()) //TODO посчитать время
+//                                .build())
+//                        .toList()
+//                )
                 .build();
     }
-
 }

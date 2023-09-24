@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -33,6 +34,8 @@ public class StopTransportDto {
     @NotNull
     List<StopTransportInfoDto> transports;
 
+    @NotNull
+    List<StopTransportTimeDto> routesTime;
 
     @Data
     @Builder
@@ -49,5 +52,35 @@ public class StopTransportDto {
 
         @NotNull
         TransportType transportType;
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class StopTransportTimeDto {
+        //список транспорта по остановке
+        //внутри список из:
+        // ID,номер (имя) транспорта,
+        // тип транспорта
+        // название (имя) маршрута (начало и конец),
+        // время, оставшееся до прибытия.
+
+        @Positive
+        @NotNull
+        Integer id;
+
+        @NotBlank
+        String name;
+
+        @NotNull
+        TransportType transportType;
+
+        @NotBlank
+        String routeName;
+
+        @NotBlank
+        LocalDateTime arrivalTime;
     }
 }

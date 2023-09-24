@@ -37,10 +37,12 @@ public class StopApi {
 
     @GetMapping("{id}")
     public StopTransportDto getById(@PathVariable Integer id) {
-        Stop stop = stopService.getById(id);
-        List<Transport> transports = transportService.getByStopId(id);
+        Stop stop = stopService.getById(id); //сущность отстановки по ID
+        List<Transport> transports = transportService.getByStopId(id); //список транспортов по остановке
+
         return stopMapper.toDto(stop, transports);
     }
+
 
     @PostMapping
     public StopDto save(@RequestBody @Valid StopSaveDto dto) {
