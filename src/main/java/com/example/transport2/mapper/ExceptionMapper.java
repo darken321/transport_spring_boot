@@ -14,6 +14,7 @@ public class ExceptionMapper {
                 .message(ex.getMessage())
                 .uuid(UUID.randomUUID())
                 .exceptionServerTime(ZonedDateTime.now())
+                .type(ex.getClass().getSimpleName())
                 .build();
     }
 }

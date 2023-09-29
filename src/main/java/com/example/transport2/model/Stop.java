@@ -1,5 +1,6 @@
 package com.example.transport2.model;
 
+import com.example.transport2.util.StringPatterns;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -18,11 +19,11 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Stop {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Pattern(regexp = "^[а-яА-ЯёЁ0-9№\\-]+(\\s[а-яА-ЯёЁ0-9№\\-]+)*$")
-//    @Pattern(regexp = "[а-яА-ЯёЁ0-9-]")
+    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN, message = "поле должно соответствовать ")
     String name;
     @ManyToOne
     @NonNull

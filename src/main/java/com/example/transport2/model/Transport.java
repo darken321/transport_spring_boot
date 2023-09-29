@@ -1,5 +1,6 @@
 package com.example.transport2.model;
 
+import com.example.transport2.util.StringPatterns;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -23,7 +24,7 @@ public class Transport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @NotBlank
-    @Pattern(regexp = "^[а-яА-ЯёЁ0-9\\-]+(\\s[а-яА-ЯёЁ0-9\\-]+)*$")
+    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN)
     String name;
     @Enumerated(EnumType.STRING)
     TransportType type;

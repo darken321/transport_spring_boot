@@ -29,7 +29,7 @@ public class PopulateDB {
     private final RouteStopRepository routeStopRepository;
     private final StopTimeRepository stopTimeRepository;
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         //Добавляю город
         Location location;
@@ -178,9 +178,9 @@ public class PopulateDB {
         //вставка значений в таблицу stop_time - время прибытия по остановкам маршрутов
         Random random = new Random();
         StopTime stopTime;
-        for (int k = 1; k <= 5; k++) { //цикл по остановкам маршрута
+        for (int k = 1; k <= 38; k++) { //цикл по остановкам маршрута
             for (DayOfWeek day : DayOfWeek.values()) { //дни недели
-                for (int j = 0; j < 10; j++) { //время прибытия рандом
+                for (int j = 0; j < 10; j++) { //время прибытия рандом, 10 раз на одну остановку
                     stopTime = StopTime.builder()
                             .time(LocalTime.of(random.nextInt(24), random.nextInt(60)))
                             .dayOfWeek(day)
