@@ -64,10 +64,12 @@ public class StopTransportDto {
     public static class StopTransportTimeDto {
         //список транспорта по остановке
         //внутри список из:
-        // ID,номер (имя) транспорта,
-        // тип транспорта
-        // название (имя) маршрута (начало и конец),
-        // время, оставшееся до прибытия.
+        // ID,
+        // name номер (имя) транспорта,
+        // transportType тип транспорта
+        // routeName название (имя) маршрута (начало и конец),
+        // arrivalTime время прибытия.
+        // timeToArrival время, оставшееся до прибытия.
 
         @Positive
         @NotNull
@@ -86,6 +88,12 @@ public class StopTransportDto {
         LocalTime arrivalTime;
 
         @NotBlank
-        Duration timeToArrival;
+        String timeToArrival;
+
+        @NotBlank
+        long hoursToArrival;
+
+        @NotBlank
+        long minutesToArrival;
     }
 }
