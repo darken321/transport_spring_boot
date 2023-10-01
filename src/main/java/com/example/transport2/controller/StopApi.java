@@ -42,7 +42,7 @@ public class StopApi {
     public StopTransportDto getById(@PathVariable Integer id) {
         Stop stop = stopService.getById(id); //сущность отстановки по ID
         List<Transport> transports = transportService.getByStopId(id); //список транспортов по остановке
-        List<TransportRoute> routes = transportRouteService.getByStopId(id);
+        List<TransportRoute> routes = transportRouteService.getByStopId(id); //список маршрутов по остановке
         return stopMapper.toDto(stop, transports, routes);
     }
 

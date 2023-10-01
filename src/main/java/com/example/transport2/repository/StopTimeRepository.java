@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface StopTimeRepository extends JpaRepository<StopTime, Integer> { //<тип сущности, тип айдишника>
 //    List<StopTime> findAllByIdAndDayOfWeekOrderByTime(int routeStopId, DayOfWeek dayOfWeeK);
 
-    List<StopTime> findByRouteStopsAndDayOfWeekOrderByTime(RouteStops routeStops, DayOfWeek dayOfWeek);
+    List<StopTime> findByRouteStops_IdAndDayOfWeekOrderByTime(int routeStopsId, DayOfWeek dayOfWeek);
 //
 //    @Query("SELECT st FROM StopTime st " +
 //            "WHERE st.routeStops = :routeStop " +

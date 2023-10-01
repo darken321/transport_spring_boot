@@ -3,11 +3,9 @@ package com.example.transport2.mapper;
 import com.example.transport2.dto.StopDto;
 import com.example.transport2.dto.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
-import com.example.transport2.model.Location;
-import com.example.transport2.model.Stop;
-import com.example.transport2.model.Transport;
-import com.example.transport2.model.TransportRoute;
+import com.example.transport2.model.*;
 import com.example.transport2.repository.LocationRepository;
+import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.service.StopTimeService;
 import com.example.transport2.util.TimeUtils;
 import jakarta.validation.Valid;
@@ -15,6 +13,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -22,6 +22,7 @@ import java.util.List;
 public class StopMapper {
     LocationRepository locationRepository;
     StopTimeService stopTimeService;
+    RouteStopRepository routeStopRepository;
 
     public Stop fromDto(@Valid StopDto dto) {
         return Stop.builder()
@@ -63,15 +64,15 @@ public class StopMapper {
 
     public StopTransportDto toDto(@Valid Stop stop, List<Transport> transports, List<TransportRoute> routes) {
         return StopTransportDto.builder()
-                .id(stop.getId()) //38
-                .name(stop.getName()) //спортшкола
-                .location(stop.getLocation().getName()) // Брест
-                .transports(getStopTransportInfoDtos(transports)) //101 троллейбус
+                .id(stop.getId())
+                .name(stop.getName())
+                .location(stop.getLocation().getName())
+                .transports(getStopTransportInfoDtos(transports))
+                //должен вернуть список DTO для транспортов, которые еще ходят по этой остановке
                 .routesTime(getStopTransportTimeDtos(routes, stop.getId(), 1))
                 .build();
     }
 
-    // TODO метод возвращает ...
     private static List<StopTransportDto.StopTransportInfoDto> getStopTransportInfoDtos(List<Transport> transports) {
         List<StopTransportDto.StopTransportInfoDto> stopTransportInfoDtos = transports.stream()
                 .map(t -> StopTransportDto.StopTransportInfoDto.builder()
@@ -83,23 +84,43 @@ public class StopMapper {
         return stopTransportInfoDtos;
     }
 
-    // метод возвращает список n времен по этой остановке, сортированный по времени
+    //должен вернуть список DTO для транспортов, которые еще ходят по этой остановке, 
     private List<StopTransportDto.StopTransportTimeDto> getStopTransportTimeDtos(List<TransportRoute> routes, Integer stopId, int number) {
-        List<StopTransportDto.StopTransportTimeDto> stopTransportTimeDtos = routes.stream()
-                .map(t -> StopTransportDto.StopTransportTimeDto.builder()
-                        .id(t.getId())
-                        .name(t.getTransport().getName())
-                        .transportType(t.getTransport().getType())
-                        .routeName(t.getStartStop().getName() + " - " + t.getEndStop().getName())
-                        .arrivalTime(stopTimeService.getArrivalTime(stopId, LocalDate.now().getDayOfWeek()))
-                        .timeToArrival(TimeUtils.getArrivalTime(
-                                        stopTimeService.getArrivalTime(t.getId(), LocalDate.now().getDayOfWeek())
-                                )
-                        )
-                        .hoursToArrival(TimeUtils.getArrivalHours(stopTimeService.getArrivalTime(t.getId(), LocalDate.now().getDayOfWeek())))
-                        .minutesToArrival(TimeUtils.getArrivalMinutes(stopTimeService.getArrivalTime(t.getId(), LocalDate.now().getDayOfWeek())))
-                        .build())
-                .toList();
+        List<StopTransportDto.StopTransportTimeDto> stopTransportTimeDtos = new ArrayList<>();
+        for (TransportRoute transportRoute : routes) {
+            int routeStopsId = routeStopRepository.findByStopIdAndRouteId(stopId, transportRoute.getId()).getId();
+            LocalTime arrivalTime = stopTimeService.getArrivalTime(routeStopsId, LocalDate.now().getDayOfWeek());
+            stopTransportTimeDtos.add(
+                    StopTransportDto.StopTransportTimeDto.builder()
+                            .id(transportRoute.getTransport().getId())
+                            .name(transportRoute.getTransport().getName())
+                            .transportType(transportRoute.getTransport().getType())
+                            .routeName(transportRoute.getStartStop().getName() + " - " + transportRoute.getEndStop().getName())
+                            .arrivalTime(arrivalTime)
+                            .timeToArrival(TimeUtils.timeToArrival(arrivalTime))
+                            .hoursToArrival(TimeUtils.getToArrivalHours(arrivalTime))
+                            .minutesToArrival(TimeUtils.getToArrivalMinutes(arrivalTime))
+                            .build()
+            );
+        }
         return stopTransportTimeDtos;
+
+//        List<StopTransportDto.StopTransportTimeDto> stopTransportTimeDtos = routes.stream()
+//                .map(t -> {
+//                            LocalTime arrivalTime = stopTimeService.getArrivalTime(t.getId() , LocalDate.now().getDayOfWeek());
+//                            return StopTransportDto.StopTransportTimeDto.builder()
+//                                    .id(t.getId())
+//                                    .name(t.getTransport().getName())
+//                                    .transportType(t.getTransport().getType())
+//                                    .routeName(t.getStartStop().getName() + " - " + t.getEndStop().getName())
+//                                    .arrivalTime(stopTimeService.getArrivalTime(t.getId(), LocalDate.now().getDayOfWeek())) //stopId или t.getId()
+//                                    .timeToArrival(TimeUtils.timeToArrival(arrivalTime))
+//                                    .hoursToArrival(arrivalTime.getHour())
+//                                    .minutesToArrival(arrivalTime.getMinute())
+//                                    .build();
+//                        }
+//                )
+//                .toList();
+//        return stopTransportTimeDtos;
     }
 }

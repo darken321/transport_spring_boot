@@ -49,7 +49,6 @@ public class PopulateDB {
             transportRepository.save(transport);
         }
 
-//        List<String> autobus = new ArrayList<>(Arrays.asList("1", "1А", "2", "2А", "3", "5", "6"));
         List<String> autobus = new ArrayList<>(Arrays.asList("2", "2А", "1А", "1", "3", "5", "6"));
         for (String s : autobus) {
             transport = Transport.builder()
@@ -178,13 +177,13 @@ public class PopulateDB {
         //вставка значений в таблицу stop_time - время прибытия по остановкам маршрутов
         Random random = new Random();
         StopTime stopTime;
-        for (int k = 1; k <= 38; k++) { //цикл по остановкам маршрута
+        for (int k = 1; k <= routeStopsArray.length; k++) { // цикл по route_stops 86 строк
             for (DayOfWeek day : DayOfWeek.values()) { //дни недели
                 for (int j = 0; j < 10; j++) { //время прибытия рандом, 10 раз на одну остановку
                     stopTime = StopTime.builder()
-                            .time(LocalTime.of(random.nextInt(24), random.nextInt(60)))
-                            .dayOfWeek(day)
                             .routeStops(routeStopRepository.findById(k).orElseThrow())
+                            .dayOfWeek(day)
+                            .time(LocalTime.of(random.nextInt(24), random.nextInt(60)))
                             .build();
                     stopTimeRepository.save(stopTime);
                 }

@@ -21,19 +21,18 @@ public class StopTimeService {
 
     public LocalTime getArrivalTime(int routeStopId, DayOfWeek dayOfWeek) {
         //TODO ByRouteStopsId
-//        List<StopTime> times = stopTimeRepository.findAllByIdAndDayOfWeekOrderByTime(routeStopId, dayOfWeek);
-        List<StopTime> sortedTimes = stopTimeRepository
-                .findByRouteStopsAndDayOfWeekOrderByTimeAsc(
-                        routeStopRepository.getReferenceById(routeStopId), dayOfWeek);
+        List<StopTime> sortedTimes = stopTimeRepository.findByRouteStops_IdAndDayOfWeekOrderByTime(routeStopId, dayOfWeek);
 
         LocalTime currentTime = LocalTime.now();
+//        LocalTime currentTime = LocalTime.of(10,00);
         LocalTime nearestArrivalTime = null;
         for (StopTime stopTime : sortedTimes) {
             if (stopTime.getTime().isAfter(currentTime)) {
                 nearestArrivalTime = stopTime.getTime();
                 break;
             }
-        } //TODO сделать список на время
+        }
+        //TODO сделать список на время
         // и через цикл и стрим
 
         return nearestArrivalTime;

@@ -34,7 +34,7 @@ public class TransportApi {
 
     @GetMapping
     public List<TransportDto> getByFilters(@RequestParam(required = false) String name,
-                                           @RequestParam(required = false) @NotNull TransportType type) {
+                                           @RequestParam(required = false) TransportType type) {
 
         List<Transport> transportList = transportService.getByFilters(name, type);
         return transportMapper.toDto(transportList);
