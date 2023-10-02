@@ -2,7 +2,6 @@ package com.example.transport2.service;
 
 import com.example.transport2.model.StopTime;
 import com.example.transport2.repository.RouteStopRepository;
-import com.example.transport2.repository.StopRepository;
 import com.example.transport2.repository.StopTimeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,22 +18,26 @@ public class StopTimeService {
     private final StopTimeRepository stopTimeRepository;
     private final RouteStopRepository routeStopRepository;
 
-    public LocalTime getArrivalTime(int routeStopId, DayOfWeek dayOfWeek) {
-        //TODO ByRouteStopsId
+    public List<LocalTime> getArrivalTimes(int routeStopId, DayOfWeek dayOfWeek, int numbers, LocalTime currentTime) {
         List<StopTime> sortedTimes = stopTimeRepository.findByRouteStops_IdAndDayOfWeekOrderByTime(routeStopId, dayOfWeek);
+//        int limit = numbers;
+//        List<LocalTime> nearestArrivalTime = new ArrayList<>();
+//        for (StopTime stopTime : sortedTimes) {
+//            if (stopTime.getTime().isAfter(currentTime)) {
+//                nearestArrivalTime.add(stopTime.getTime());
+//                if (--limit == 0) break;
+//            }
+//        }
+//        return nearestArrivalTime;
 
-        LocalTime currentTime = LocalTime.now();
-//        LocalTime currentTime = LocalTime.of(10,00);
-        LocalTime nearestArrivalTime = null;
-        for (StopTime stopTime : sortedTimes) {
-            if (stopTime.getTime().isAfter(currentTime)) {
-                nearestArrivalTime = stopTime.getTime();
-                break;
-            }
-        }
+        List<LocalTime> localTimes = sortedTimes.stream()
+                .map(StopTime::getTime)
+                .filter(t -> t.isAfter(currentTime))
+                .limit(numbers)
+                .toList();
+        return localTimes;
+
         //TODO сделать список на время
         // и через цикл и стрим
-
-        return nearestArrivalTime;
     }
 }

@@ -9,8 +9,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -85,7 +83,7 @@ public class StopTransportDto {
         String routeName;
 
         @NotBlank
-        LocalTime arrivalTime;
+        List<LocalTime> arrivalTimes;
 
         @NotBlank
         String timeToArrival;
