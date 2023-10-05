@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.sql.Time;
 
 import static com.example.transport2.model.TransportType.BUS;
 import static com.example.transport2.model.TransportType.TROLLEYBUS;
@@ -183,7 +184,7 @@ public class PopulateDB {
                     stopTime = StopTime.builder()
                             .routeStops(routeStopRepository.findById(k).orElseThrow())
                             .dayOfWeek(day)
-                            .time(LocalTime.of(random.nextInt(24), random.nextInt(60)))
+                            .time(Time.valueOf(LocalTime.of(random.nextInt(24), random.nextInt(60))))
                             .build();
                     stopTimeRepository.save(stopTime);
                 }

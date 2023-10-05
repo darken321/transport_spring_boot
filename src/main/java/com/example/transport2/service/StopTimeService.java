@@ -1,14 +1,15 @@
 package com.example.transport2.service;
 
-import com.example.transport2.model.StopTime;
-import com.example.transport2.repository.RouteStopRepository;
+import com.example.transport2.dto.StopTransportDto;
+import com.example.transport2.mapper.RoutesMapper;
 import com.example.transport2.repository.StopTimeRepository;
+import com.example.transport2.util.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -16,10 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StopTimeService {
     private final StopTimeRepository stopTimeRepository;
-    private final RouteStopRepository routeStopRepository;
+    private final RoutesMapper routesMapper;
 
-    public List<LocalTime> getArrivalTimes(int routeStopId, DayOfWeek dayOfWeek, int numbers, LocalTime currentTime) {
-        List<StopTime> sortedTimes = stopTimeRepository.findByRouteStops_IdAndDayOfWeekOrderByTime(routeStopId, dayOfWeek);
+    public List<StopTransportDto.StopTransportTimeDto> getArrivalTimes(int routeStopId, DayOfWeek dayOfWeek, Time currentTime) {
+
+        List<Object[]> sortedArrivalTimes = stopTimeRepository.findSortedArrivalTimes(
+                routeStopId,
+                dayOfWeek.name(),
+                currentTime,
+                Constants.RECORDS_NUMBER);
+        return routesMapper.allToStopTransportDto(sortedArrivalTimes, currentTime);
+
+//        List<StopTime> sortedTimes = stopTimeRepository.findByRouteStops_IdAndDayOfWeekOrderByTime(routeStopId, dayOfWeek);
+////         TODO сделать список на время через цикл
 //        int limit = numbers;
 //        List<LocalTime> nearestArrivalTime = new ArrayList<>();
 //        for (StopTime stopTime : sortedTimes) {
@@ -30,14 +40,12 @@ public class StopTimeService {
 //        }
 //        return nearestArrivalTime;
 
-        List<LocalTime> localTimes = sortedTimes.stream()
-                .map(StopTime::getTime)
-                .filter(t -> t.isAfter(currentTime))
-                .limit(numbers)
-                .toList();
-        return localTimes;
-
-        //TODO сделать список на время
-        // и через цикл и стрим
+//        List<LocalTime> localTimes = sortedTimes.stream()
+//                .map(StopTime::getTime)
+//                .filter(t -> t.isAfter(currentTime))
+//                .limit(numbers)
+//                .toList();
+//        return localTimes;
+        // TODO стрим
     }
 }

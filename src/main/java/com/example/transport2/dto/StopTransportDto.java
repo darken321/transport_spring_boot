@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalTime;
+import java.sql.Time;
 import java.util.List;
 
 @Data
@@ -30,29 +30,30 @@ public class StopTransportDto {
     @NotBlank
     @Size(min = 3)
     String location;
+//TODO вырезал вложенный класс и добавил свой
 
-    @NotNull
-    List<StopTransportInfoDto> transports;
+//    @NotNull
+//    List<StopTransportInfoDto> transports;
+
+//    @Data
+//    @Builder
+//    @AllArgsConstructor
+//    @NoArgsConstructor
+//    @FieldDefaults(level = AccessLevel.PRIVATE)
+//    public static class StopTransportInfoDto {
+//        @Positive
+//        @NotNull
+//        Integer id;
+//
+//        @NotBlank
+//        String name;
+//
+//        @NotNull
+//        TransportType transportType;
+//    }
 
     @NotNull
     List<StopTransportTimeDto> routesTime;
-
-    @Data
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class StopTransportInfoDto {
-        @Positive
-        @NotNull
-        Integer id;
-
-        @NotBlank
-        String name;
-
-        @NotNull
-        TransportType transportType;
-    }
 
     @Data
     @Builder
@@ -66,8 +67,10 @@ public class StopTransportDto {
         // name номер (имя) транспорта,
         // transportType тип транспорта
         // routeName название (имя) маршрута (начало и конец),
-        // arrivalTime время прибытия.
-        // timeToArrival время, оставшееся до прибытия.
+        // arrivalTime времена прибытия.
+        // timeToArrival строка, время, оставшееся до прибытия.
+        // hoursToArrival часы
+        // minutesToArrival и минуты для прибытия
 
         @Positive
         @NotNull
@@ -83,7 +86,7 @@ public class StopTransportDto {
         String routeName;
 
         @NotBlank
-        List<LocalTime> arrivalTimes;
+        Time arrivalTime;
 
         @NotBlank
         String timeToArrival;

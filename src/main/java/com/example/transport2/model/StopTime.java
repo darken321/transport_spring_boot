@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
@@ -14,6 +15,7 @@ import java.time.LocalTime;
  * dayOfWeek  - день недели для этого времени прибытия
  * time       - время прибытия транспорта на остановку
  */
+
 
 @Entity
 @Data
@@ -31,5 +33,6 @@ public class StopTime {
     @Enumerated(EnumType.STRING)
     DayOfWeek dayOfWeek;
     @NonNull
-    LocalTime time;
+    Time time;
 }
+//TODO переделал все LocalTime на Time
