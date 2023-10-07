@@ -30,27 +30,27 @@ public class StopTransportDto {
     @NotBlank
     @Size(min = 3)
     String location;
-//TODO вырезал вложенный класс и добавил свой
+    //TODO вырезал вложенный класс и добавил свой
 
-//    @NotNull
-//    List<StopTransportInfoDto> transports;
+    @NotNull
+    List<StopTransportInfoDto> transports;
 
-//    @Data
-//    @Builder
-//    @AllArgsConstructor
-//    @NoArgsConstructor
-//    @FieldDefaults(level = AccessLevel.PRIVATE)
-//    public static class StopTransportInfoDto {
-//        @Positive
-//        @NotNull
-//        Integer id;
-//
-//        @NotBlank
-//        String name;
-//
-//        @NotNull
-//        TransportType transportType;
-//    }
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class StopTransportInfoDto {
+        @Positive
+        @NotNull
+        Integer id;
+
+        @NotBlank
+        String name;
+
+        @NotNull
+        TransportType transportType;
+    }
 
     @NotNull
     List<StopTransportTimeDto> routesTime;

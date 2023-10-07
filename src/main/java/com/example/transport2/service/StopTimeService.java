@@ -19,6 +19,15 @@ public class StopTimeService {
     private final StopTimeRepository stopTimeRepository;
     private final RoutesMapper routesMapper;
 
+    public List<StopTransportDto.StopTransportInfoDto> getArrivalTransports(int routeStopId, DayOfWeek dayOfWeek, Time currentTime) {
+        List<Object[]> sortedTransports = stopTimeRepository.findSortedTransports(
+                routeStopId,
+                dayOfWeek.name(),
+                currentTime);
+        return routesMapper.allToTransportDto(sortedTransports, currentTime);
+    }
+
+
     public List<StopTransportDto.StopTransportTimeDto> getArrivalTimes(int routeStopId, DayOfWeek dayOfWeek, Time currentTime) {
 
         List<Object[]> sortedArrivalTimes = stopTimeRepository.findSortedArrivalTimes(

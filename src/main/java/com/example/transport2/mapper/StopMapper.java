@@ -66,24 +66,35 @@ public class StopMapper {
                 .toList();
     }
 
-    public StopTransportDto toDto(@Valid Stop stop, List<Transport> transports, List<TransportRoute> routes) {
+    public StopTransportDto toDto(@Valid Stop stop, List<TransportRoute> routes) {
         return StopTransportDto.builder()
                 .id(stop.getId())
                 .name(stop.getName())
                 .location(stop.getLocation().getName())
+                .transports(getStopTransportInfoDto(stop.getId(), routes.get(0)))
                 .routesTime(getStopTransportTimeDto(stop.getId(), routes.get(0)))
                 .build();
     }
 
-    private @NotNull List<StopTransportDto.StopTransportTimeDto> getStopTransportTimeDto(Integer stopId, TransportRoute transportRoute) {
+    private @NotNull List<StopTransportDto.StopTransportInfoDto> getStopTransportInfoDto(Integer stopId, TransportRoute transportRoute) {
         //TODO установка времени и дня недели
-        Time currentTime = Time.valueOf(LocalTime.now());
-//        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
+//        Time currentTime = Time.valueOf(LocalTime.now());
+        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
         DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
 //        DayOfWeek dayOfWeek = DayOfWeek.TUESDAY;
 
         int routeStopsId = routeStopRepository.findByStopIdAndRouteId(stopId, transportRoute.getId()).getId();
+        return stopTimeService.getArrivalTransports(routeStopsId, dayOfWeek, currentTime);
+    }
 
+    private @NotNull List<StopTransportDto.StopTransportTimeDto> getStopTransportTimeDto(Integer stopId, TransportRoute transportRoute) {
+        //TODO установка времени и дня недели
+//        Time currentTime = Time.valueOf(LocalTime.now());
+        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
+        DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
+//        DayOfWeek dayOfWeek = DayOfWeek.TUESDAY;
+
+        int routeStopsId = routeStopRepository.findByStopIdAndRouteId(stopId, transportRoute.getId()).getId();
         return stopTimeService.getArrivalTimes(routeStopsId, dayOfWeek, currentTime);
 
         // TODO Если транспорта после этого времени нет то длина arrivalTimes = 0 и ниже вылетает ошибка, не может извлечь нулевой элемент

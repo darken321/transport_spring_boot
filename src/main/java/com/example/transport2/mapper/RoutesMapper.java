@@ -34,5 +34,19 @@ public class RoutesMapper {
                 .map(object -> stopTransportDto(object, currentTime))
                 .toList();
     }
+
+    public StopTransportDto.StopTransportInfoDto stopTransportInfoDto(Object[] obj) {
+        return StopTransportDto.StopTransportInfoDto.builder()
+                .id((Integer) obj[0])
+                .name((String) obj[1])
+                .transportType(TransportType.valueOf(((String) obj[2])))
+                .build();
+    }
+
+    public List<StopTransportDto.StopTransportInfoDto> allToTransportDto(List<Object[]> sortedTransportTypes, Time currentTime) {
+        return sortedTransportTypes.stream()
+                .map(this::stopTransportInfoDto)
+                .toList();
+    }
 }
 //TODO добавил класс маппер для маршрутов
