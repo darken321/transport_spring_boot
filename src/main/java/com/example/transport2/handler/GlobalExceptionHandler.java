@@ -27,7 +27,7 @@ import java.util.UUID;
 @Slf4j
 public class GlobalExceptionHandler {
     ExceptionMapper dtoMapper;
-    //TODO
+    //TODO доделать обработку ошибок
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionDto handleException(Exception exception) {

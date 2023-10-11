@@ -53,23 +53,10 @@ public class TransportService {
     }
 
     public List<Transport> getByStopId(Integer stopId) {
-//        return routeStopRepository.findAllByStopId(stopId).stream()
-//                .map(RouteStops::getRoute)
-//                .map(TransportRoute::getTransport)
-//                .distinct()
-//                .toList();
-
-        List<RouteStops> allByStopId = routeStopRepository.findAllByStopId(stopId);
-
-        List<TransportRoute> transportRoutes = allByStopId.stream()
+        return routeStopRepository.findAllByStopId(stopId).stream()
                 .map(RouteStops::getRoute)
-                .toList();
-
-        List<Transport> transports = transportRoutes.stream()
                 .map(TransportRoute::getTransport)
                 .distinct()
                 .toList();
-        return transports;
-
     }
 }

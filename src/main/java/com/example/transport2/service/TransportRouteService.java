@@ -1,10 +1,14 @@
 package com.example.transport2.service;
 
 import com.example.transport2.model.RouteStops;
+import com.example.transport2.model.ScheduleTime;
 import com.example.transport2.model.TransportRoute;
 import com.example.transport2.repository.RouteStopRepository;
+import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.repository.TransportRouteRepository;
 import lombok.RequiredArgsConstructor;
+import org.postgresql.util.SharedTimer;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +18,8 @@ import java.util.List;
 public class TransportRouteService {
     private final TransportRouteRepository transportRouteRepository;
     private final RouteStopRepository routeStopRepository;
+    private final StopTimeRepository stopTimeRepository;
+
 
     public List<TransportRoute> getByStopId(Integer stopId) {
         //итого нужен список маршрутов TransportRoute, которые проходят по остановке stopId
@@ -27,6 +33,12 @@ public class TransportRouteService {
                 .toList();
 
         return transportRoutes;
+    }
+
+    public List<ScheduleTime> getByRouteAndStop(Integer stopId, Integer routeStopsId) {
+
+        return stopTimeRepository.findSortedArrivalTimesSchedule(stopId, routeStopsId);
 
     }
+
 }

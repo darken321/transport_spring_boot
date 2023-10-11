@@ -35,4 +35,3 @@ public class StopTime {
     @NonNull
     Time time;
 }
-//TODO переделал все LocalTime на Time

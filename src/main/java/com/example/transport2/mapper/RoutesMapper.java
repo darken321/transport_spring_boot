@@ -49,4 +49,3 @@ public class RoutesMapper {
                 .toList();
     }
 }
-//TODO добавил класс маппер для маршрутов

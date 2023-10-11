@@ -30,7 +30,6 @@ public class StopTransportDto {
     @NotBlank
     @Size(min = 3)
     String location;
-    //TODO вырезал вложенный класс и добавил свой
 
     @NotNull
     List<StopTransportInfoDto> transports;
@@ -54,23 +53,23 @@ public class StopTransportDto {
 
     @NotNull
     List<StopTransportTimeDto> routesTime;
-
+    /**Список транспорта по остановке
+    Внутри список из:
+    ID,
+    name номер (имя) транспорта,
+    transportType тип транспорта
+    routeName название (имя) маршрута (начало и конец),
+    arrivalTime времена прибытия.
+    timeToArrival строка, время, оставшееся до прибытия.
+    hoursToArrival часы
+    minutesToArrival и минуты для прибытия
+     **/
     @Data
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class StopTransportTimeDto {
-        //список транспорта по остановке
-        //внутри список из:
-        // ID,
-        // name номер (имя) транспорта,
-        // transportType тип транспорта
-        // routeName название (имя) маршрута (начало и конец),
-        // arrivalTime времена прибытия.
-        // timeToArrival строка, время, оставшееся до прибытия.
-        // hoursToArrival часы
-        // minutesToArrival и минуты для прибытия
 
         @Positive
         @NotNull

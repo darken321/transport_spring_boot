@@ -96,20 +96,5 @@ public class StopMapper {
 
         int routeStopsId = routeStopRepository.findByStopIdAndRouteId(stopId, transportRoute.getId()).getId();
         return stopTimeService.getArrivalTimes(routeStopsId, dayOfWeek, currentTime);
-
-        // TODO Если транспорта после этого времени нет то длина arrivalTimes = 0 и ниже вылетает ошибка, не может извлечь нулевой элемент
-        //пример есть в постмане
-
-//        List<LocalTime> arrivalTimes = stopTimeService.getArrivalTimes(routeStopsId, LocalDate.now().getDayOfWeek(), number, currentTime);
-//        return StopTransportDto.StopTransportTimeDto.builder()
-//                .id(transportRoute.getTransport().getId())
-//                .name(transportRoute.getTransport().getName())
-//                .transportType(transportRoute.getTransport().getType())
-//                .routeName(transportRoute.getStartStop().getName() + " - " + transportRoute.getEndStop().getName())
-//                .arrivalTimes(arrivalTimes)
-//                .timeToArrival(TimeUtils.timeToArrival(arrivalTimes.get(0), currentTime))
-//                .hoursToArrival(TimeUtils.getToArrivalHours(arrivalTimes.get(0), currentTime))
-//                .minutesToArrival(TimeUtils.getToArrivalMinutes(arrivalTimes.get(0), currentTime))
-//                .build();
     }
 }

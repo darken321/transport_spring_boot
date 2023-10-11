@@ -1,5 +1,6 @@
 package com.example.transport2.repository;
 
+import com.example.transport2.model.ScheduleTime;
 import com.example.transport2.model.StopTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +12,25 @@ import java.util.List;
 
 @Repository
 public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
-    //    List<StopTime> findByRouteStops_IdAndDayOfWeekOrderByTime(int routeStopsId, DayOfWeek dayOfWeek);
+    /**
+     * запрос расписания и дня недели по определенному маршруту и остановке из этого маршрута
+     *
+     * @param stopId       - id остановки
+     * @param routeStopsId id строки routeStops, то есть "остановки в маршруте"
+     * @return список времен прибытия и дней недели
+     */
+    @Query(value = "SELECT stop_time.time,\n" +
+            "        day_of_week\n" +
+            "FROM stop_time\n" +
+            "JOIN route_stops on stop_time.route_stops_id = route_stops.id\n" +
+            "WHERE stop_id = :stopId\n" +
+            "  AND route_stops_id = :routeId\n" +
+            "ORDER BY stop_time.time\n"
+            , nativeQuery = true)
+    List<ScheduleTime> findSortedArrivalTimesSchedule(@Param("stopId") Integer stopId,
+                                                      @Param("routeId") Integer routeStopsId);
+
+
     @Query(value =
             "SELECT transport_route.transport_id,\n" +
                     "       transport.name,\n" +
@@ -51,4 +70,3 @@ public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
                                         @Param("dayOfWeek") String dayOfWeek,
                                         @Param("time") Time time);
 }
-//TODO написан SQL запрос
