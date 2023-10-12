@@ -1,14 +1,12 @@
 package com.example.transport2.service;
 
 import com.example.transport2.model.RouteStops;
-import com.example.transport2.model.ScheduleTime;
 import com.example.transport2.model.TransportRoute;
+import com.example.transport2.projection.TimeAndDayOfWeek;
 import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.repository.TransportRouteRepository;
 import lombok.RequiredArgsConstructor;
-import org.postgresql.util.SharedTimer;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,10 +33,7 @@ public class TransportRouteService {
         return transportRoutes;
     }
 
-    public List<ScheduleTime> getByRouteAndStop(Integer stopId, Integer routeStopsId) {
-
-        return stopTimeRepository.findSortedArrivalTimesSchedule(stopId, routeStopsId);
-
+    public List<TimeAndDayOfWeek> getByRouteAndStop(Integer routeStopsId, Integer stopId) {
+        return stopTimeRepository.findSortedArrivalTimesSchedule(routeStopsId, stopId);
     }
-
 }

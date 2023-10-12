@@ -2,6 +2,7 @@ package com.example.transport2.repository;
 
 import com.example.transport2.model.ScheduleTime;
 import com.example.transport2.model.StopTime;
+import com.example.transport2.projection.TimeAndDayOfWeek;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,18 +20,20 @@ public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
      * @param routeStopsId id строки routeStops, то есть "остановки в маршруте"
      * @return список времен прибытия и дней недели
      */
+
+
     @Query(value = "SELECT stop_time.time,\n" +
-            "        day_of_week\n" +
+            "        CAST(day_of_week AS Varchar) AS dayOfWeek\n" +
             "FROM stop_time\n" +
             "JOIN route_stops on stop_time.route_stops_id = route_stops.id\n" +
             "WHERE stop_id = :stopId\n" +
             "  AND route_stops_id = :routeId\n" +
             "ORDER BY stop_time.time\n"
             , nativeQuery = true)
-    List<ScheduleTime> findSortedArrivalTimesSchedule(@Param("stopId") Integer stopId,
-                                                      @Param("routeId") Integer routeStopsId);
+    List<TimeAndDayOfWeek> findSortedArrivalTimesSchedule(@Param("routeId") Integer routeStopsId, @Param("stopId") Integer stopId);
 
-
+    //TODO поменять Object на соответствующий тип через projection
+    //https://www.google.com/search?q=spring+data+projection
     @Query(value =
             "SELECT transport_route.transport_id,\n" +
                     "       transport.name,\n" +
