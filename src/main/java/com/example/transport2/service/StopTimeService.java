@@ -2,6 +2,7 @@ package com.example.transport2.service;
 
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.mapper.RoutesMapper;
+import com.example.transport2.projection.StopTransportInfo;
 import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.util.Constants;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,14 @@ public class StopTimeService {
 
     public List<StopTransportDto.StopTransportTimeDto> getArrivalTimes(int routeStopId, DayOfWeek dayOfWeek, Time currentTime) {
 
-        List<Object[]> sortedArrivalTimes = stopTimeRepository.findSortedArrivalTimes(
+//        List<Object[]> sortedArrivalTimes = stopTimeRepository.findSortedArrivalTimes(
+//                routeStopId,
+//                dayOfWeek.name(),
+//                currentTime,
+//                Constants.RECORDS_NUMBER);
+//        return routesMapper.allToStopTransportDto(sortedArrivalTimes, currentTime);
+
+        List<StopTransportInfo> sortedArrivalTimes = stopTimeRepository.findSortedArrivalTimes(
                 routeStopId,
                 dayOfWeek.name(),
                 currentTime,

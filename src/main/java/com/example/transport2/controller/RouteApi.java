@@ -1,6 +1,8 @@
 package com.example.transport2.controller;
 
+import com.example.transport2.projection.Test;
 import com.example.transport2.projection.TimeAndDayOfWeek;
+import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.service.TransportRouteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +23,8 @@ import java.util.List;
 public class RouteApi {
 
     private final TransportRouteService transportRouteService;
+    private final StopTimeRepository stopTimeRepository;
+
 
     /**
      * запрос расписания по одной остановке конкретного маршрута
@@ -33,5 +37,10 @@ public class RouteApi {
                                                  @RequestParam(required = true) Integer stop) {
 
         return transportRouteService.getByRouteAndStop(route, stop);
+    }
+
+    @GetMapping("test")
+    public List<Test> test() {
+        return stopTimeRepository.test();
     }
 }

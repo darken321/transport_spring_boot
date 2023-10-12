@@ -2,6 +2,7 @@ package com.example.transport2.mapper;
 
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.model.TransportType;
+import com.example.transport2.projection.StopTransportInfo;
 import com.example.transport2.repository.StopRepository;
 import com.example.transport2.util.TimeUtils;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class RoutesMapper {
                 .id((Integer) obj[0])
                 .name((String) obj[1])
                 .transportType(TransportType.valueOf(((String) obj[2])))
+                //утащить бизнес логику в сервис
                 .routeName(stopRepository.findStopById((Integer) obj[3]).get().getName() + " - " +
                         stopRepository.findStopById((Integer) obj[4]).get().getName())
                 .arrivalTime((Time) obj[5])
@@ -29,10 +31,11 @@ public class RoutesMapper {
                 .build();
     }
 
-    public List<StopTransportDto.StopTransportTimeDto> allToStopTransportDto(List<Object[]> sortedArrivalTimes, Time currentTime) {
-        return sortedArrivalTimes.stream()
-                .map(object -> stopTransportDto(object, currentTime))
-                .toList();
+    public List<StopTransportDto.StopTransportTimeDto> allToStopTransportDto(List<StopTransportInfo> sortedArrivalTimes, Time currentTime) {
+        return null;
+//                sortedArrivalTimes.stream()
+//                .map(object -> stopTransportDto(object, currentTime))
+//                .toList();
     }
 
     public StopTransportDto.StopTransportInfoDto stopTransportInfoDto(Object[] obj) {
