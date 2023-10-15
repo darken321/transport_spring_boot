@@ -1,5 +1,6 @@
 package com.example.transport2.controller;
 
+import com.example.transport2.dto.ScheduleDto;
 import com.example.transport2.projection.Test;
 import com.example.transport2.projection.TimeAndDayOfWeek;
 import com.example.transport2.repository.StopTimeRepository;
@@ -33,14 +34,14 @@ public class RouteApi {
      * @return объекты типа TimeAndDayOfWeek - время Time и день недели String
      */
     @GetMapping
-    public List<TimeAndDayOfWeek> getByFilters(@RequestParam(required = true) Integer route,
-                                                 @RequestParam(required = true) Integer stop) {
+    public List<ScheduleDto> getByFilters(@RequestParam(required = true) Integer route,
+                                         @RequestParam(required = true) Integer stop) {
 
         return transportRouteService.getByRouteAndStop(route, stop);
     }
-
-    @GetMapping("test")
-    public List<Test> test() {
-        return stopTimeRepository.test();
-    }
+//    TimeAndDayOfWeek
+//    @GetMapping("test")
+//    public List<Test> test() {
+//        return stopTimeRepository.test();
+//    }
 }

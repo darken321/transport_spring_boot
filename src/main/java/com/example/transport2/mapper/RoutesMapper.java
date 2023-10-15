@@ -1,54 +1,73 @@
 package com.example.transport2.mapper;
 
+import com.example.transport2.dto.ScheduleDto;
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.model.TransportType;
+import com.example.transport2.projection.StopRoutesInfo;
 import com.example.transport2.projection.StopTransportInfo;
+import com.example.transport2.projection.TimeAndDayOfWeek;
 import com.example.transport2.repository.StopRepository;
+import com.example.transport2.service.StopTimeService;
+import com.example.transport2.service.TransportRouteService;
 import com.example.transport2.util.TimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class RoutesMapper {
     private final StopRepository stopRepository;
+//    private final TransportRouteService transportRouteService;
 
-    public StopTransportDto.StopTransportTimeDto stopTransportDto(Object[] obj, Time currentTime) {
+
+    private StopTransportDto.StopTransportTimeDto stopTransportDto(StopTransportInfo info, Time currentTime) {
         return StopTransportDto.StopTransportTimeDto.builder()
-                .id((Integer) obj[0])
-                .name((String) obj[1])
-                .transportType(TransportType.valueOf(((String) obj[2])))
-                //утащить бизнес логику в сервис
-                .routeName(stopRepository.findStopById((Integer) obj[3]).get().getName() + " - " +
-                        stopRepository.findStopById((Integer) obj[4]).get().getName())
-                .arrivalTime((Time) obj[5])
-                .timeToArrival(TimeUtils.timeToArrival((Time) obj[5], currentTime))
-                .hoursToArrival(TimeUtils.getToArrivalHours((Time) obj[5], currentTime))
-                .minutesToArrival(TimeUtils.getToArrivalMinutes((Time) obj[5], currentTime))
+                .id(info.getId())
+                .name(info.getTransportName())
+                .transportType(TransportType.valueOf(info.getTransportType()))
+                //TODO вынести бизнес логику в сервис
+                .routeName(stopRepository.findStopById(info.getStartStopId()).get().getName() + " - " +
+                        stopRepository.findStopById(info.getEndStopId()).get().getName())
+//                .routeName(transportRouteService.getRouteName(info))
+                .arrivalTime(info.getTime())
+                .timeToArrival(TimeUtils.timeToArrival(info.getTime(), currentTime))
+                .hoursToArrival(TimeUtils.getToArrivalHours(info.getTime(), currentTime))
+                .minutesToArrival(TimeUtils.getToArrivalMinutes(info.getTime(), currentTime))
                 .build();
     }
 
-    public List<StopTransportDto.StopTransportTimeDto> allToStopTransportDto(List<StopTransportInfo> sortedArrivalTimes, Time currentTime) {
-        return null;
-//                sortedArrivalTimes.stream()
-//                .map(object -> stopTransportDto(object, currentTime))
-//                .toList();
+    public List<StopTransportDto.StopTransportTimeDto>
+    allToStopTransportDto(List<StopTransportInfo> sortedArrivalTimes, Time currentTime) {
+        return sortedArrivalTimes.stream()
+                .map(times -> stopTransportDto(times, currentTime))
+                .toList();
     }
 
-    public StopTransportDto.StopTransportInfoDto stopTransportInfoDto(Object[] obj) {
+    private StopTransportDto.StopTransportInfoDto stopTransportInfoDto(StopRoutesInfo info) {
         return StopTransportDto.StopTransportInfoDto.builder()
-                .id((Integer) obj[0])
-                .name((String) obj[1])
-                .transportType(TransportType.valueOf(((String) obj[2])))
+                .id(info.getId())
+                .name(info.getTransportName())
+                .transportType(TransportType.valueOf(info.getTransportType()))
                 .build();
     }
 
-    public List<StopTransportDto.StopTransportInfoDto> allToTransportDto(List<Object[]> sortedTransportTypes, Time currentTime) {
+    public List<StopTransportDto.StopTransportInfoDto> allToTransportDto(List<StopRoutesInfo> sortedTransportTypes) {
         return sortedTransportTypes.stream()
                 .map(this::stopTransportInfoDto)
                 .toList();
+    }
+
+    public List<ScheduleDto> allToScheduleDto(List<TimeAndDayOfWeek> arrivalTimesSchedule) {
+        return arrivalTimesSchedule.stream()
+                .map(this::toScheduleDto)
+                .toList();
+    }
+
+    private ScheduleDto toScheduleDto(TimeAndDayOfWeek schedule) {
+        return new ScheduleDto(schedule.getTime(), DayOfWeek.valueOf(schedule.getDayOfWeek()));
     }
 }

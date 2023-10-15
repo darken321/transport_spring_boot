@@ -1,13 +1,17 @@
 package com.example.transport2.projection;
 
-import java.sql.Time;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * интерфейс для теста
  */
-
-public interface Test {
+@AllArgsConstructor
+@Getter
+@Setter
+public class Test {
 //    String getTransportName();
-    String getStopName();
-    Long getId();
+    String name;
+    Long id;
 }

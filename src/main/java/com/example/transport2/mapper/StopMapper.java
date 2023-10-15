@@ -5,7 +5,6 @@ import com.example.transport2.dto.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.model.Location;
 import com.example.transport2.model.Stop;
-import com.example.transport2.model.Transport;
 import com.example.transport2.model.TransportRoute;
 import com.example.transport2.repository.LocationRepository;
 import com.example.transport2.repository.RouteStopRepository;
@@ -15,10 +14,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 @Component
@@ -77,24 +72,14 @@ public class StopMapper {
     }
 
     private @NotNull List<StopTransportDto.StopTransportInfoDto> getStopTransportInfoDto(Integer stopId, TransportRoute transportRoute) {
-        //TODO установка времени и дня недели
-//        Time currentTime = Time.valueOf(LocalTime.now());
-        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
-        DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
-//        DayOfWeek dayOfWeek = DayOfWeek.TUESDAY;
 
         int routeStopsId = routeStopRepository.findByStopIdAndRouteId(stopId, transportRoute.getId()).getId();
-        return stopTimeService.getArrivalTransports(routeStopsId, dayOfWeek, currentTime);
+        return stopTimeService.getArrivalTransports(routeStopsId);
     }
 
     private @NotNull List<StopTransportDto.StopTransportTimeDto> getStopTransportTimeDto(Integer stopId, TransportRoute transportRoute) {
-        //TODO установка времени и дня недели
-//        Time currentTime = Time.valueOf(LocalTime.now());
-        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
-        DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
-//        DayOfWeek dayOfWeek = DayOfWeek.TUESDAY;
 
         int routeStopsId = routeStopRepository.findByStopIdAndRouteId(stopId, transportRoute.getId()).getId();
-        return stopTimeService.getArrivalTimes(routeStopsId, dayOfWeek, currentTime);
+        return stopTimeService.getArrivalTimes(routeStopsId);
     }
 }

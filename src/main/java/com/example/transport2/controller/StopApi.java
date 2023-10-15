@@ -2,10 +2,10 @@ package com.example.transport2.controller;
 
 import com.example.transport2.dto.StopDto;
 import com.example.transport2.dto.StopSaveDto;
+import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.model.Stop;
 import com.example.transport2.model.TransportRoute;
-import com.example.transport2.projection.StopTransportInfo;
 import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.service.StopService;
 import com.example.transport2.service.TransportRouteService;
@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 import java.util.List;
 
 @Validated
@@ -41,12 +40,10 @@ public class StopApi {
     }
 
     @GetMapping("{id}")
-    public List<StopTransportInfo> getById(@PathVariable Integer id) {
-        Stop stop = stopService.getById(id); //сущность отстановки по ID
-//        List<Transport> transports = transportService.getByStopId(id); //список транспортов по остановке
+    public StopTransportDto getById(@PathVariable Integer id) {
+        Stop stop = stopService.getById(id); //сущность остановки по ID
         List<TransportRoute> routes = transportRouteService.getByStopId(id); //список маршрутов по остановке
-        return stopTimeRepository.findSortedArrivalTimes(10, "TUESDAY",  Time.valueOf("16:00:00"), 10);
-//        return stopMapper.toDto(stop, routes);
+        return stopMapper.toDto(stop, routes);
     }
 
 
