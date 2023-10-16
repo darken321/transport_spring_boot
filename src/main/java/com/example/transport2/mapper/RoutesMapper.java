@@ -2,6 +2,7 @@ package com.example.transport2.mapper;
 
 import com.example.transport2.dto.ScheduleDto;
 import com.example.transport2.dto.StopTransportDto;
+import com.example.transport2.dto.StopTransportInfoName;
 import com.example.transport2.model.TransportType;
 import com.example.transport2.projection.StopRoutesInfo;
 import com.example.transport2.projection.StopTransportInfo;
@@ -24,15 +25,15 @@ public class RoutesMapper {
 //    private final TransportRouteService transportRouteService;
 
 
-    private StopTransportDto.StopTransportTimeDto stopTransportDto(StopTransportInfo info, Time currentTime) {
+    private StopTransportDto.StopTransportTimeDto stopTransportDto(StopTransportInfoName info, Time currentTime) {
         return StopTransportDto.StopTransportTimeDto.builder()
                 .id(info.getId())
                 .name(info.getTransportName())
                 .transportType(TransportType.valueOf(info.getTransportType()))
                 //TODO вынести бизнес логику в сервис
-                .routeName(stopRepository.findStopById(info.getStartStopId()).get().getName() + " - " +
-                        stopRepository.findStopById(info.getEndStopId()).get().getName())
-//                .routeName(transportRouteService.getRouteName(info))
+                .routeName(info.getRouteName())
+//                .routeName(stopRepository.findStopById(info.getStartStopId()).get().getName() + " - " +
+//                        stopRepository.findStopById(info.getEndStopId()).get().getName())
                 .arrivalTime(info.getTime())
                 .timeToArrival(TimeUtils.timeToArrival(info.getTime(), currentTime))
                 .hoursToArrival(TimeUtils.getToArrivalHours(info.getTime(), currentTime))
@@ -41,7 +42,7 @@ public class RoutesMapper {
     }
 
     public List<StopTransportDto.StopTransportTimeDto>
-    allToStopTransportDto(List<StopTransportInfo> sortedArrivalTimes, Time currentTime) {
+    allToStopTransportDto(List<StopTransportInfoName> sortedArrivalTimes, Time currentTime) {
         return sortedArrivalTimes.stream()
                 .map(times -> stopTransportDto(times, currentTime))
                 .toList();

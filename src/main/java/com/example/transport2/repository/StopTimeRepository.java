@@ -3,7 +3,6 @@ package com.example.transport2.repository;
 import com.example.transport2.model.StopTime;
 import com.example.transport2.projection.StopRoutesInfo;
 import com.example.transport2.projection.StopTransportInfo;
-import com.example.transport2.projection.Test;
 import com.example.transport2.projection.TimeAndDayOfWeek;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,9 +15,8 @@ import java.util.List;
 @Repository
 public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
     /**
-     * запрос расписания и дня недели по определенному маршруту и остановке из этого маршрута
-     *
-     * @param stopId       - id остановки
+     * Возвращает расписание - время и день недели по определенному маршруту и остановке из этого маршрута
+     * @param stopId       id остановки
      * @param routeStopsId id строки routeStops, то есть "остановки в маршруте"
      * @return список времен прибытия и дней недели
      */
@@ -52,7 +50,14 @@ public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
 //            "ORDER BY transportRoute.id")
 //    List<Test> test();
 
-
+    /**
+     * Возвращает расписание одной остановки в конкретном маршруте
+     * @param stopId Id остановки
+     * @param dayOfWeek день недели
+     * @param time время, после которого ищется в базе
+     * @param recordsLimit сколько записей искать
+     * @return Список: id транспорта, имя и тип транспорта, id начальной и конечной остановки, время прибытия
+     */
     //TODO поменять Object на соответствующий тип через projection
     //https://www.google.com/search?q=spring+data+projection
     @Query(value ="""
@@ -73,11 +78,18 @@ public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
                     LIMIT :limit
                     """
             , nativeQuery = true)
-    List<StopTransportInfo> findSortedArrivalTimes(@Param("stopId") Integer stopId,
+        List<StopTransportInfo> findSortedArrivalTimes(@Param("stopId") Integer stopId,
                                                    @Param("dayOfWeek") String dayOfWeek,
                                                    @Param("time") Time time,
                                                    @Param("limit") int recordsLimit);
 
+    /**
+     * Возвращает список транспорта, который еше проходит по данной остановке после заданного времени
+     * @param stopId id остановки
+     * @param dayOfWeek день недели для поиска в БД
+     * @param time время, после которого происходит поиск
+     * @return список: id транспорта, имя транспорта, тип транспорта
+     */
     @Query(value =
             """
                     SELECT DISTINCT transport_route.transport_id AS id ,

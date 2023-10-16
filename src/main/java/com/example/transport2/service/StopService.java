@@ -51,6 +51,6 @@ public class StopService {
                 id,
                 LocalDate.now().getDayOfWeek().name(),
                 Time.valueOf( LocalTime.now()),
-                Constants.RECORDS_NUMBER);
+                Constants.NUMBER_OF_RECORDS);
     }
 }

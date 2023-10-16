@@ -12,6 +12,11 @@ import lombok.experimental.FieldDefaults;
 import java.sql.Time;
 import java.util.List;
 
+/**
+ * DTO для информации о транспорте по остановке
+ * Id, имя и локация остановки
+ * внутри два вложенных списка информации
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -34,6 +39,11 @@ public class StopTransportDto {
     @NotNull
     List<StopTransportInfoDto> transports;
 
+    /** короткий список транспорта по остановке
+    ID,
+    name номер (имя) транспорта,
+    transportType тип транспорта
+     */
     @Data
     @Builder
     @AllArgsConstructor
@@ -54,7 +64,6 @@ public class StopTransportDto {
     @NotNull
     List<StopTransportTimeDto> routesTime;
     /**Список транспорта по остановке
-    Внутри список из:
     ID,
     name номер (имя) транспорта,
     transportType тип транспорта

@@ -39,6 +39,11 @@ public class StopApi {
         return stopMapper.toDto(stopService.getAll());
     }
 
+    /**
+     * Возвращает данные по ID остановки
+     * @param id ID остановки
+     * @return имя остановки, список транспорта по ней и список транспорта с сортировкой по времени прибытия
+     */
     @GetMapping("{id}")
     public StopTransportDto getById(@PathVariable Integer id) {
         Stop stop = stopService.getById(id); //сущность остановки по ID
@@ -46,7 +51,11 @@ public class StopApi {
         return stopMapper.toDto(stop, routes);
     }
 
-
+    /**
+     * Сохраняет остановку в БД
+     * @param dto DTO остановки
+     * @return имя и локация остановки
+     */
     @PostMapping
     public StopDto save(@RequestBody @Valid StopSaveDto dto) {
         Stop stop = stopMapper.fromDto(dto);
