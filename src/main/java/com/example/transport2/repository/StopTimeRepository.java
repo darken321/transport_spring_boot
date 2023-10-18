@@ -61,22 +61,26 @@ public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
     //TODO поменять Object на соответствующий тип через projection
     //https://www.google.com/search?q=spring+data+projection
     @Query(value ="""
-                           SELECT transport_route.transport_id AS id,
-                           transport.name AS transportName,
-                           transport.type AS transportType,
-                           transport_route.start_stop_id AS startStopId,
-                           transport_route.end_stop_id AS endStopId,
-                           stop_time.time AS time
-                    FROM stop_time
-                             JOIN route_stops ON stop_time.route_stops_id = route_stops.id
-                             JOIN transport_route ON route_stops.route_id = transport_route.id
-                             jOIN transport ON transport_route.transport_id = transport.id
-                    WHERE stop_id = :stopId
-                      AND day_of_week = :dayOfWeek
-                      AND stop_time.time > :time
-                    ORDER BY time
-                    LIMIT :limit
-                    """
+                              SELECT transport_route.transport_id AS id,
+                              transport.name AS transportName,
+                              transport.type AS transportType,
+                              transport_route.start_stop_id AS startStopId,
+                              transport_route.end_stop_id AS endStopId,
+                              start_stop.name AS startStopName,
+                              end_stop.name AS endStopName,
+                              stop_time.time AS time
+                       FROM stop_time
+                                JOIN route_stops ON stop_time.route_stops_id = route_stops.id
+                                JOIN transport_route ON route_stops.route_id = transport_route.id
+                                jOIN transport ON transport_route.transport_id = transport.id
+                                JOIN stop AS start_stop ON transport_route.start_stop_id = start_stop.id
+                                JOIN stop AS end_stop ON transport_route.end_stop_id = end_stop.id
+                       WHERE stop_id = :stopId
+                         AND day_of_week = :dayOfWeek
+                         AND stop_time.time > :time
+                       ORDER BY time
+                       LIMIT :limit
+                       """
             , nativeQuery = true)
         List<StopTransportInfo> findSortedArrivalTimes(@Param("stopId") Integer stopId,
                                                    @Param("dayOfWeek") String dayOfWeek,
