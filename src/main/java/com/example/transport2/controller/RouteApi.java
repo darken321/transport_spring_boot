@@ -1,9 +1,6 @@
 package com.example.transport2.controller;
 
 import com.example.transport2.dto.ScheduleDto;
-import com.example.transport2.projection.Test;
-import com.example.transport2.projection.TimeAndDayOfWeek;
-import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.service.TransportRouteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -24,11 +21,10 @@ import java.util.List;
 public class RouteApi {
 
     private final TransportRouteService transportRouteService;
-    private final StopTimeRepository stopTimeRepository;
-
 
     /**
-     * запрос расписания по одной остановке конкретного маршрута
+     * Запрос расписания по одной остановке конкретного маршрута.
+     * Возвращает объект DTO - {время, день недели}
      * @param route id маршрута из таблицы transport_route
      * @param stop id остановки из таблицы route_stops
      * @return объекты типа TimeAndDayOfWeek - время Time и день недели String
@@ -39,9 +35,4 @@ public class RouteApi {
 
         return transportRouteService.getByRouteAndStop(route, stop);
     }
-//    TimeAndDayOfWeek
-//    @GetMapping("test")
-//    public List<Test> test() {
-//        return stopTimeRepository.test();
-//    }
 }

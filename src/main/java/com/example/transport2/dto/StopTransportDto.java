@@ -91,7 +91,10 @@ public class StopTransportDto {
         TransportType transportType;
 
         @NotBlank
-        String routeName;
+        String startStopName;
+
+        @NotBlank
+        String endStopName;
 
         @NotBlank
         Time arrivalTime;

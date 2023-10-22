@@ -12,8 +12,6 @@ public interface StopTransportInfo {
     Integer getId();
     String getTransportName();
     String getTransportType();
-    Integer getStartStopId();
-    Integer getEndStopId();
     String getStartStopName();
     String getEndStopName();
     Time getTime();

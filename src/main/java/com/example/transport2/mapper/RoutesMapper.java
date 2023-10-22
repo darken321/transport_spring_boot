@@ -24,16 +24,16 @@ public class RoutesMapper {
     private final StopRepository stopRepository;
 //    private final TransportRouteService transportRouteService;
 
+    //принимает объект типа интерфейс StopTransportInfo, который пришел с БД, и пребразует его в объект DTO
 
-    private StopTransportDto.StopTransportTimeDto stopTransportDto(StopTransportInfoName info, Time currentTime) {
+    private StopTransportDto.StopTransportTimeDto stopTransportDto(StopTransportInfo info, Time currentTime) {
         return StopTransportDto.StopTransportTimeDto.builder()
                 .id(info.getId())
                 .name(info.getTransportName())
                 .transportType(TransportType.valueOf(info.getTransportType()))
                 //TODO вынести бизнес логику в сервис
-                .routeName(info.getRouteName())
-//                .routeName(stopRepository.findStopById(info.getStartStopId()).get().getName() + " - " +
-//                        stopRepository.findStopById(info.getEndStopId()).get().getName())
+                .startStopName(info.getStartStopName())
+                .endStopName(info.getEndStopName())
                 .arrivalTime(info.getTime())
                 .timeToArrival(TimeUtils.timeToArrival(info.getTime(), currentTime))
                 .hoursToArrival(TimeUtils.getToArrivalHours(info.getTime(), currentTime))
@@ -42,7 +42,7 @@ public class RoutesMapper {
     }
 
     public List<StopTransportDto.StopTransportTimeDto>
-    allToStopTransportDto(List<StopTransportInfoName> sortedArrivalTimes, Time currentTime) {
+    allToStopTransportDto(List<StopTransportInfo> sortedArrivalTimes, Time currentTime) {
         return sortedArrivalTimes.stream()
                 .map(times -> stopTransportDto(times, currentTime))
                 .toList();

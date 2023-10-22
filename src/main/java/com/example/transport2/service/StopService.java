@@ -46,11 +46,11 @@ public class StopService {
         stopRepository.deleteById(id);
     }
 
-    public List<StopTransportInfo> getInfoById(Integer id) {
-        return stopTimeRepository.findSortedArrivalTimes(
-                id,
-                LocalDate.now().getDayOfWeek().name(),
-                Time.valueOf( LocalTime.now()),
-                Constants.NUMBER_OF_RECORDS);
-    }
+//    public List<StopTransportInfo> getInfoById(Integer id) {
+//        return stopTimeRepository.findSortedArrivalTimes(
+//                id,
+//                LocalDate.now().getDayOfWeek().name(),
+//                Time.valueOf( LocalTime.now()),
+//                Constants.NUMBER_OF_RECORDS);
+//    }
 }

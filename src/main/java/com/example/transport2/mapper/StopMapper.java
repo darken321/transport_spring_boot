@@ -102,25 +102,4 @@ public class StopMapper {
         int routeStopsId = routeStopRepository.findByStopIdAndRouteId(stopId, transportRoute.getId()).getId();
         return stopTimeService.getArrivalTimes(routeStopsId);
     }
-
-    //TODO тут проблема
-//    public List<StopTransportInfoName> getStopTransportInfoNames(List<StopTransportInfo> sortedArrivalTimes) {
-//        List<StopTransportInfoName> newList = new ArrayList<>();
-//        for (StopTransportInfo e : sortedArrivalTimes) {
-//            newList.add(StopTransportInfoName.builder()
-//                    .id(e.getId())
-//                    .transportName(e.getTransportName())
-//                    .transportType(e.getTransportType())
-//                    .startStopId(e.getStartStopId())
-//                    .endStopId(e.getEndStopId())
-//                    .time(e.getTime())
-//                    .routeName(getRouteName(e))
-//                    .build());
-//        }
-//        return newList;
-//    }
-//    private String getRouteName(StopTransportInfo e) {
-//        return stopRepository.findStopById(e.getStartStopId()).get().getName() + " - "
-//                + stopRepository.findStopById(e.getEndStopId()).get().getName();
-//    }
 }

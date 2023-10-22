@@ -32,24 +32,6 @@ public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
             , nativeQuery = true)
     List<TimeAndDayOfWeek> findSortedArrivalTimesSchedule(@Param("routeId") Integer routeStopsId, @Param("stopId") Integer stopId);
 
-    //работало с интерфейсом test
-//    @Query(value = "SELECT transport.name AS transportName,\n" +
-//            "       stop.name AS stopName,\n" +
-//            "       transport_route.id\n" +
-//            "FROM transport_route\n" +
-//            "         JOIN transport on transport_route.transport_id = transport.id\n" +
-//            "         JOIN stop on transport_route.start_stop_id = stop.id\n" +
-//            "ORDER BY transport_route.id"
-//            , nativeQuery = true)
-//    List<Test> test();
-
-//    @Query(value = "SELECT new com.example.transport2.projection.Test(stop.name, transportRoute.id) " +
-//            "FROM TransportRoute transportRoute " +
-//            "JOIN transportRoute.transport transport " +
-//            "JOIN transportRoute.startStop stop " +
-//            "ORDER BY transportRoute.id")
-//    List<Test> test();
-
     /**
      * Возвращает расписание одной остановки в конкретном маршруте
      * @param stopId Id остановки
@@ -64,8 +46,6 @@ public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
                               SELECT transport_route.transport_id AS id,
                               transport.name AS transportName,
                               transport.type AS transportType,
-                              transport_route.start_stop_id AS startStopId,
-                              transport_route.end_stop_id AS endStopId,
                               start_stop.name AS startStopName,
                               end_stop.name AS endStopName,
                               stop_time.time AS time
