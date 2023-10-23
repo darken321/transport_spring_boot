@@ -3,11 +3,9 @@ package com.example.transport2.mapper;
 import com.example.transport2.dto.StopDto;
 import com.example.transport2.dto.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
-import com.example.transport2.dto.StopTransportInfoName;
 import com.example.transport2.model.Location;
 import com.example.transport2.model.Stop;
 import com.example.transport2.model.TransportRoute;
-import com.example.transport2.projection.StopTransportInfo;
 import com.example.transport2.repository.LocationRepository;
 import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.StopRepository;
@@ -17,7 +15,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -73,8 +70,8 @@ public class StopMapper {
      */
     public StopTransportDto toDto(@Valid Stop stop, List<TransportRoute> routes) {
         return StopTransportDto.builder()
-                .id(stop.getId())
-                .name(stop.getName())
+                .stopId(stop.getId())
+                .stopName(stop.getName())
                 .location(stop.getLocation().getName())
                 .transports(getStopTransportInfoDto(stop.getId(), routes.get(0)))
                 .routesTime(getStopTransportTimeDto(stop.getId(), routes.get(0)))

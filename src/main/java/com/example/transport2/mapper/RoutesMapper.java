@@ -1,37 +1,25 @@
 package com.example.transport2.mapper;
 
-import com.example.transport2.dto.ScheduleDto;
 import com.example.transport2.dto.StopTransportDto;
-import com.example.transport2.dto.StopTransportInfoName;
 import com.example.transport2.model.TransportType;
 import com.example.transport2.projection.StopRoutesInfo;
 import com.example.transport2.projection.StopTransportInfo;
-import com.example.transport2.projection.TimeAndDayOfWeek;
-import com.example.transport2.repository.StopRepository;
-import com.example.transport2.service.StopTimeService;
-import com.example.transport2.service.TransportRouteService;
 import com.example.transport2.util.TimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
-import java.time.DayOfWeek;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class RoutesMapper {
-    private final StopRepository stopRepository;
-//    private final TransportRouteService transportRouteService;
-
-    //принимает объект типа интерфейс StopTransportInfo, который пришел с БД, и пребразует его в объект DTO
 
     private StopTransportDto.StopTransportTimeDto stopTransportDto(StopTransportInfo info, Time currentTime) {
         return StopTransportDto.StopTransportTimeDto.builder()
-                .id(info.getId())
-                .name(info.getTransportName())
+                .transportId(info.getId())
+                .transportName(info.getTransportName())
                 .transportType(TransportType.valueOf(info.getTransportType()))
-                //TODO вынести бизнес логику в сервис
                 .startStopName(info.getStartStopName())
                 .endStopName(info.getEndStopName())
                 .arrivalTime(info.getTime())
@@ -50,8 +38,8 @@ public class RoutesMapper {
 
     private StopTransportDto.StopTransportInfoDto stopTransportInfoDto(StopRoutesInfo info) {
         return StopTransportDto.StopTransportInfoDto.builder()
-                .id(info.getId())
-                .name(info.getTransportName())
+                .transportId(info.getId())
+                .transportName(info.getTransportName())
                 .transportType(TransportType.valueOf(info.getTransportType()))
                 .build();
     }
@@ -62,13 +50,13 @@ public class RoutesMapper {
                 .toList();
     }
 
-    public List<ScheduleDto> allToScheduleDto(List<TimeAndDayOfWeek> arrivalTimesSchedule) {
-        return arrivalTimesSchedule.stream()
-                .map(this::toScheduleDto)
-                .toList();
-    }
-
-    private ScheduleDto toScheduleDto(TimeAndDayOfWeek schedule) {
-        return new ScheduleDto(schedule.getTime(), DayOfWeek.valueOf(schedule.getDayOfWeek()));
-    }
+//    public List<ScheduleDto> allToScheduleDto(List<TimeAndDayOfWeek> arrivalTimesSchedule) {
+//        return arrivalTimesSchedule.stream()
+//                .map(this::toScheduleDto)
+//                .toList();
+//    }
+//
+//    private ScheduleDto toScheduleDto(TimeAndDayOfWeek schedule) {
+//        return new ScheduleDto(schedule.getTime(), DayOfWeek.valueOf(schedule.getDayOfWeek()));
+//    }
 }

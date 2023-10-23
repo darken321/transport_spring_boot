@@ -34,9 +34,10 @@ public class TransportRouteService {
         return transportRoutes;
     }
 
-    public List<ScheduleDto> getByRouteAndStop(Integer routeStopsId, Integer stopId) {
-        List<TimeAndDayOfWeek> arrivalTimesSchedule = stopTimeRepository.findSortedArrivalTimesSchedule(routeStopsId, stopId);
-        return routesMapper.allToScheduleDto(arrivalTimesSchedule);
+    public List<TimeAndDayOfWeek> getByRouteAndStop(Integer routeStopsId, Integer stopId) {
+//        List<TimeAndDayOfWeek> arrivalTimesSchedule = stopTimeRepository.findSortedArrivalTimesSchedule(routeStopsId, stopId);
+        return stopTimeRepository.findSortedArrivalTimesSchedule(routeStopsId, stopId);
+//        return routesMapper.allToScheduleDto(arrivalTimesSchedule);
     }
 }
 

@@ -15,7 +15,6 @@ public interface TransportRepository extends JpaRepository<Transport, Integer> {
     Optional<Transport> findByName(String name);
     Optional<Transport> findAllByName(String name);
     List<Transport> findAllByNameContaining(String name);
-
     List<Transport> findAllByType(TransportType t);
     List<Transport> findAllByLocationIdAndTypeOrderByName(int locationId, TransportType transportType);
 }

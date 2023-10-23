@@ -13,7 +13,8 @@ import java.sql.Time;
 import java.util.List;
 
 /**
- * DTO для информации о транспорте по остановке
+ * DTO для информации о всем транспорте по остановке
+ * при переходе из строки поиска остановки
  * Id, имя и локация остановки
  * внутри два вложенных списка информации
  */
@@ -26,11 +27,11 @@ public class StopTransportDto {
 
     @Positive
     @NotNull
-    Integer id;
+    Integer stopId;
 
     @NotBlank
     @Size(min = 2)
-    String name;
+    String stopName;
 
     @NotBlank
     @Size(min = 3)
@@ -50,12 +51,13 @@ public class StopTransportDto {
     @NoArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class StopTransportInfoDto {
+
         @Positive
         @NotNull
-        Integer id;
+        Integer transportId;
 
         @NotBlank
-        String name;
+        String transportName;
 
         @NotNull
         TransportType transportType;
@@ -71,7 +73,7 @@ public class StopTransportDto {
     arrivalTime времена прибытия.
     timeToArrival строка, время, оставшееся до прибытия.
     hoursToArrival часы
-    minutesToArrival и минуты для прибытия
+    minutesToArrival и минуты до прибытия
      **/
     @Data
     @Builder
@@ -82,10 +84,10 @@ public class StopTransportDto {
 
         @Positive
         @NotNull
-        Integer id;
+        Integer transportId;
 
         @NotBlank
-        String name;
+        String transportName;
 
         @NotNull
         TransportType transportType;
