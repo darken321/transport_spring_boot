@@ -42,7 +42,7 @@ public class RouteApi {
      * @param stop  id остановки из таблицы route_stops
      * @return объекты типа TimeAndDayOfWeek - время Time и день недели String
      */
-
+    //добавить список маршрутов и остановок в DTO
     //TODO может ли API  возвращать сразу интерфейс, который получается из БД, а не DTO если они одинаковы (-маппинг)
     //может ли API сразу лезть в репо мимо сервиса или лучше в сервисе проверить данные?
     @GetMapping
@@ -64,9 +64,7 @@ public class RouteApi {
         return transportRouteMapper.toBigDto(routeId, transportId, stopId);
     }
 
-
     //TODO добавить запрос расписания определенного транспорта
-    // расписание автобусов Брест https://kogda.by/routes/brest/autobus
-    // тип транспорта, локация и список DTO (названий с ID транспорта)
-
+    //возврат всех остановок всех маршрутов одного транспорта https://kogda.by/routes/brest/trolleybus/100
+    // тип, название транспорта, локация и список DTO (маршруты с id и названиями остановок)
 }

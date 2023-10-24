@@ -68,8 +68,8 @@ public interface TransportRouteRepository extends JpaRepository<TransportRoute, 
             LIMIT '3'
             """
     , nativeQuery = true)
-    List<Time> find3NearestTimes(@Param("stopId") Integer stopId,
-                                 @Param("dayOfWeek") String dayOfWeek,
-                                 @Param("time") Time time,
-                                 @Param("routeId") Integer routeId);
+    List<Time> get3NearestTimes(@Param("stopId") Integer stopId,
+                                @Param("dayOfWeek") String dayOfWeek,
+                                @Param("time") Time time,
+                                @Param("routeId") Integer routeId);
 }

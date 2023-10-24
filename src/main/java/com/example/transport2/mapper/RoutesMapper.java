@@ -1,14 +1,17 @@
 package com.example.transport2.mapper;
 
+import com.example.transport2.dto.ScheduleDto;
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.model.TransportType;
 import com.example.transport2.projection.StopRoutesInfo;
 import com.example.transport2.projection.StopTransportInfo;
+import com.example.transport2.projection.TimeAndDayOfWeek;
 import com.example.transport2.util.TimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.util.List;
 
 @Component
@@ -49,7 +52,7 @@ public class RoutesMapper {
                 .map(this::stopTransportInfoDto)
                 .toList();
     }
-
+    //TODO нужно ли маппить интрефейс в лист?
 //    public List<ScheduleDto> allToScheduleDto(List<TimeAndDayOfWeek> arrivalTimesSchedule) {
 //        return arrivalTimesSchedule.stream()
 //                .map(this::toScheduleDto)
