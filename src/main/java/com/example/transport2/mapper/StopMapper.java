@@ -5,13 +5,12 @@ import com.example.transport2.dto.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.model.Location;
 import com.example.transport2.model.Stop;
-import com.example.transport2.model.TransportRoute;
 import com.example.transport2.repository.LocationRepository;
 import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.StopRepository;
+import com.example.transport2.service.StopService;
 import com.example.transport2.service.StopTimeService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +21,7 @@ import java.util.List;
 public class StopMapper {
     LocationRepository locationRepository;
     StopTimeService stopTimeService;
+    StopService stopService;
     RouteStopRepository routeStopRepository;
     StopRepository stopRepository;
 
@@ -65,38 +65,17 @@ public class StopMapper {
 
     /**
      * @param stop   сущность остановки
-     * @param routes
+     * @param routes список маршрутов по этой остановке
      * @return DTO для информации о транспорте по остановке
      */
-    public StopTransportDto toDto(@Valid Stop stop, List<TransportRoute> routes) {
+    public StopTransportDto toBigTransportDto(@Valid Integer id) {
+        Stop stop = stopService.getById(id);
         return StopTransportDto.builder()
-                .stopId(stop.getId())
+                .stopId(id)
                 .stopName(stop.getName())
                 .location(stop.getLocation().getName())
-                .transports(getStopTransportInfoDto(stop.getId(), routes.get(0)))
-                .routesTime(getStopTransportTimeDto(stop.getId(), routes.get(0)))
+                .transports(stopTimeService.getArrivalTransports(id))
+                .routesTime(stopTimeService.getArrivalTimes(id))
                 .build();
-    }
-
-    /**
-     * @param stopId         id остановки
-     * @param transportRoute маршрут транспорта
-     * @return короткий список транспорта по остановке маршрута - ID, имя, тип
-     */
-    private @NotNull List<StopTransportDto.StopTransportInfoDto> getStopTransportInfoDto(Integer stopId, TransportRoute transportRoute) {
-
-        int routeStopsId = routeStopRepository.findByStopIdAndRouteId(stopId, transportRoute.getId()).getId();
-        return stopTimeService.getArrivalTransports(routeStopsId);
-    }
-
-    /**
-     * @param stopId
-     * @param transportRoute
-     * @return список транспорта (с его маршрутом) по остановке сортированный по времени прибытия
-     */
-    private @NotNull List<StopTransportDto.StopTransportTimeDto> getStopTransportTimeDto(Integer stopId, TransportRoute transportRoute) {
-
-        int routeStopsId = routeStopRepository.findByStopIdAndRouteId(stopId, transportRoute.getId()).getId();
-        return stopTimeService.getArrivalTimes(routeStopsId);
     }
 }

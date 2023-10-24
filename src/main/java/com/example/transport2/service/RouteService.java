@@ -20,7 +20,7 @@ import static com.example.transport2.util.Constants.NUMBER_OF_RECORDS;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class StopTimeService {
+public class RouteService {
     private final StopTimeRepository stopTimeRepository;
     private final RoutesMapper routesMapper;
 

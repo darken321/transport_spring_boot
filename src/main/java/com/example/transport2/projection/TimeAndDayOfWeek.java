@@ -8,5 +8,6 @@ import java.sql.Time;
 
 public interface TimeAndDayOfWeek {
     Time getTime();
+
     String getDayOfWeek();
 }

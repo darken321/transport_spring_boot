@@ -66,7 +66,7 @@ public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
                                                    @Param("limit") int recordsLimit);
 
     /**
-     * Возвращает список транспорта, который еше проходит по данной остановке после заданного времени
+     * Возвращает список транспорта, который еше будет проходить по данной остановке после заданного времени
      * @param stopId id остановки
      * @param dayOfWeek день недели для поиска в БД
      * @param time время, после которого происходит поиск

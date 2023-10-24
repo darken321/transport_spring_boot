@@ -1,16 +1,25 @@
 package com.example.transport2.controller;
 
 import com.example.transport2.dto.StopOneTransportDto;
+import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.mapper.TransportRouteMapper;
+import com.example.transport2.model.TransportRoute;
 import com.example.transport2.projection.TimeAndDayOfWeek;
 import com.example.transport2.projection.TransportRouteNames;
+import com.example.transport2.projection.TransportRouteStops;
+import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.TransportRouteRepository;
+import com.example.transport2.service.StopTimeService;
 import com.example.transport2.service.TransportRouteService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -23,7 +32,6 @@ import java.util.List;
 public class RouteApi {
 
     private final TransportRouteService transportRouteService;
-    private final TransportRouteRepository transportRouteRepository;
     private final TransportRouteMapper transportRouteMapper;
 
     /**
@@ -47,19 +55,17 @@ public class RouteApi {
     /**
      * Три времени прибытия транспорта по остановке с маршрутами и всеми остановками
      */
-    @GetMapping("route/{routeId}/transport/{transportId}")
+    @GetMapping("route/{routeId}/transport/{transportId}/stop/{stopId}")
 
-    public StopOneTransportDto getByRouteAndTransport(@PathVariable int routeId, @PathVariable @NotNull int transportId) {
-        List<TransportRouteNames> transportRoute = transportRouteRepository.findTransportRoute(routeId, transportId);
-        List<StopOneTransportDto.RouteInfoDto> routeInfoDtos = transportRouteMapper.allToDto(transportRoute);
+    public StopOneTransportDto getByRouteAndTransport(@PathVariable Integer routeId,
+                                                      @PathVariable @NotNull Integer transportId,
+                                                      @PathVariable @NotNull Integer stopId) {
 
-        return StopOneTransportDto.builder()
-                .routes(routeInfoDtos)
-                .build();
+        return transportRouteMapper.toBigDto(routeId, transportId, stopId);
     }
 
 
-    // TODO добавить запрос расписания определенного транспорта
+    //TODO добавить запрос расписания определенного транспорта
     // расписание автобусов Брест https://kogda.by/routes/brest/autobus
     // тип транспорта, локация и список DTO (названий с ID транспорта)
 

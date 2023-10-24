@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.sql.Time;
 import java.util.List;
 
 /**
@@ -42,6 +43,9 @@ public class StopOneTransportDto {
     @Size(min = 2)
     String transportName;
 
+    @NotBlank
+    List<Time> nearest3Times;
+
     @NotNull
     List<RouteInfoDto> routes;
 
@@ -70,7 +74,7 @@ public class StopOneTransportDto {
     }
 
     @NotNull
-    List<stopInfoDto> stops;
+    List<StopInfoDto> stops;
 
     /**
      * список всех остановок этого транспорта в этом маршруте
@@ -82,7 +86,7 @@ public class StopOneTransportDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class stopInfoDto {
+    public static class StopInfoDto {
 
         @Positive
         @NotNull

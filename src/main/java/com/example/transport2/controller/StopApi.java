@@ -5,7 +5,6 @@ import com.example.transport2.dto.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.model.Stop;
-import com.example.transport2.model.TransportRoute;
 import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.service.StopService;
 import com.example.transport2.service.TransportRouteService;
@@ -47,8 +46,8 @@ public class StopApi {
     @GetMapping("{id}")
     public StopTransportDto getById(@PathVariable Integer id) {
         Stop stop = stopService.getById(id); //сущность остановки по ID
-        List<TransportRoute> routes = transportRouteService.getByStopId(id); //список маршрутов по остановке
-        return stopMapper.toDto(stop, routes);
+//        List<TransportRoute> routes = transportRouteService.getByStopId(id); //список маршрутов по остановке
+        return stopMapper.toBigTransportDto(id);
     }
 
     /**

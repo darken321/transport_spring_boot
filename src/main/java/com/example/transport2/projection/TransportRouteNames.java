@@ -6,6 +6,8 @@ package com.example.transport2.projection;
 
 public interface TransportRouteNames {
     Integer getTransportRouteId();
+
     String getStartStopName();
+
     String getEndStopName();
 }
