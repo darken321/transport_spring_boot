@@ -22,11 +22,6 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class TransportRouteMapper {
-    private final StopTimeService stopTimeService;
-    private final StopService stopService;
-    private final TransportService transportService;
-    private final TransportRouteService transportRouteService;
-
 
     private StopOneTransportDto.RouteInfoDto toDto(@Valid TransportRouteNames route) {
         return StopOneTransportDto.RouteInfoDto.builder()
@@ -66,13 +61,6 @@ public class TransportRouteMapper {
                                         List<StopTransportDto.StopTransportInfoDto> transports,
                                         List<StopTransportDto.StopTransportTimeDto> routesTime
                                         ) {
-        //TODO стоит ли выносить переменные в сервис?
-        //что делать с временем в get3NearestTimes?
-//        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
-//        String dayOfWeek = LocalDate.now().getDayOfWeek().name();
-//        List<Time> times = transportRouteRepository.get3NearestTimes(stopId, dayOfWeek, currentTime, routeId);
-//        List<TransportRouteNames> routeNames = transportRouteRepository.findTransportRoute(routeId, transportId);
-//        List<TransportRouteStops> routeStops = transportRouteRepository.findRouteStops(routeId);
         return StopOneTransportDto.builder()
                 .id(stopId)
                 .stopName(stopName)

@@ -45,7 +45,6 @@ public class RouteApi {
     private final StopTimeService stopTimeService;
     private final TransportService transportService;
 
-
     /**
      * Запрос расписания по одной остановке конкретного маршрута.
      * Возвращает объект DTO - {время, день недели}
@@ -54,9 +53,7 @@ public class RouteApi {
      * @param stop  id остановки из таблицы route_stops
      * @return объекты типа TimeAndDayOfWeek - время Time и день недели String
      */
-    //добавить список маршрутов и остановок в DTO
-    //TODO может ли API  возвращать сразу интерфейс, который получается из БД, а не DTO если они одинаковы (-маппинг)
-    //может ли API сразу лезть в репо мимо сервиса или лучше в сервисе проверить данные?
+    //TODO добавить список маршрутов и остановок в DTO
     @GetMapping
     public List<TimeAndDayOfWeek> getByFilters(@RequestParam(required = true) Integer route, @RequestParam(required = true) Integer stop) {
 
