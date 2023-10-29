@@ -1,6 +1,7 @@
 package com.example.transport2.mapper;
 
 import com.example.transport2.dto.StopOneTransportDto;
+import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.projection.TransportRouteNames;
 import com.example.transport2.projection.TransportRouteStops;
 import com.example.transport2.repository.TransportRouteRepository;
@@ -54,7 +55,17 @@ public class TransportRouteMapper {
                 .toList();
     }
 
-    public StopOneTransportDto toBigDto(@Valid Integer routeId, @NotNull Integer transportId, @NotNull Integer stopId) {
+    public StopOneTransportDto toBigDto(@Valid @NotNull Integer stopId,
+                                        String stopName,
+                                        String location,
+                                        String transportType,
+                                        String transportName,
+                                        List<Time> nearest3Times,
+                                        List<TransportRouteNames> routes,
+                                        List<TransportRouteStops> stops,
+                                        List<StopTransportDto.StopTransportInfoDto> transports,
+                                        List<StopTransportDto.StopTransportTimeDto> routesTime
+                                        ) {
         //TODO стоит ли выносить переменные в сервис?
         //что делать с временем в get3NearestTimes?
 //        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
@@ -64,16 +75,15 @@ public class TransportRouteMapper {
 //        List<TransportRouteStops> routeStops = transportRouteRepository.findRouteStops(routeId);
         return StopOneTransportDto.builder()
                 .id(stopId)
-                .stopName(stopService.getById(stopId).getName())
-                .location(stopService.getById(stopId).getLocation().getName())
-                //дублирующиеся запросы в БД??
-                .transportType(transportService.getById(transportId).getType().name())
-                .transportName(transportService.getById(transportId).getName())
-                .nearest3Times(transportRouteService.get3NearestTimes(stopId, routeId)) //??
-                .routes(allToRouteDto(transportRouteService.getRouteNames(routeId, transportId)))
-                .stops(allToStopDto(transportRouteService.GetRouteStops(routeId)))
-                .transports(stopTimeService.getArrivalTransports(stopId))
-                .routesTime(stopTimeService.getArrivalTimes(stopId))
+                .stopName(stopName)
+                .location(location)
+                .transportType(transportType)
+                .transportName(transportName)
+                .nearest3Times(nearest3Times)
+                .routes(allToRouteDto(routes))
+                .stops(allToStopDto(stops))
+                .transports(transports)
+                .routesTime(routesTime)
                 .build();
     }
 }
