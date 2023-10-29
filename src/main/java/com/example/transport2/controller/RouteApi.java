@@ -4,6 +4,8 @@ import com.example.transport2.dto.StopOneTransportDto;
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.mapper.TransportRouteMapper;
+import com.example.transport2.model.Stop;
+import com.example.transport2.model.Transport;
 import com.example.transport2.model.TransportRoute;
 import com.example.transport2.projection.TimeAndDayOfWeek;
 import com.example.transport2.projection.TransportRouteNames;
@@ -16,11 +18,13 @@ import com.example.transport2.service.TransportRouteService;
 import com.example.transport2.service.TransportService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -28,6 +32,7 @@ import java.util.List;
 /**
  * класс для запросов маршрутов
  */
+@Slf4j
 @Validated
 @RestController
 @RequiredArgsConstructor
@@ -65,11 +70,12 @@ public class RouteApi {
 
     public StopOneTransportDto getByRouteAndTransport(@PathVariable Integer routeId, @PathVariable @NotNull Integer transportId, @PathVariable @NotNull Integer stopId) {
 
-        String stopName = stopService.getById(stopId).getName();
-        String location = stopService.getById(stopId).getLocation().getName();
-        //дублирующиеся запросы в БД??
-        String transportType = transportService.getById(transportId).getType().name();
-        String transportName = transportService.getById(transportId).getName();
+        Stop stop = stopService.getById(stopId);
+        String stopName = stop.getName();
+        String location = stop.getName();
+        Transport transport = transportService.getById(transportId);
+        String transportType = transport.getType().name();
+        String transportName = transport.getName();
         List<Time> nearest3Times = transportRouteService.get3NearestTimes(stopId, routeId);
         List<TransportRouteNames> routes = transportRouteService.getRouteNames(routeId, transportId);
         List<TransportRouteStops> stops = transportRouteService.GetRouteStops(routeId);
