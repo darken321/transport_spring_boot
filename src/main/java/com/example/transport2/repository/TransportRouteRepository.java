@@ -19,7 +19,8 @@ public interface TransportRouteRepository extends JpaRepository<TransportRoute, 
     /**
      * запрос возвращает список маршрутов по выбранному транспорту
      * при этом *маршрут, по которому делается запрос, должен быть первый в списке
-     * @param routeId id маршрута в transport_route
+     *
+     * @param routeId     id маршрута в transport_route
      * @param transportId id транспорта
      * @return список маршрутов
      */
@@ -37,7 +38,7 @@ public interface TransportRouteRepository extends JpaRepository<TransportRoute, 
     List<TransportRouteNames> findTransportRoute(@Param("routeId") Integer routeId, @Param("transportId") Integer transportId);
 
     /**
-     * получить список остановок по выбранному маршруту
+     * запрос возвращает список остановок по выбранному маршруту
      * отсортированный по полю "порядок остановок" stop_order
      * @param routeId id маршрута
      * @return список названий остановок c их id
@@ -51,12 +52,20 @@ public interface TransportRouteRepository extends JpaRepository<TransportRoute, 
             WHERE route_id = :routeId
             ORDER BY route_stops.stop_order
                                     """
-                , nativeQuery = true)
+            , nativeQuery = true)
     List<TransportRouteStops> findRouteStops(@Param("routeId") Integer routeId);
+
+    /** запрос возвращает три ближайших времени прибытия транспорта на данную остановку
+     * @param stopId Id транспорта
+     * @param dayOfWeek день недели
+     * @param time время запроса, текущее время
+     * @param routeId Id маршрута в transport_route
+     * @return
+     */
 
     @Query(value = """
             SELECT
-                   stop_time.time               AS time
+                   stop_time.time AS time
             FROM stop_time
                      JOIN route_stops ON stop_time.route_stops_id = route_stops.id
                      JOIN transport_route ON route_stops.route_id = transport_route.id
@@ -67,7 +76,7 @@ public interface TransportRouteRepository extends JpaRepository<TransportRoute, 
             ORDER BY time
             LIMIT '3'
             """
-    , nativeQuery = true)
+            , nativeQuery = true)
     List<Time> get3NearestTimes(@Param("stopId") Integer stopId,
                                 @Param("dayOfWeek") String dayOfWeek,
                                 @Param("time") Time time,

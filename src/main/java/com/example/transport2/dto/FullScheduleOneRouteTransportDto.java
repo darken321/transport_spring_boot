@@ -8,31 +8,30 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.sql.Time;
 import java.util.List;
 
 /**
- * DTO Ближайшие рейсы
- * для информации о 3 ближайших временах прибытия одного транспорта
+ * DTO полное расписание
+ * для информации о всех временах прибытия одного транспорта
  * по одной остановке одного маршрута
  * содержит:
  * информацию о транспорте и остановке
- * список маршрутов по этой остановке
- * список остановок этого маршрута
- * список транспортов
- * переход из полного расписания
- * и из списка маршрутов транспорта
+ * routes список маршрутов этого транспорта
+ * stops список остановок этого маршрута
+ * расписание на все дни недели
+ * переход из ближайших рейсов
  */
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StopOneTransportDto {
+public class FullScheduleOneRouteTransportDto {
 
     @Positive
     @NotNull
-    Integer id;
+    Integer stopId;
 
     @NotBlank
     @Size(min = 2)
@@ -50,9 +49,6 @@ public class StopOneTransportDto {
     @Size(min = 2)
     String transportName;
 
-    @NotBlank
-    List<Time> nearest3Times;
-
     @NotNull
     List<RouteInfoDto> routes;
 
@@ -60,8 +56,5 @@ public class StopOneTransportDto {
     List<StopInfoDto> stops;
 
     @NotNull
-    List<StopTransportDto.StopTransportInfoDto> transports;
-
-    @NotNull
-    List<StopTransportDto.StopTransportTimeDto> routesTime;
+    List<TimeDayOfWeekDto> schedule;
 }

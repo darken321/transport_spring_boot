@@ -1,6 +1,5 @@
 package com.example.transport2.service;
 
-import com.example.transport2.dto.ScheduleDto;
 import com.example.transport2.mapper.RoutesMapper;
 import com.example.transport2.model.RouteStops;
 import com.example.transport2.model.TransportRoute;
@@ -11,7 +10,6 @@ import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.repository.TransportRouteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;

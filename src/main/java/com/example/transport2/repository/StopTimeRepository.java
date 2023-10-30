@@ -17,7 +17,7 @@ public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
     /**
      * Возвращает расписание - время и день недели по определенному маршруту и остановке из этого маршрута
      * @param stopId       id остановки
-     * @param routeStopsId id строки routeStops, то есть "остановки в маршруте"
+     * @param routeId route_id из route_stops
      * @return список времен прибытия и дней недели
      */
     @Query(value = """
@@ -26,11 +26,11 @@ public interface StopTimeRepository extends JpaRepository<StopTime, Integer> {
             FROM stop_time
             JOIN route_stops on stop_time.route_stops_id = route_stops.id
             WHERE stop_id = :stopId
-              AND route_stops_id = :routeId
+               AND route_id = :routeId
             ORDER BY stop_time.time
             """
             , nativeQuery = true)
-    List<TimeAndDayOfWeek> findSortedArrivalTimesSchedule(@Param("routeId") Integer routeStopsId, @Param("stopId") Integer stopId);
+    List<TimeAndDayOfWeek> findSortedArrivalTimesSchedule(@Param("routeId") Integer routeId, @Param("stopId") Integer stopId);
 
     /**
      * Возвращает расписание одной остановки в конкретном маршруте
