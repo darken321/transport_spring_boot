@@ -51,7 +51,7 @@ public class RouteApi {
      * - имя транспорта
      * - локация остановки
      * - имя остановки
-     * - routes маршруты транспорта по этой остановке RouteInfoDto
+     * - routes все маршруты этого транспорта в формате RouteInfoDto
      * - список остановок этого маршрута StopInfoDto
      * - {время, день недели} ScheduleDto
      *
@@ -59,19 +59,19 @@ public class RouteApi {
      * @param stopId  id остановки из таблицы route_stops
      * @return объекты типа TimeAndDayOfWeek - время Time и день недели String
      */
-    //TODO добавить список маршрутов и остановок в DTO
     @GetMapping
     public FullScheduleOneRouteTransportDto getByFilters(@RequestParam(required = true) Integer routeId, @RequestParam(required = true) Integer stopId) {
         Stop stop = stopService.getById(stopId);
         String stopName = stop.getName();
         String location = stop.getLocation().getName();
         TransportRoute transportRoute = transportRouteRepository.findById(routeId).get();
-        String transportType = transportRoute.getTransport().getType().name();
-        String transportName = transportRoute.getTransport().getName();
-        Integer transportId = transportRoute.getId();
-        //TODO маршруты отдает неверно, работает только на routeId 1 и 2
+        Transport transport = transportRoute.getTransport();
+        String transportType = transport.getType().name();
+        String transportName = transport.getName();
+        Integer transportId  = transport.getId();
         List<TransportRouteNames> routes = transportRouteService.getRouteNames(routeId, transportId);
-        List<TransportRouteStops> stops = transportRouteRepository.findRouteStops(routeId);
+        List<TransportRouteStops> stops = transportRouteService.getRouteStops(routeId);
+
         List<TimeAndDayOfWeek> schedule = transportRouteService.getByRouteAndStop(routeId, stopId);
         List<TimeDayOfWeekDto> timeWeekDtos = schedule.stream()
                 .map(t -> new TimeDayOfWeekDto(timeCutToSting(t.getTime()), t.getDayOfWeek()))
@@ -90,22 +90,38 @@ public class RouteApi {
     }
 
     /**
-     * Три времени прибытия транспорта по остановке с маршрутами и всеми остановками
+     * Запрос короткого расписания по одной остановке конкретного маршрута.
+     * Возвращает объект DTO
+     * - тип транспорта
+     * - имя транспорта
+     * - локация остановки
+     * - имя остановки
+     * - routes все маршруты этого транспорта в формате RouteInfoDto
+     * - список остановок этого маршрута в формате StopInfoDto
+     * - три ближайших времени прибытия этого транспорта на эту остановку
+     * - список транспортов по этой остановке
+     * - список маршрутов по этой остановке с временами прибытия
+     *
+     * @param routeId id маршрута из таблицы transport_route
+     * @param stopId id остановки из таблицы route_stops
+     * @return
      */
-    @GetMapping("route/{routeId}/transport/{transportId}/stop/{stopId}")
+    @GetMapping("route/{routeId}/stop/{stopId}")
 
-    public StopOneTransportDto getByRouteAndTransport(@PathVariable Integer routeId, @PathVariable @NotNull Integer transportId, @PathVariable @NotNull Integer stopId) {
+    public StopOneTransportDto getByRouteAndTransport(@PathVariable Integer routeId, @PathVariable @NotNull Integer stopId) {
 
         Stop stop = stopService.getById(stopId);
         String stopName = stop.getName();
         String location = stop.getLocation().getName();
-        Transport transport = transportService.getById(transportId);
+        TransportRoute transportRoute = transportRouteRepository.findById(routeId).get();
+        Transport transport = transportRoute.getTransport();
         String transportType = transport.getType().name();
         String transportName = transport.getName();
-        List<Time> nearest3Times = transportRouteService.get3NearestTimes(stopId, routeId);
-        //TODO заменить поиск по остановке и транспорту поиском по остановке??
+        Integer transportId  = transport.getId();
         List<TransportRouteNames> routes = transportRouteService.getRouteNames(routeId, transportId);
-        List<TransportRouteStops> stops = transportRouteService.GetRouteStops(routeId);
+        List<TransportRouteStops> stops = transportRouteService.getRouteStops(routeId);
+
+        List<Time> nearest3Times = transportRouteService.get3NearestTimes(stopId, routeId);//
         List<StopTransportDto.StopTransportInfoDto> transports = stopTimeService.getArrivalTransports(stopId);
         List<StopTransportDto.StopTransportTimeDto> routesTime = stopTimeService.getArrivalTimes(stopId);
 

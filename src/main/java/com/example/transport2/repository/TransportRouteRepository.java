@@ -22,7 +22,7 @@ public interface TransportRouteRepository extends JpaRepository<TransportRoute, 
      *
      * @param routeId     id маршрута в transport_route
      * @param transportId id транспорта
-     * @return список маршрутов
+     * @return список маршрутов - начальная остановка, конечная остановка b transport_route_id
      */
     @Query(value = """
             SELECT transport_route.id AS transportRouteId,
@@ -56,7 +56,7 @@ public interface TransportRouteRepository extends JpaRepository<TransportRoute, 
     List<TransportRouteStops> findRouteStops(@Param("routeId") Integer routeId);
 
     /** запрос возвращает три ближайших времени прибытия транспорта на данную остановку
-     * @param stopId Id транспорта
+     * @param stopId Id остановки
      * @param dayOfWeek день недели
      * @param time время запроса, текущее время
      * @param routeId Id маршрута в transport_route

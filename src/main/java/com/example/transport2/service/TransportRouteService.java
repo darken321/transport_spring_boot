@@ -56,7 +56,7 @@ public class TransportRouteService {
         return transportRouteRepository.findTransportRoute(routeId, transportId);
     }
 
-    public List<TransportRouteStops> GetRouteStops(Integer routeId) {
+    public List<TransportRouteStops> getRouteStops(Integer routeId) {
         return transportRouteRepository.findRouteStops(routeId);
     }
 
