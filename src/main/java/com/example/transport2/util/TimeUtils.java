@@ -4,6 +4,8 @@ import lombok.experimental.UtilityClass;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * утилиты для преобразования времени
@@ -17,7 +19,7 @@ public class TimeUtils {
      * @param currentTime текущее время
      * @return
      */
-    public static String timeToArrival(Time arrivalTime, Time currentTime) {
+    public static String timeToArrival(LocalTime arrivalTime, LocalTime currentTime) {
         long minutes = getToArrivalMinutes(arrivalTime, currentTime);
         long hours = getToArrivalHours(arrivalTime, currentTime);
         return "Через " + ((hours != 0) ? hours + " ч. " : "") + minutes + " мин.";
@@ -30,9 +32,9 @@ public class TimeUtils {
      * @param currentTime текущее время
      * @return
      */
-    public static int getToArrivalMinutes(Time arrivalTime, Time currentTime) {
-        long millisecondsDiff = arrivalTime.getTime() - currentTime.getTime();
-        return (int) (millisecondsDiff / (60 * 1000)) - getToArrivalHours(arrivalTime, currentTime) * 60;
+    public static int getToArrivalMinutes(LocalTime arrivalTime, LocalTime currentTime) {
+        long minutesDifference = currentTime.until(arrivalTime, ChronoUnit.MINUTES);
+        return (int) (minutesDifference-currentTime.until(arrivalTime, ChronoUnit.HOURS)*60);
     }
 
     /**
@@ -42,9 +44,9 @@ public class TimeUtils {
      * @param currentTime текущее время
      * @return
      */
-    public static int getToArrivalHours(Time arrivalTime, Time currentTime) {
-        long millisecondsDiff = arrivalTime.getTime() - currentTime.getTime();
-        return (int) (millisecondsDiff / (60 * 60 * 1000));
+    public static int getToArrivalHours(LocalTime arrivalTime, LocalTime currentTime) {
+        long minutesDifference = currentTime.until(arrivalTime, ChronoUnit.HOURS);
+        return (int) minutesDifference;
     }
 
     /**

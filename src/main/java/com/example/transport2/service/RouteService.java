@@ -30,9 +30,9 @@ public class RouteService {
      * @return Возвращает DTO список и тип транспорта по остановке
      */
 
-    public List<StopTransportDto.StopTransportInfoDto> getArrivalTransports(int stopId, Time currentTime, DayOfWeek dayOfWeek) {
+    public List<StopTransportDto.StopTransportInfoDto> getArrivalTransports(int stopId, LocalTime currentTime, DayOfWeek dayOfWeek) {
         List<StopRoutesInfo> sortedTransports = stopTimeRepository
-                .findSortedTransports(stopId, dayOfWeek.name(), currentTime);
+                .findSortedTransports(stopId, dayOfWeek.name(), Time.valueOf(currentTime));
         return routesMapper.allToTransportDto(sortedTransports);
     }
 
@@ -40,9 +40,9 @@ public class RouteService {
      * @param stopId номер остановки
      * @return Возвращает DTO список и тип транспорта, время прибытия и название маршрута по остановке
      */
-    public List<StopTransportDto.StopTransportTimeDto> getArrivalTimes(int stopId, Time currentTime, DayOfWeek dayOfWeek) {
+    public List<StopTransportDto.StopTransportTimeDto> getArrivalTimes(int stopId, LocalTime currentTime, DayOfWeek dayOfWeek) {
         List<StopTransportInfo> sortedArrivalTimes = stopTimeRepository
-                .findSortedArrivalTimes(stopId, dayOfWeek.name(), currentTime, NUMBER_OF_RECORDS);
+                .findSortedArrivalTimes(stopId, dayOfWeek.name(), Time.valueOf(currentTime), NUMBER_OF_RECORDS);
 
         return routesMapper.allToStopTransportDto(sortedArrivalTimes, currentTime);
     }

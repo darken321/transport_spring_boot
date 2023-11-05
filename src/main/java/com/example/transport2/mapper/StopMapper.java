@@ -14,8 +14,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 
 @Component
@@ -70,7 +70,7 @@ public class StopMapper {
      * @param routes список маршрутов по этой остановке
      * @return DTO для информации о транспорте по остановке
      */
-    public StopTransportDto toBigTransportDto(@Valid Integer id, Time currentTime, DayOfWeek dayOfWeek) {
+    public StopTransportDto toBigTransportDto(@Valid Integer id, LocalTime currentTime, DayOfWeek dayOfWeek) {
         Stop stop = stopService.getById(id);
         return StopTransportDto.builder()
                 .stopId(id)

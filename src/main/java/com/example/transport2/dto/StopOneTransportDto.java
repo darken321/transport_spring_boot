@@ -1,6 +1,7 @@
 package com.example.transport2.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -9,6 +10,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -51,7 +53,8 @@ public class StopOneTransportDto {
     String transportName;
 
     @NotBlank
-    List<Time> nearest3Times;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    List<LocalTime> nearest3Times;
 
     @NotNull
     List<RouteInfoDto> routes;

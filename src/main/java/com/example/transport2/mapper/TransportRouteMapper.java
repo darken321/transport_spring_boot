@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
 @Component
@@ -20,7 +20,7 @@ public class TransportRouteMapper {
                                         String location,
                                         String transportType,
                                         String transportName,
-                                        List<Time> nearest3Times,
+                                        List<LocalTime> nearest3Times,
                                         List<TransportRouteNames> routes,
                                         List<TransportRouteStops> stops,
                                         List<StopTransportDto.StopTransportInfoDto> transports,

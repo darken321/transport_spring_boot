@@ -15,12 +15,14 @@ import com.example.transport2.repository.TransportRouteRepository;
 import com.example.transport2.service.RouteService;
 import com.example.transport2.service.StopService;
 import com.example.transport2.service.TransportRouteService;
-import com.example.transport2.service.TransportService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Time;
 import java.time.DayOfWeek;
@@ -61,8 +63,9 @@ public class RouteApi {
      * @param stopId  id остановки из таблицы route_stops
      * @return объекты типа TimeAndDayOfWeek - время Time и день недели String
      */
-    @GetMapping
-    public FullScheduleOneRouteTransportDto getByFilters(@RequestParam(required = true) Integer routeId, @RequestParam(required = true) Integer stopId) {
+    @GetMapping("fullschedule/{routeId}/stop/{stopId}")
+
+    public FullScheduleOneRouteTransportDto getByFilters(@PathVariable Integer routeId, @PathVariable @NotNull Integer stopId) {
 
         Stop stop = stopService.getById(stopId);
         String stopName = stop.getName();
@@ -71,7 +74,7 @@ public class RouteApi {
         Transport transport = transportRoute.getTransport();
         String transportType = transport.getType().name();
         String transportName = transport.getName();
-        Integer transportId  = transport.getId();
+        Integer transportId = transport.getId();
         List<TransportRouteNames> routes = transportRouteService.getRouteNames(routeId, transportId);
         List<TransportRouteStops> stops = transportRouteService.getRouteStops(routeId);
 
@@ -107,15 +110,13 @@ public class RouteApi {
      * - список маршрутов по этой остановке с временами прибытия
      *
      * @param routeId id маршрута из таблицы transport_route
-     * @param stopId id остановки из таблицы route_stops
+     * @param stopId  id остановки из таблицы route_stops
      * @return
      */
-    @GetMapping("route/{routeId}/stop/{stopId}")
-
+    @GetMapping("shortschedule/{routeId}/stop/{stopId}")
     public StopOneTransportDto getByRouteAndTransport(@PathVariable Integer routeId, @PathVariable @NotNull Integer stopId) {
-        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
+        LocalTime currentTime = LocalTime.of(16, 00);
         DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
-
         Stop stop = stopService.getById(stopId);
         String stopName = stop.getName();
         String location = stop.getLocation().getName();
@@ -123,11 +124,14 @@ public class RouteApi {
         Transport transport = transportRoute.getTransport();
         String transportType = transport.getType().name();
         String transportName = transport.getName();
-        Integer transportId  = transport.getId();
+        Integer transportId = transport.getId();
         List<TransportRouteNames> routes = transportRouteService.getRouteNames(routeId, transportId);
         List<TransportRouteStops> stops = transportRouteService.getRouteStops(routeId);
 
         List<Time> nearest3Times = transportRouteService.get3NearestTimes(stopId, routeId, currentTime, dayOfWeek);
+        List<LocalTime> nearest3LocalTimes = nearest3Times.stream()
+                .map(Time::toLocalTime)
+                .toList();
         List<StopTransportDto.StopTransportInfoDto> transports = routeService.getArrivalTransports(stopId, currentTime, dayOfWeek);
         List<StopTransportDto.StopTransportTimeDto> routesTime = routeService.getArrivalTimes(stopId, currentTime, dayOfWeek);
 
@@ -137,7 +141,7 @@ public class RouteApi {
                 location,
                 transportType,
                 transportName,
-                nearest3Times,
+                nearest3LocalTimes,
                 routes,
                 stops,
                 transports,

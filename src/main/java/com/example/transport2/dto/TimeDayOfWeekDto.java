@@ -2,6 +2,8 @@ package com.example.transport2.dto;
 
 import lombok.*;
 
+import java.time.LocalTime;
+
 /**
  * Информация о времени прибытия для расписания
  */

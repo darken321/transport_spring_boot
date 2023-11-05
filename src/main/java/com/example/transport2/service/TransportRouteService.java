@@ -47,8 +47,8 @@ public class TransportRouteService {
         return stopTimeRepository.findSortedArrivalTimesSchedule(routeStopsId, stopId);
     }
 
-    public List<Time> get3NearestTimes(Integer stopId, Integer routeId, Time currentTime, DayOfWeek dayOfWeek) {
-        return transportRouteRepository.get3NearestTimes(stopId, dayOfWeek.name(), currentTime, routeId);
+    public List<Time> get3NearestTimes(Integer stopId, Integer routeId, LocalTime currentTime, DayOfWeek dayOfWeek) {
+        return transportRouteRepository.get3NearestTimes(stopId, dayOfWeek.name(), Time.valueOf(currentTime), routeId);
     }
 
     public List<TransportRouteNames> getRouteNames(Integer routeId, Integer transportId) {

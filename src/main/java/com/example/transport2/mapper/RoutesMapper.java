@@ -8,14 +8,14 @@ import com.example.transport2.util.TimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class RoutesMapper {
 
-    private StopTransportDto.StopTransportTimeDto stopTransportDto(StopTransportInfo info, Time currentTime) {
+    private StopTransportDto.StopTransportTimeDto stopTransportDto(StopTransportInfo info, LocalTime currentTime) {
         return StopTransportDto.StopTransportTimeDto.builder()
                 .transportId(info.getId())
                 .transportName(info.getTransportName())
@@ -30,7 +30,7 @@ public class RoutesMapper {
     }
 
     public List<StopTransportDto.StopTransportTimeDto>
-    allToStopTransportDto(List<StopTransportInfo> sortedArrivalTimes, Time currentTime) {
+    allToStopTransportDto(List<StopTransportInfo> sortedArrivalTimes, LocalTime currentTime) {
         return sortedArrivalTimes.stream()
                 .map(times -> stopTransportDto(times, currentTime))
                 .toList();

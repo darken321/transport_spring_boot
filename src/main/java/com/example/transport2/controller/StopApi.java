@@ -46,7 +46,7 @@ public class StopApi {
      */
     @GetMapping("{id}")
     public StopTransportDto getById(@PathVariable Integer id) {
-        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
+        LocalTime currentTime = LocalTime.of(16, 00);
         DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
         return stopMapper.toBigTransportDto(id, currentTime, dayOfWeek);
     }
