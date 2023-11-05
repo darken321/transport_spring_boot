@@ -12,8 +12,8 @@ import com.example.transport2.projection.TimeAndDayOfWeek;
 import com.example.transport2.projection.TransportRouteNames;
 import com.example.transport2.projection.TransportRouteStops;
 import com.example.transport2.repository.TransportRouteRepository;
+import com.example.transport2.service.RouteService;
 import com.example.transport2.service.StopService;
-import com.example.transport2.service.StopTimeService;
 import com.example.transport2.service.TransportRouteService;
 import com.example.transport2.service.TransportService;
 import jakarta.validation.constraints.NotNull;
@@ -23,6 +23,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.example.transport2.util.TimeUtils.timeCutToSting;
@@ -41,8 +44,7 @@ public class RouteApi {
     private final TransportRouteRepository transportRouteRepository;
     private final TransportRouteMapper transportRouteMapper;
     private final StopService stopService;
-    private final StopTimeService stopTimeService;
-    private final TransportService transportService;
+    private final RouteService routeService;
 
     /**
      * Запрос полного расписания по одной остановке конкретного маршрута.
@@ -61,6 +63,7 @@ public class RouteApi {
      */
     @GetMapping
     public FullScheduleOneRouteTransportDto getByFilters(@RequestParam(required = true) Integer routeId, @RequestParam(required = true) Integer stopId) {
+
         Stop stop = stopService.getById(stopId);
         String stopName = stop.getName();
         String location = stop.getLocation().getName();
@@ -73,6 +76,7 @@ public class RouteApi {
         List<TransportRouteStops> stops = transportRouteService.getRouteStops(routeId);
 
         List<TimeAndDayOfWeek> schedule = transportRouteService.getByRouteAndStop(routeId, stopId);
+        //Преобразует время Time во время String и обрезает секунды
         List<TimeDayOfWeekDto> timeWeekDtos = schedule.stream()
                 .map(t -> new TimeDayOfWeekDto(timeCutToSting(t.getTime()), t.getDayOfWeek()))
                 .toList();
@@ -109,6 +113,8 @@ public class RouteApi {
     @GetMapping("route/{routeId}/stop/{stopId}")
 
     public StopOneTransportDto getByRouteAndTransport(@PathVariable Integer routeId, @PathVariable @NotNull Integer stopId) {
+        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
+        DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
 
         Stop stop = stopService.getById(stopId);
         String stopName = stop.getName();
@@ -121,9 +127,9 @@ public class RouteApi {
         List<TransportRouteNames> routes = transportRouteService.getRouteNames(routeId, transportId);
         List<TransportRouteStops> stops = transportRouteService.getRouteStops(routeId);
 
-        List<Time> nearest3Times = transportRouteService.get3NearestTimes(stopId, routeId);//
-        List<StopTransportDto.StopTransportInfoDto> transports = stopTimeService.getArrivalTransports(stopId);
-        List<StopTransportDto.StopTransportTimeDto> routesTime = stopTimeService.getArrivalTimes(stopId);
+        List<Time> nearest3Times = transportRouteService.get3NearestTimes(stopId, routeId, currentTime, dayOfWeek);
+        List<StopTransportDto.StopTransportInfoDto> transports = routeService.getArrivalTransports(stopId, currentTime, dayOfWeek);
+        List<StopTransportDto.StopTransportTimeDto> routesTime = routeService.getArrivalTimes(stopId, currentTime, dayOfWeek);
 
         return transportRouteMapper.toBigDto(
                 routeId,

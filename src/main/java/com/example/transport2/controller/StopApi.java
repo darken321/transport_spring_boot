@@ -15,6 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Validated
@@ -24,10 +28,7 @@ import java.util.List;
 public class StopApi {
 
     private final StopService stopService;
-    private final TransportService transportService;
-    private final TransportRouteService transportRouteService;
     private final StopMapper stopMapper;
-    private final StopTimeRepository stopTimeRepository;
 
     @GetMapping
     public List<StopDto> getByFilters(@RequestParam(required = false) @Size(min = 3) String name) {
@@ -45,9 +46,9 @@ public class StopApi {
      */
     @GetMapping("{id}")
     public StopTransportDto getById(@PathVariable Integer id) {
-        Stop stop = stopService.getById(id); //сущность остановки по ID
-//        List<TransportRoute> routes = transportRouteService.getByStopId(id); //список маршрутов по остановке
-        return stopMapper.toBigTransportDto(id);
+        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
+        DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
+        return stopMapper.toBigTransportDto(id, currentTime, dayOfWeek);
     }
 
     /**

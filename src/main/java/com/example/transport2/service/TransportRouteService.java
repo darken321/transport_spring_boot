@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -46,10 +47,8 @@ public class TransportRouteService {
         return stopTimeRepository.findSortedArrivalTimesSchedule(routeStopsId, stopId);
     }
 
-    public List<Time> get3NearestTimes(Integer stopId, Integer routeId) {
-        Time currentTime = Time.valueOf(LocalTime.of(16, 00));
-        String dayOfWeek = LocalDate.now().getDayOfWeek().name();
-        return transportRouteRepository.get3NearestTimes(stopId, dayOfWeek, currentTime, routeId);
+    public List<Time> get3NearestTimes(Integer stopId, Integer routeId, Time currentTime, DayOfWeek dayOfWeek) {
+        return transportRouteRepository.get3NearestTimes(stopId, dayOfWeek.name(), currentTime, routeId);
     }
 
     public List<TransportRouteNames> getRouteNames(Integer routeId, Integer transportId) {

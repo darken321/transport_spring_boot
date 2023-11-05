@@ -8,19 +8,21 @@ import com.example.transport2.model.Stop;
 import com.example.transport2.repository.LocationRepository;
 import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.StopRepository;
+import com.example.transport2.service.RouteService;
 import com.example.transport2.service.StopService;
-import com.example.transport2.service.StopTimeService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
+import java.time.DayOfWeek;
 import java.util.List;
 
 @Component
 @AllArgsConstructor
 public class StopMapper {
     LocationRepository locationRepository;
-    StopTimeService stopTimeService;
+    RouteService routeService;
     StopService stopService;
     RouteStopRepository routeStopRepository;
     StopRepository stopRepository;
@@ -68,14 +70,14 @@ public class StopMapper {
      * @param routes список маршрутов по этой остановке
      * @return DTO для информации о транспорте по остановке
      */
-    public StopTransportDto toBigTransportDto(@Valid Integer id) {
+    public StopTransportDto toBigTransportDto(@Valid Integer id, Time currentTime, DayOfWeek dayOfWeek) {
         Stop stop = stopService.getById(id);
         return StopTransportDto.builder()
                 .stopId(id)
                 .stopName(stop.getName())
                 .location(stop.getLocation().getName())
-                .transports(stopTimeService.getArrivalTransports(id))
-                .routesTime(stopTimeService.getArrivalTimes(id))
+                .transports(routeService.getArrivalTransports(id, currentTime, dayOfWeek))
+                .routesTime(routeService.getArrivalTimes(id, currentTime, dayOfWeek))
                 .build();
     }
 }
