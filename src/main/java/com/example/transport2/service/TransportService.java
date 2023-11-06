@@ -4,6 +4,7 @@ import com.example.transport2.model.RouteStops;
 import com.example.transport2.model.Transport;
 import com.example.transport2.model.TransportRoute;
 import com.example.transport2.model.TransportType;
+import com.example.transport2.projection.TransportInfo;
 import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.TransportRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -58,5 +59,9 @@ public class TransportService {
                 .map(TransportRoute::getTransport)
                 .distinct()
                 .toList();
+    }
+
+    public TransportInfo getTransportInfoById(Integer transportId) {
+        return transportRepository.findTransportInfoById(transportId);
     }
 }

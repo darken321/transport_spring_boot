@@ -1,0 +1,42 @@
+package com.example.transport2.dto;
+
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.util.List;
+
+/**
+ * DTO все маршруты одного транспорта
+ * содержит:
+ * информацию о транспорте
+ * routes список маршрутов этого транспорта
+ * внутри routes лежит список остановок этого маршрута
+ * переход из списка транспортов
+ */
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class OneTransportRoutesDto {
+
+    @NotBlank
+    @Size(min = 3)
+    String location;
+
+    @NotBlank
+    @Size(min = 2)
+    String transportType;
+
+    @NotBlank
+    @Size(min = 2)
+    String transportName;
+
+    @NotNull
+    List<FullRouteInfoDto> routes;
+}

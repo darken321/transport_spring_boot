@@ -1,8 +1,10 @@
 package com.example.transport2.mapper;
 
 import com.example.transport2.dto.*;
+import com.example.transport2.projection.TransportInfo;
 import com.example.transport2.projection.TransportRouteNames;
 import com.example.transport2.projection.TransportRouteStops;
+import com.example.transport2.projection.TransportRoutesInfo;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -84,6 +86,30 @@ public class TransportRouteMapper {
                 .routes(allToRouteDto(routes))
                 .stops(allToStopDto(stops))
                 .schedule(scheduleDto)
+                .build();
+    }
+
+    public OneTransportRoutesDto allToDto(TransportInfo info, List<TransportRoutesInfo> transportRoutes) {
+        return OneTransportRoutesDto.builder()
+                .location(info.getLocation())
+                .transportName(info.getName())
+                .transportType(info.getType())
+                .routes(toDto(transportRoutes))
+                .build();
+    }
+
+    private List<FullRouteInfoDto> toDto(List<TransportRoutesInfo> transportRoutes) {
+        return transportRoutes.stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    private FullRouteInfoDto toDto(TransportRoutesInfo tr) {
+        return FullRouteInfoDto.builder()
+                .transportRouteId(tr.getId())
+                .startStopName(tr.getStartStopName())
+                .endStopName(tr.getEndStopName())
+                .transportRouteName(tr.getRouteName())
                 .build();
     }
 }

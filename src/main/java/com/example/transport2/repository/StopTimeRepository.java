@@ -1,9 +1,7 @@
 package com.example.transport2.repository;
 
 import com.example.transport2.model.StopTime;
-import com.example.transport2.projection.StopRoutesInfo;
-import com.example.transport2.projection.StopTransportInfo;
-import com.example.transport2.projection.TimeAndDayOfWeek;
+import com.example.transport2.projection.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

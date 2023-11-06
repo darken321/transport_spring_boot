@@ -1,20 +1,13 @@
 package com.example.transport2.controller;
 
-import com.example.transport2.dto.FullScheduleOneRouteTransportDto;
-import com.example.transport2.dto.StopOneTransportDto;
-import com.example.transport2.dto.StopTransportDto;
-import com.example.transport2.dto.TimeDayOfWeekDto;
+import com.example.transport2.dto.*;
 import com.example.transport2.mapper.TransportRouteMapper;
 import com.example.transport2.model.Stop;
 import com.example.transport2.model.Transport;
 import com.example.transport2.model.TransportRoute;
-import com.example.transport2.projection.TimeAndDayOfWeek;
-import com.example.transport2.projection.TransportRouteNames;
-import com.example.transport2.projection.TransportRouteStops;
+import com.example.transport2.projection.*;
 import com.example.transport2.repository.TransportRouteRepository;
-import com.example.transport2.service.RouteService;
-import com.example.transport2.service.StopService;
-import com.example.transport2.service.TransportRouteService;
+import com.example.transport2.service.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,10 +36,12 @@ import static com.example.transport2.util.TimeUtils.timeCutToSting;
 public class RouteApi {
 
     private final TransportRouteService transportRouteService;
+    private final TransportService transportService;
     private final TransportRouteRepository transportRouteRepository;
     private final TransportRouteMapper transportRouteMapper;
     private final StopService stopService;
     private final RouteService routeService;
+    private final RouteStopService routeStopService;
 
     /**
      * Запрос полного расписания по одной остановке конкретного маршрута.
@@ -149,7 +144,27 @@ public class RouteApi {
         );
     }
 
-    //TODO добавить запрос расписаний определенного транспорта
-    //возврат всех остановок и всех маршрутов одного транспорта https://kogda.by/routes/brest/trolleybus/100
-    //тип, название транспорта, локация и список DTO (маршруты с id и названиями остановок)
+    /**
+     * запрос всех расписаний определенного транспорта
+     * @param transportId id транспорта
+     * @return инфо о транспорте, список маршрутов и внутри каждого список его остановок
+     */
+    @GetMapping("transportroute/{transportId}")
+    public OneTransportRoutesDto getByTransport(@PathVariable Integer transportId) {
+        //взял инфу о транспорте
+        TransportInfo transportInfo = transportService.getTransportInfoById(transportId);
+        // берем инфу о маршрутах
+        List<TransportRoutesInfo> transportRoutes = transportRouteService.getTransportRoutes(transportId);
+        // и раскладываю ее в DTO
+        OneTransportRoutesDto oneTransportRoutesDto = transportRouteMapper.allToDto(transportInfo,transportRoutes);
+
+        //пройтись по маршрутам и найти для них остановки
+        for (FullRouteInfoDto route : oneTransportRoutesDto.getRoutes()) {
+            //получил список остановок для этого маршрута
+            List<TransportRouteStops> routeStops = routeStopService.getRouteStops(route.getTransportRouteId());
+            //routeStops закинуть в маппер чтоб добавить остановки в DTO
+            route.setStops(transportRouteMapper.allToStopDto(routeStops));
+        }
+        return oneTransportRoutesDto;
+    }
 }

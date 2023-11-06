@@ -1,11 +1,11 @@
 package com.example.transport2.service;
 
-import com.example.transport2.mapper.RoutesMapper;
 import com.example.transport2.model.RouteStops;
 import com.example.transport2.model.TransportRoute;
 import com.example.transport2.projection.TimeAndDayOfWeek;
 import com.example.transport2.projection.TransportRouteNames;
 import com.example.transport2.projection.TransportRouteStops;
+import com.example.transport2.projection.TransportRoutesInfo;
 import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.repository.TransportRouteRepository;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -23,9 +22,7 @@ import java.util.List;
 public class TransportRouteService {
     private final RouteStopRepository routeStopRepository;
     private final StopTimeRepository stopTimeRepository;
-    private final RoutesMapper routesMapper;
     private final TransportRouteRepository transportRouteRepository;
-
 
     /**
      * Возвращает список маршрутов, которые проходят по остановке
@@ -56,8 +53,11 @@ public class TransportRouteService {
     }
 
     public List<TransportRouteStops> getRouteStops(Integer routeId) {
-        return transportRouteRepository.findRouteStops(routeId);
+        return routeStopRepository.findRouteStops(routeId);
     }
 
+    public List<TransportRoutesInfo> getTransportRoutes(Integer transportId) {
+        return routeStopRepository.findTransportRoutes(transportId);
+    }
 }
 

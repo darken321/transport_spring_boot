@@ -2,7 +2,6 @@ package com.example.transport2.repository;
 
 import com.example.transport2.model.TransportRoute;
 import com.example.transport2.projection.TransportRouteNames;
-import com.example.transport2.projection.TransportRouteStops;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,24 +35,6 @@ public interface TransportRouteRepository extends JpaRepository<TransportRoute, 
                         """
             , nativeQuery = true)
     List<TransportRouteNames> findTransportRoute(@Param("routeId") Integer routeId, @Param("transportId") Integer transportId);
-
-    /**
-     * запрос возвращает список остановок по выбранному маршруту
-     * отсортированный по полю "порядок остановок" stop_order
-     * @param routeId id маршрута
-     * @return список названий остановок c их id
-     */
-    @Query(value = """
-            SELECT route_stops.stop_id AS stopId,
-                   stop.name AS stopName,
-                   stop_order
-            FROM route_stops
-                   JOIN stop ON route_stops.stop_id = stop.id
-            WHERE route_id = :routeId
-            ORDER BY route_stops.stop_order
-                                    """
-            , nativeQuery = true)
-    List<TransportRouteStops> findRouteStops(@Param("routeId") Integer routeId);
 
     /** запрос возвращает три ближайших времени прибытия транспорта на данную остановку
      * @param stopId Id остановки
