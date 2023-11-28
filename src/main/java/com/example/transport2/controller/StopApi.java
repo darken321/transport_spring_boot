@@ -1,21 +1,18 @@
 package com.example.transport2.controller;
 
+import com.example.transport2.controller.swagger.StopApiSwagger;
 import com.example.transport2.dto.StopDto;
 import com.example.transport2.dto.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.model.Stop;
-import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.service.StopService;
-import com.example.transport2.service.TransportRouteService;
-import com.example.transport2.service.TransportService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,7 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/stops")
-public class StopApi {
+public class StopApi implements StopApiSwagger {
 
     private final StopService stopService;
     private final StopMapper stopMapper;
@@ -41,6 +38,7 @@ public class StopApi {
 
     /**
      * Возвращает данные по ID остановки
+     *
      * @param id ID остановки
      * @return имя остановки, список транспорта по ней и список транспорта с сортировкой по времени прибытия
      */
@@ -53,6 +51,7 @@ public class StopApi {
 
     /**
      * Сохраняет остановку в БД
+     *
      * @param dto DTO остановки
      * @return имя и локация остановки
      */
