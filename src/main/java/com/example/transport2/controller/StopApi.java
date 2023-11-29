@@ -7,6 +7,7 @@ import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.model.Stop;
 import com.example.transport2.service.StopService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,9 @@ public class StopApi implements StopApiSwagger {
     private final StopMapper stopMapper;
 
     @GetMapping
-    public List<StopDto> getByFilters(@RequestParam(required = false) @Size(min = 3) String name) {
+    public List<StopDto> getByFilters(@Parameter(description = "часть наименования остановки")
+                                      @RequestParam(required = false) @Size(min = 3)
+                                      String name) {
 
         if (name != null) {
             return stopMapper.toDto(stopService.findAllByNameContaining(name));
