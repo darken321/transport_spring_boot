@@ -26,12 +26,18 @@ public class SecurityConfig {
                         .logoutUrl("/api/v1/logout").permitAll()
                 )
                 .authorizeHttpRequests(ahr -> ahr
-                        .requestMatchers("/api/v1/guest").permitAll()
-                        .requestMatchers("/api/v1/admin").hasAuthority(Role.ADMIN.name())
-                        .requestMatchers("/api/v1/user").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.GET, "/api/v1/products").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/products").hasAuthority(Role.ADMIN.name())
-                        .anyRequest().permitAll()
+//                        .requestMatchers("/api/v1/guest").permitAll()
+                                .requestMatchers("/api/v1/admin").hasAuthority(Role.ADMIN.name())
+                                .requestMatchers(
+                                        "/api/v1/transport",
+                                        "/api/v1/stops",
+                                        "/api/v1/routes").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+
+//                        .requestMatchers(HttpMethod.GET, "/api/v1/products").permitAll()
+                                //доступ к методам post и delete пути api/v1/stops есть только у админа
+                                .requestMatchers(HttpMethod.POST, "/api/v1/stops").hasAuthority(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/stops").hasAuthority(Role.ADMIN.name())
+                                //.anyRequest().permitAll()
                 );
         return httpSecurity.build();
     }
