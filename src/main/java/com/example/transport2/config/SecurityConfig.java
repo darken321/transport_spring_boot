@@ -16,10 +16,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
+                //Настройка формы входа и указание URL для обработки запроса на вход
                 .formLogin(fl -> fl
                         .loginProcessingUrl("/api/v1/login").permitAll()
                         .defaultSuccessUrl("/api/v1/guest")
                 )
+                //Указание URL для выхода из системы (/api/v1/logout) и удаление куки сессии
                 .logout(logout -> logout
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
@@ -27,17 +29,16 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(ahr -> ahr
 //                        .requestMatchers("/api/v1/guest").permitAll()
-                                .requestMatchers("/api/v1/admin").hasAuthority(Role.ADMIN.name())
-                                .requestMatchers(
-                                        "/api/v1/transport",
-                                        "/api/v1/stops",
-                                        "/api/v1/routes").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
+//                                .requestMatchers("/api/v1/admin").hasAuthority(Role.ADMIN.name())
+                                .requestMatchers("/api/v1/routes/**",
+                                        "/api/v1/transport/**",
+                                        "/api/v1/stops/**").hasAnyAuthority(Role.ADMIN.name())
 
 //                        .requestMatchers(HttpMethod.GET, "/api/v1/products").permitAll()
-                                //доступ к методам post и delete пути api/v1/stops есть только у админа
+//                                доступ к методам post и delete пути api/v1/stops есть только у админа
                                 .requestMatchers(HttpMethod.POST, "/api/v1/stops").hasAuthority(Role.ADMIN.name())
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/stops").hasAuthority(Role.ADMIN.name())
-                                //.anyRequest().permitAll()
+                                .anyRequest().permitAll()
                 );
         return httpSecurity.build();
     }
