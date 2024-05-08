@@ -1,12 +1,13 @@
-package com.example.transport2.controller;
+package com.example.transport2.controller.stop;
 
 import com.example.transport2.controller.swagger.StopApiSwagger;
 import com.example.transport2.dto.StopDto;
+import com.example.transport2.dto.StopEditDto;
 import com.example.transport2.dto.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.model.Stop;
-import com.example.transport2.service.StopService;
+import com.example.transport2.service.stop.StopService;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
@@ -50,6 +51,13 @@ public class StopApi implements StopApiSwagger {
         LocalTime currentTime = LocalTime.of(16, 00);
         DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
         return stopMapper.toBigTransportDto(id, currentTime, dayOfWeek);
+    }
+
+    @PutMapping
+    public StopDto update(@RequestBody @Valid StopEditDto dto) {
+        Stop stop = stopMapper.fromDto(dto);
+        Stop save = stopService.save(stop);
+        return stopMapper.toDto(save);
     }
 
     /**

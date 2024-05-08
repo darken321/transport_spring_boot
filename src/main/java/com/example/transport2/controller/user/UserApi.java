@@ -1,4 +1,4 @@
-package com.example.transport2.controller;
+package com.example.transport2.controller.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;

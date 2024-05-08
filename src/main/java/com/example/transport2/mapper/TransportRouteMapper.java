@@ -1,6 +1,7 @@
 package com.example.transport2.mapper;
 
 import com.example.transport2.dto.*;
+import com.example.transport2.dto.StopInfoDto;
 import com.example.transport2.projection.TransportInfo;
 import com.example.transport2.projection.TransportRouteNames;
 import com.example.transport2.projection.TransportRouteStops;

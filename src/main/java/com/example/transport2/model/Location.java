@@ -1,15 +1,12 @@
 package com.example.transport2.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 /**
- * Класс описисывает локацию, город, место транспортной системы
+ * Класс описывает локацию, город, место транспортной системы
  * name - название локации
  */
 
@@ -23,6 +20,8 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+
+    @Column(unique = true)
     @Size(min=3)
     String name;
 }

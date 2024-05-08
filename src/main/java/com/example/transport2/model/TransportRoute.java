@@ -27,12 +27,16 @@ public class TransportRoute {
     @ManyToOne
     @NonNull
     Transport transport;
+
     @ManyToOne
     @NonNull
     Stop startStop;
+
     @ManyToOne
     @NonNull
     Stop endStop;
+
     String name;
+
     String note;
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/setup-styles.css">
+    <meta charset="UTF-8">
+    <title>Редактирование остановки</title>
+</head>
+<body>
+
+<div class="edit-container">
+    <h2>Редактирование остановки </h2>
+    <form th:action="@{/stops/update}" method="post">
+        <div class="form-group">
+            <label for="id">ID (только чтение):</label>
+            <br>
+            <input type="text" id="id" name="id" th:value="${stop.id}" readonly/>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="name">Название:</label>
+            <br>
+            <input type="text" id="name" name="name" th:value="${stop.name}" required/>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="location">Локация:</label>
+            <br>
+            <input type="text" id="location" name="location" th:value="${stop.location}" required/>
+        </div>
+        <br>
+        <div class="form-group">
+            <button type="submit" class="save-button">Сохранить изменения</button>
+            <a href="/stops/table" class="cancel-button">Отменить</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

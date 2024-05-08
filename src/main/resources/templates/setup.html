@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/setup-styles.css">
+    <meta charset="UTF-8">
+    <title>Управление данными в БД</title>
+</head>
+<body>
+
+<table class="outer-table">
+    <thead>
+    <tr>
+        <th>Список остановок<br><br></th>
+        <th>Список локаций<br><br></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <!-- Форма поиска -->
+            <form action="#" th:action="@{/stops/table}" method="get">
+                <input type="text" name="name" placeholder="Введите часть названия остановки"/>
+                <button type="submit">Поиск</button>
+            </form>
+            <br>
+            <!-- Форма добавления остановки -->
+            <form action="#" th:action="@{/stops/add}" method="post">
+                <input type="text" name="name" placeholder="Введите название остановки" required />
+                <br>
+                <input type="text" name="location" placeholder="Введите название локации" required  value="Брест" />
+                <button type="submit">Добавить остановку</button>
+            </form>
+
+            <br>
+            <table class="inner-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название остановки</th>
+                    <th>Местоположение</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="stop : ${stops}">
+                    <td th:text="${stop.id}">ID</td>
+                    <td th:text="${stop.name}">Название остановки</td>
+                    <td th:text="${stop.location}">Локация</td>
+
+                    <td>
+                        <!-- Ссылка для изменения остановки -->
+                        <a th:href="@{/stops/edit/{id}(id=${stop.id})}" class="edit-link" aria-label="Изменить">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <!-- Форма для удаления остановки -->
+                        <form th:action="@{/stops/deleteStop/{id}(id=${stop.id})}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="delete-button" aria-label="Удалить">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+        <td>
+            тут вторая таблица
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

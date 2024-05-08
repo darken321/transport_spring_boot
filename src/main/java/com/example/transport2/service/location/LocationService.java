@@ -1,4 +1,4 @@
-package com.example.transport2.service;
+package com.example.transport2.service.location;
 
 import com.example.transport2.model.Location;
 import com.example.transport2.repository.LocationRepository;

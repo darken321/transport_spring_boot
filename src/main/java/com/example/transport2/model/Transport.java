@@ -23,11 +23,14 @@ public class Transport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+
     @NotBlank
     @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN)
     String name;
+
     @Enumerated(EnumType.STRING)
     TransportType type;
+
     @ManyToOne
     @NonNull
     Location location;

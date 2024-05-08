@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin-left: 40px;
+
+    padding: 0;
+    align-items: center;
+    height: 100vh;
+}
+
+input[type="text"] {
+    width: 300px; /* Устанавливает ширину поля ввода */
+    height: 28px; /* Устанавливает высоту поля ввода */
+    padding: 5px; /* Добавляет внутренние отступы в поле ввода */
+    font-size: 16px; /* Устанавливает размер шрифта в поле ввода */
+}
+
+button {
+    width: 100px; /* Устанавливает ширину кнопки */
+    height: 40px; /* Устанавливает высоту кнопки */
+    padding: 5px; /* Добавляет внутренние отступы в кнопку */
+    font-size: 16px; /* Устанавливает размер шрифта на кнопке */
+    cursor: pointer; /* Делает курсор в виде руки при наведении на кнопку */
+}
+table {
+    border-collapse: collapse; /* Убирает двойные границы */
+}
+
+table, th, td {
+    border: 1px solid black; /* Добавляет границу вокруг таблицы и каждой ячейки */
+    padding: 5px;
+}
+
+.section {
+    color: darkblue;
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}

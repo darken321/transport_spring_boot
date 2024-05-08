@@ -57,7 +57,9 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ValidationExceptionDto handleNotValidArgumentException(MethodArgumentNotValidException exception) {
         return ValidationExceptionDto.builder()
-                .messages(exception.getBindingResult().getAllErrors().stream().map(e->e.getDefaultMessage()).toList())
+                .messages(exception.getBindingResult()
+                        .getAllErrors()
+                        .stream().map(e->e.getDefaultMessage()).toList())
                 .uuid(UUID.randomUUID())
                 .type(exception.getClass().getSimpleName())
                 .exceptionServerTime(ZonedDateTime.now())

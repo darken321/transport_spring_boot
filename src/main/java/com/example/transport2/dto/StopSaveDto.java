@@ -16,11 +16,11 @@ public class StopSaveDto {
 
     @NotBlank
     @Size(min = 2)
-    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле должно соответствовать ")
+    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'название остановки' должно соответствовать ")
     String name;
 
     @NotBlank
     @Size(min = 3)
-    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле должно соответствовать ")
+    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'локация' должно соответствовать ")
     String location;
 }

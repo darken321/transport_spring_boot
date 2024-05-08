@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" type="text/css" href="/css/custom-styles.css">
+  <meta charset="UTF-8">
+  <title>Список остановок</title>
+</head>
+<body>
+<br>
+<br>
+<strong>Список остановок
+
+<span th:text="${stops.size() > 0 ? stops.get(0).location : 'Локация не указана'}"></span>
+</strong>
+<br>
+<br>
+<!-- Форма поиска -->
+<form action="#" th:action="@{/stops/table}" method="get">
+  <input type="text" name="name" placeholder="Введите часть названия остановки" />
+  <button type="submit">Поиск</button>
+</form>
+<br>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Название остановки</th>
+<!--    <th>Локация</th>-->
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="stop : ${stops}">
+    <td th:text="${stop.id}">ID</td>
+    <td th:text="${stop.name}">Имя</td>
+<!--    <td th:text="${stop.location}">Локация</td>-->
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

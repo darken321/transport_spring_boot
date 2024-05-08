@@ -23,8 +23,11 @@ public class Stop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN, message = "поле должно соответствовать ")
+
+    @Column(unique = true)
+    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN, message = "поле 'название остановки' должно соответствовать ")
     String name;
+
     @ManyToOne
     @NonNull
     Location location;
