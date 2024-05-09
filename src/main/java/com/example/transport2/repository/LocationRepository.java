@@ -10,4 +10,7 @@ import java.util.Optional;
 public interface LocationRepository extends JpaRepository<Location, Integer> {
     Optional<Location> findByName(String name);
     List<Location> findAllByName(String name);
+    boolean existsByNameLikeIgnoreCase(String name);
+
+    List<Location> findAllByNameContainingIgnoreCase(String name);
 }

@@ -45,7 +45,6 @@ button {
     border-radius: 5px; /* Скругление углов */
 }
 
-
 .delete-button {
     width: 20px; /* Устанавливает ширину кнопки */
     border: none;
@@ -70,10 +69,13 @@ table {
     font-size: 14px; /* Задает размер шрифта для всей таблицы */
 }
 
+.top-aligned {
+    vertical-align: top;
+}
 
 .outer-table, .outer-table th, .outer-table td {
     border: none; /*Убрал границы для внешней таблицы*/
-
+    padding: 10px; /*Добавляет поля для внешней таблицы*/
 }
 
 .inner-table, .inner-table th, .inner-table td {

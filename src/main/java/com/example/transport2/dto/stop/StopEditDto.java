@@ -1,11 +1,7 @@
-package com.example.transport2.dto;
-
+package com.example.transport2.dto.stop;
 
 import com.example.transport2.util.StringPatterns;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,18 +10,18 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StopDto {
+public class StopEditDto {
 
     @Positive
     @NotNull
     Integer id;
 
-    @NotNull
+    @NotBlank
     @Size(min = 2)
-    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN, message = "поле 'название остановки' должно соответствовать ")
+    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'название остановки' должно соответствовать ")
     String name;
 
-    @NotNull
+    @NotBlank
     @Size(min = 3)
     @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'локация' должно соответствовать ")
     String location;

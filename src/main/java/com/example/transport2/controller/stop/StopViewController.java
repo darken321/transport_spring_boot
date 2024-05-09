@@ -1,8 +1,8 @@
 package com.example.transport2.controller.stop;
 
-import com.example.transport2.dto.StopDto;
-import com.example.transport2.dto.StopEditDto;
-import com.example.transport2.dto.StopSaveDto;
+import com.example.transport2.dto.stop.StopDto;
+import com.example.transport2.dto.stop.StopEditDto;
+import com.example.transport2.dto.stop.StopSaveDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.model.Stop;
 import com.example.transport2.service.stop.StopService;
@@ -32,12 +32,12 @@ public class StopViewController {
     public String getAllStopsTable(@RequestParam(required = false) String name, Model model) {
         List<StopDto> stops;
         if (name != null && !name.isEmpty()) {
-            stops = stopMapper.toDto(stopService.findAllByNameContaining(name));
+            stops = stopMapper.toDto(stopService.findAllByNameContaining(name.trim()));
         } else {
             stops = stopMapper.toDto(stopService.getAll());
         }
         model.addAttribute("stops", stops);
-        return "setup";
+        return "stop-CRUD";
     }
 
     @GetMapping("/edit/{id}")
@@ -47,8 +47,10 @@ public class StopViewController {
         return "edit-stop";
     }
     @PostMapping("/update")
-    public String updateStop(@ModelAttribute @Valid StopEditDto stopUpdateDto) {
-        Stop stop = stopMapper.fromDto(stopUpdateDto);
+    public String updateStop(@ModelAttribute @Valid StopEditDto dto) {
+        dto.setName(dto.getName().trim());
+        dto.setLocation(dto.getLocation().trim());
+        Stop stop = stopMapper.fromDto(dto);
         stopService.save(stop);
         return "redirect:/stops/table";
     }
@@ -61,6 +63,8 @@ public class StopViewController {
 
     @PostMapping("/add")
     public String save(@ModelAttribute @Valid StopSaveDto dto) {
+        dto.setName(dto.getName().trim());
+        dto.setLocation(dto.getLocation().trim());
         Stop stop = stopMapper.fromDto(dto);
         Stop save = stopService.save(stop);
         return "redirect:/stops/table"; // Перенаправление обратно на страницу управления данными

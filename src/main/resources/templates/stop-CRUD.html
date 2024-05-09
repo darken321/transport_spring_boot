@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/setup-styles.css">
     <meta charset="UTF-8">
     <title>Управление данными в БД</title>
@@ -11,28 +10,13 @@
 <table class="outer-table">
     <thead>
     <tr>
-        <th>Список остановок<br><br></th>
-        <th>Список локаций<br><br></th>
+        <th>Список остановок</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     <tr>
         <td>
-            <!-- Форма поиска -->
-            <form action="#" th:action="@{/stops/table}" method="get">
-                <input type="text" name="name" placeholder="Введите часть названия остановки"/>
-                <button type="submit">Поиск</button>
-            </form>
-            <br>
-            <!-- Форма добавления остановки -->
-            <form action="#" th:action="@{/stops/add}" method="post">
-                <input type="text" name="name" placeholder="Введите название остановки" required />
-                <br>
-                <input type="text" name="location" placeholder="Введите название локации" required  value="Брест" />
-                <button type="submit">Добавить остановку</button>
-            </form>
-
-            <br>
             <table class="inner-table">
                 <thead>
                 <tr>
@@ -52,7 +36,7 @@
                     <td>
                         <!-- Ссылка для изменения остановки -->
                         <a th:href="@{/stops/edit/{id}(id=${stop.id})}" class="edit-link" aria-label="Изменить">
-                            <i class="fas fa-edit"></i>
+                            <img src="/images/edit.png" alt="Изменить" style="width: 15px; height: 15px;">
                         </a>
                     </td>
                     <td>
@@ -60,7 +44,7 @@
                         <form th:action="@{/stops/deleteStop/{id}(id=${stop.id})}" method="post">
                             <input type="hidden" name="_method" value="delete"/>
                             <button type="submit" class="delete-button" aria-label="Удалить">
-                                <i class="fas fa-trash-alt"></i>
+                                <img src="/images/delete.png" alt="Удалить" style="width: 15px; height: 15px;">
                             </button>
                         </form>
                     </td>
@@ -68,8 +52,20 @@
                 </tbody>
             </table>
         </td>
-        <td>
-            тут вторая таблица
+        <td class="top-aligned">
+            <!-- Форма поиска -->
+            <form action="#" th:action="@{/stops/table}" method="get">
+                <input type="text" name="name" placeholder="Введите часть названия остановки"/>
+                <button type="submit">Поиск</button>
+            </form>
+            <br>
+            <!-- Форма добавления остановки -->
+            <form action="#" th:action="@{/stops/add}" method="post">
+                <input type="text" name="name" placeholder="Введите название остановки" required />
+                <br>
+                <input type="text" name="location" placeholder="Введите местоположение, город" required  value="Брест" />
+                <button type="submit">Добавить остановку</button>
+            </form>
         </td>
     </tr>
     </tbody>

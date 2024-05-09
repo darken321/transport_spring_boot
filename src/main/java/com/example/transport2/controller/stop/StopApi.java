@@ -1,9 +1,9 @@
 package com.example.transport2.controller.stop;
 
 import com.example.transport2.controller.swagger.StopApiSwagger;
-import com.example.transport2.dto.StopDto;
-import com.example.transport2.dto.StopEditDto;
-import com.example.transport2.dto.StopSaveDto;
+import com.example.transport2.dto.stop.StopDto;
+import com.example.transport2.dto.stop.StopEditDto;
+import com.example.transport2.dto.stop.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.model.Stop;

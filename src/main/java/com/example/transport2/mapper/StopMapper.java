@@ -1,8 +1,8 @@
 package com.example.transport2.mapper;
 
-import com.example.transport2.dto.StopDto;
-import com.example.transport2.dto.StopEditDto;
-import com.example.transport2.dto.StopSaveDto;
+import com.example.transport2.dto.stop.StopDto;
+import com.example.transport2.dto.stop.StopEditDto;
+import com.example.transport2.dto.stop.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.model.Location;
 import com.example.transport2.model.Stop;

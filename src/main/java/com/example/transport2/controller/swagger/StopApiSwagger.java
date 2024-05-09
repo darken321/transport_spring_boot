@@ -1,6 +1,6 @@
 package com.example.transport2.controller.swagger;
 
-import com.example.transport2.dto.StopDto;
+import com.example.transport2.dto.stop.StopDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

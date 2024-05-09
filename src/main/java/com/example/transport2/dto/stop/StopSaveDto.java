@@ -1,4 +1,4 @@
-package com.example.transport2.dto;
+package com.example.transport2.dto.stop;
 
 import com.example.transport2.util.StringPatterns;
 import jakarta.validation.constraints.NotBlank;

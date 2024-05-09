@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/setup-styles.css">
+    <meta charset="UTF-8">
+    <title>Управление локациями в БД</title>
+</head>
+<body>
+
+<table class="outer-table">
+    <thead>
+    <tr>
+        <th>Список локаций</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <table class="inner-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Местоположение</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="location : ${locations}">
+                    <td th:text="${location.id}">ID</td>
+                    <td th:text="${location.name}">Локация</td>
+
+                    <td>
+                        <!-- Ссылка для изменения локации -->
+                        <a th:href="@{/locations/edit/{id}(id=${location.id})}" class="edit-link" aria-label="Изменить">
+                            <img src="/images/edit.png" alt="Изменить" style="width: 15px; height: 15px;">
+                        </a>
+                    </td>
+
+                    <td>
+                        <!-- Форма для удаления локации -->
+                        <form th:action="@{/locations/deleteLocation/{id}(id=${location.id})}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="delete-button" aria-label="Удалить">
+                                <img src="/images/delete.png" alt="Удалить" style="width: 15px; height: 15px;">
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="top-aligned">
+            <!-- Форма поиска -->
+            <form action="#" th:action="@{/locations/location}" method="get">
+                <input type="text" name="name" placeholder="Введите часть названия местоположения"/>
+                <button type="submit">Поиск</button>
+            </form>
+            <br>
+            <!-- Форма добавления локации -->
+            <form action="#" th:action="@{/locations/add}" method="post">
+                <input type="text" name="name" placeholder="Введите название места" required />
+                <button type="submit">Добавить место</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
