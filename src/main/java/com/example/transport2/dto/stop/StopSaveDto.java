@@ -1,5 +1,6 @@
 package com.example.transport2.dto.stop;
 
+import com.example.transport2.util.HasNameAndLocation;
 import com.example.transport2.util.StringPatterns;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -12,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StopSaveDto {
+public class StopSaveDto implements HasNameAndLocation {
 
     @NotBlank
     @Size(min = 2)

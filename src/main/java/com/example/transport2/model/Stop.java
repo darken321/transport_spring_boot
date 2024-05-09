@@ -24,7 +24,7 @@ public class Stop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(unique = true)
+    @Column(unique = false)
     @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN, message = "поле 'название остановки' должно соответствовать ")
     String name;
 

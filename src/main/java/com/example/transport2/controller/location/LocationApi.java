@@ -1,0 +1,74 @@
+package com.example.transport2.controller.location;
+
+import com.example.transport2.dto.location.LocationDto;
+import com.example.transport2.dto.location.LocationEditDto;
+import com.example.transport2.dto.location.LocationSaveDto;
+import com.example.transport2.mapper.LocationMapper;
+import com.example.transport2.model.Location;
+import com.example.transport2.service.location.LocationService;
+import com.example.transport2.util.DtoUtils;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Validated
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("api/v1/locations")
+public class LocationApi {
+
+    private final LocationService locationService;
+    private final LocationMapper locationMapper;
+
+    /**
+     * Сохраняет локацию в БД
+     *
+     * @param dto DTO локации
+     * @return имя локации
+     */
+    @PostMapping
+    public LocationDto save(@RequestBody @Valid LocationSaveDto dto) {
+        DtoUtils.trimName(dto);
+        Location location = locationMapper.fromDto(dto);
+        Location save = locationService.save(location);
+        return locationMapper.toDto(save);
+    }
+
+    /**
+     * Возвращает данные по ID локации
+     *
+     * @param id ID локации
+     * @return
+     */
+    @GetMapping("{id}")
+    public LocationDto getById(@PathVariable Integer id) {
+        Location location = locationService.getLocationById(id);
+        return locationMapper.toDto(location);
+    }
+
+    @GetMapping
+    public List<LocationDto> getByFilters(@RequestParam(required = false) @Size(min = 3)String name) {
+        if (name != null) {
+            return locationMapper.toDto(locationService.findAllByNameContaining(name));
+        }
+        return locationMapper.toDto(locationService.getAll());
+    }
+
+    @PutMapping
+    public LocationDto update(@RequestBody @Valid LocationEditDto dto) {
+        DtoUtils.trimName(dto);
+        Location location = locationMapper.fromDto(dto);
+        Location update = locationService.update(location);
+        return locationMapper.toDto(update);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Integer id) {
+        locationService.delete(id);
+    }
+
+}

@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -70,6 +72,17 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionDto handleNotValidArgumentException(MethodArgumentTypeMismatchException exception) {
         return createExceptionDto(exception);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ExceptionDto handleDbConflictException(DataIntegrityViolationException exception) {
+        return ExceptionDto.builder()
+                .message("Невозможно изменить запись, так как она связана с другими данными.")
+                .uuid(UUID.randomUUID())
+                .type(exception.getClass().getSimpleName())
+                .exceptionServerTime(ZonedDateTime.now())
+                .build();
     }
 
     private ExceptionDto createExceptionDto(Exception exception) {

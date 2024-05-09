@@ -1,6 +1,7 @@
 package com.example.transport2.dto.location;
 
 
+import com.example.transport2.util.HasName;
 import com.example.transport2.util.StringPatterns;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -11,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LocationEditDto {
+public class LocationEditDto implements HasName {
 
     @Positive
     @NotNull

@@ -30,7 +30,7 @@ public class PopulateDB {
     private final RouteStopRepository routeStopRepository;
     private final StopTimeRepository stopTimeRepository;
 
-    //@PostConstruct
+//    @PostConstruct
     public void init() {
         //Добавляю город
         Location location;

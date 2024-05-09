@@ -8,6 +8,7 @@ import com.example.transport2.dto.StopTransportDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.model.Stop;
 import com.example.transport2.service.stop.StopService;
+import com.example.transport2.util.DtoUtils;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
@@ -55,9 +56,10 @@ public class StopApi implements StopApiSwagger {
 
     @PutMapping
     public StopDto update(@RequestBody @Valid StopEditDto dto) {
+        DtoUtils.trimNameAndLocation(dto);
         Stop stop = stopMapper.fromDto(dto);
-        Stop save = stopService.save(stop);
-        return stopMapper.toDto(save);
+        Stop update = stopService.update(stop);
+        return stopMapper.toDto(update);
     }
 
     /**
@@ -68,6 +70,7 @@ public class StopApi implements StopApiSwagger {
      */
     @PostMapping
     public StopDto save(@RequestBody @Valid StopSaveDto dto) {
+        DtoUtils.trimNameAndLocation(dto);
         Stop stop = stopMapper.fromDto(dto);
         Stop save = stopService.save(stop);
         return stopMapper.toDto(save);
