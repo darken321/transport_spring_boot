@@ -2,11 +2,11 @@ package com.example.transport2.controller.transport;
 
 import com.example.transport2.dto.LocationTransportDto;
 import com.example.transport2.dto.PageDto;
-import com.example.transport2.dto.TransportDto;
+import com.example.transport2.dto.transport.TransportDto;
 import com.example.transport2.mapper.TransportMapper;
 import com.example.transport2.model.Transport;
 import com.example.transport2.model.TransportType;
-import com.example.transport2.service.location.LocationService;
+import com.example.transport2.service.LocationService;
 import com.example.transport2.service.TransportService;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

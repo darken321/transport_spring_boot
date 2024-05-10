@@ -1,4 +1,4 @@
-package com.example.transport2.service.user;
+package com.example.transport2.service;
 
 
 import com.example.transport2.repository.UserRepository;

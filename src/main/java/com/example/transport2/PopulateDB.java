@@ -46,6 +46,7 @@ public class PopulateDB {
                     .location(locationRepository.findByName("Брест").orElseThrow())
                     .type(TROLLEYBUS)
                     .name("10" + i)
+                    .comment("")
                     .build();
             transportRepository.save(transport);
         }
@@ -56,6 +57,7 @@ public class PopulateDB {
                     .location(locationRepository.findByName("Брест").orElseThrow())
                     .type(BUS)
                     .name(s)
+                    .comment("")
                     .build();
             transportRepository.save(transport);
         }
@@ -107,6 +109,7 @@ public class PopulateDB {
             stop = Stop.builder()
                     .location(locationRepository.findByName("Брест").orElseThrow())
                     .name(s)
+                    .comment("")
                     .build();
             stopRepository.save(stop);
         }

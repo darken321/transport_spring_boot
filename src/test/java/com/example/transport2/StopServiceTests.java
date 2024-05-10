@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import com.example.transport2.model.Location;
 import com.example.transport2.repository.LocationRepository;
 import com.example.transport2.repository.StopRepository;
-import com.example.transport2.service.stop.StopService;
+import com.example.transport2.service.StopService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

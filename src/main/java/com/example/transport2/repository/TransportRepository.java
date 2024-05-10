@@ -1,5 +1,7 @@
 package com.example.transport2.repository;
 
+import com.example.transport2.model.Location;
+import com.example.transport2.model.Stop;
 import com.example.transport2.model.Transport;
 import com.example.transport2.model.TransportType;
 import com.example.transport2.projection.TransportInfo;
@@ -24,6 +26,8 @@ public interface TransportRepository extends JpaRepository<Transport, Integer> {
 
     List<Transport> findAllByLocationIdAndTypeOrderByName(int locationId, TransportType transportType);
 
+    List<Transport> findAllByNameContainingIgnoreCase(String name);
+
     /**
      * запрос информации по транспорту по id транспорта
      * @param transportId id транспорта
@@ -40,4 +44,6 @@ public interface TransportRepository extends JpaRepository<Transport, Integer> {
             """
             , nativeQuery = true)
     TransportInfo findTransportInfoById(Integer transportId);
+
+    List<Transport> findByNameIgnoreCaseAndLocationAndType(String name, Location location, TransportType type);
 }

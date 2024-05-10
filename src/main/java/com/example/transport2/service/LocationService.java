@@ -1,4 +1,4 @@
-package com.example.transport2.service.location;
+package com.example.transport2.service;
 
 import com.example.transport2.model.Location;
 import com.example.transport2.repository.LocationRepository;
@@ -29,11 +29,17 @@ public class LocationService {
     }
 
     public Location save(@Valid Location location) {
-
         if (locationRepository.existsByNameLikeIgnoreCase(location.getName())) {
             throw new EntityExistsException("Место " + location.getName() + " уже есть в базе данных");
         }
         return locationRepository.save(location);
+    }
+
+    public Location update(@Valid Location location) {
+        if (locationRepository.findById(location.getId()).isEmpty()) {
+            throw new EntityNotFoundException("Место с id " + location.getId() + " не найдено");
+        }
+        return this.save(location);
     }
 
     public void delete(int id) {

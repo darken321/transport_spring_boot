@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/setup-styles.css">
+    <meta charset="UTF-8">
+    <title>Управление записями транспорта в БД</title>
+</head>
+<body>
+
+<table class="outer-table">
+    <thead>
+    <tr>
+        <th>Список Транспортов</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <table class="inner-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название транспорта</th>
+                    <th>Коммент</th>
+                    <th>Тип</th>
+                    <th>Место</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="transport : ${transports}">
+                    <td th:text="${transport.id}">ID</td>
+                    <td th:text="${transport.name}">Название транспорта</td>
+                    <td th:text="${transport.comment}">Коммент</td>
+                    <td th:text="${transport.type}">Тип</td>
+                    <td th:text="${transport.locationName}">Место</td>
+                    <td>
+                        <!-- Ссылка для изменения транспорта -->
+                        <a th:href="@{/transports/edit/{id}(id=${transport.id})}" class="edit-link" aria-label="Изменить">
+                            <img src="/images/edit.png" alt="Изменить" style="width: 15px; height: 15px;">
+                        </a>
+                    </td>
+                    <td>
+                        <!-- Форма для удаления транспорта -->
+                        <form th:action="@{/transports/deleteTransport/{id}(id=${transport.id})}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="delete-button" aria-label="Удалить">
+                                <img src="/images/delete.png" alt="Удалить" style="width: 15px; height: 15px;">
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="top-aligned">
+            <!-- Форма поиска -->
+            <form action="#" th:action="@{/transports/table}" method="get">
+                <input type="text" name="name" placeholder="Введите часть названия транспорта"/>
+                <button type="submit">Поиск</button>
+            </form>
+            <br>
+            <!-- Форма добавления транспорта -->
+            <form action="#" th:action="@{/transports/add}" method="post">
+                <input type="text" name="name" placeholder="Введите название транспорта" required />
+                <br>
+                <input type="text" name="comment" placeholder="Введите комментарий" />
+                <br>
+                <input type="text" name="type" placeholder="Введите тип транспорта" required  value="TROLLEYBUS" />
+                <br>
+                <input type="text" name="locationId" placeholder="Введите номер локации" required  value="1" />
+                <br>
+                <input type="text" name="locationName" placeholder="Введите местоположение, город" required  value="Брест" />
+                <br>
+                <button type="submit">Добавить транспорт</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

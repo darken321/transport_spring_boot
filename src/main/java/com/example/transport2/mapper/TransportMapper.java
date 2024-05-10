@@ -2,7 +2,9 @@ package com.example.transport2.mapper;
 
 import com.example.transport2.dto.PageDto;
 import com.example.transport2.dto.ShortTransportDto;
-import com.example.transport2.dto.TransportDto;
+import com.example.transport2.dto.transport.TransportDto;
+import com.example.transport2.dto.transport.TransportEditDto;
+import com.example.transport2.dto.transport.TransportSaveDto;
 import com.example.transport2.model.Location;
 import com.example.transport2.model.Transport;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class TransportMapper {
         return TransportDto.builder()
                 .id(transport.getId())
                 .name(transport.getName())
+                .comment(transport.getComment())
                 .type(transport.getType())
                 .locationId(transport.getLocation().getId())
                 .locationName(transport.getLocation().getName())
@@ -49,6 +52,31 @@ public class TransportMapper {
         return Transport.builder()
                 .id(dto.getId())
                 .name(dto.getName())
+                .comment(dto.getComment())
+                .type(dto.getType())
+                .location(Location.builder()
+                        .id(dto.getLocationId())
+                        .name(dto.getLocationName())
+                        .build())
+                .build();
+    }
+    public Transport fromDto(TransportEditDto dto) {
+        return Transport.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .comment(dto.getComment())
+                .type(dto.getType())
+                .location(Location.builder()
+                        .id(dto.getLocationId())
+                        .name(dto.getLocationName())
+                        .build())
+                .build();
+    }
+
+    public Transport fromDto(TransportSaveDto dto) {
+        return Transport.builder()
+                .name(dto.getName())
+                .comment(dto.getComment())
                 .type(dto.getType())
                 .location(Location.builder()
                         .id(dto.getLocationId())

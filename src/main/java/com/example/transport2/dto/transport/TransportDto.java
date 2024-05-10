@@ -1,4 +1,4 @@
-package com.example.transport2.dto;
+package com.example.transport2.dto.transport;
 
 import com.example.transport2.model.TransportType;
 import jakarta.validation.constraints.NotBlank;
@@ -21,6 +21,9 @@ public class TransportDto {
 
     @NotBlank
     String name;
+
+    @NotNull
+    String comment;
 
     @NotNull
     TransportType type;

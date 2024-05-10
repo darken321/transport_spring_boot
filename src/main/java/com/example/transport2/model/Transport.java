@@ -3,7 +3,9 @@ package com.example.transport2.model;
 import com.example.transport2.util.StringPatterns;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -19,6 +21,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(exclude = {"id", "comment"})
 public class Transport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +31,33 @@ public class Transport {
     @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN)
     String name;
 
+    @NotNull
+    String comment;
+
     @Enumerated(EnumType.STRING)
     TransportType type;
 
     @ManyToOne
     @NonNull
     Location location;
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Transport transport = (Transport) o;
+//
+//        if (!name.equals(transport.name)) return false;
+//        if (type != transport.type) return false;
+//        return location.equals(transport.location);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result = name.hashCode();
+//        result = 31 * result + type.hashCode();
+//        result = 31 * result + location.hashCode();
+//        return result;
+//    }
 }

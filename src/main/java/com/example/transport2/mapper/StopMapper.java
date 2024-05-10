@@ -10,7 +10,7 @@ import com.example.transport2.repository.LocationRepository;
 import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.StopRepository;
 import com.example.transport2.service.RouteService;
-import com.example.transport2.service.stop.StopService;
+import com.example.transport2.service.StopService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -32,6 +32,7 @@ public class StopMapper {
         return Stop.builder()
                 .id(dto.getId())
                 .name(dto.getName())
+                .comment(dto.getComment())
                 .location(Location.builder().name(dto.getLocation()).build())
                 .build();
     }
@@ -40,6 +41,7 @@ public class StopMapper {
         return Stop.builder()
                 .id(dto.getId())
                 .name(dto.getName())
+                .comment(dto.getComment())
                 .location(Location.builder()
                         .id(locationRepository.findByName(dto.getLocation()).get().getId())
                         .name(dto.getLocation())
@@ -50,6 +52,7 @@ public class StopMapper {
     public Stop fromDto(@Valid StopSaveDto dto) {
         return Stop.builder()
                 .name(dto.getName())
+                .comment(dto.getComment())
                 .location(Location.builder()
                         .id(locationRepository.findByName(dto.getLocation()).get().getId())
                         .name(dto.getLocation())
@@ -67,6 +70,7 @@ public class StopMapper {
         return StopDto.builder()
                 .id(stop.getId())
                 .name(stop.getName())
+                .comment(stop.getComment())
                 .location(stop.getLocation().getName())
                 .build();
     }

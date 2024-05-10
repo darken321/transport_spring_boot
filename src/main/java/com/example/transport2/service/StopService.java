@@ -1,4 +1,4 @@
-package com.example.transport2.service.stop;
+package com.example.transport2.service;
 
 import com.example.transport2.model.Location;
 import com.example.transport2.model.Stop;

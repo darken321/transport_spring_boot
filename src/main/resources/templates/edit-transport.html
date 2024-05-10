@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/setup-styles.css">
+    <meta charset="UTF-8">
+    <title>Редактирование транспорта</title>
+</head>
+<body>
+
+<div class="edit-container">
+    <h2>Редактирование транспорта </h2>
+    <form th:action="@{/transports/update}" method="post">
+        <div class="form-group">
+            <label for="id">ID (только чтение):</label>
+            <br>
+            <input type="text" id="id" name="id" th:value="${transport.id}" readonly/>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="name">Название:</label>
+            <br>
+            <input type="text" id="name" name="name" th:value="${transport.name}" required/>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="comment">Комментарий:</label>
+            <br>
+            <input type="text" id="comment" name="comment" th:value="${transport.comment}" />
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="type">Тип транспорта:</label>
+            <br>
+            <input type="text" id="type" name="type" th:value="${transport.type}" />
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="locationId">Локация:</label>
+            <br>
+            <input type="text" id="locationId" name="locationId" th:value="${transport.locationId}" required/>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="locationName">Локация:</label>
+            <br>
+            <input type="text" id="locationName" name="locationName" th:value="${transport.locationName}" required/>
+        </div>
+        <br>
+        <div class="form-group-buttons">
+            <button type="submit" class="save-button">Сохранить изменения</button>
+            <a href="/transports/table" class="cancel-button">Отменить</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

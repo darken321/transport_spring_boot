@@ -8,7 +8,7 @@ import com.example.transport2.model.TransportRoute;
 import com.example.transport2.projection.*;
 import com.example.transport2.repository.TransportRouteRepository;
 import com.example.transport2.service.*;
-import com.example.transport2.service.stop.StopService;
+import com.example.transport2.service.StopService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

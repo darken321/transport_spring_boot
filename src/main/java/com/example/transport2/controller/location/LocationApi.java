@@ -5,7 +5,7 @@ import com.example.transport2.dto.location.LocationEditDto;
 import com.example.transport2.dto.location.LocationSaveDto;
 import com.example.transport2.mapper.LocationMapper;
 import com.example.transport2.model.Location;
-import com.example.transport2.service.location.LocationService;
+import com.example.transport2.service.LocationService;
 import com.example.transport2.util.DtoUtils;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;

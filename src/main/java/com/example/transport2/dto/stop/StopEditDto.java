@@ -1,6 +1,6 @@
 package com.example.transport2.dto.stop;
 
-import com.example.transport2.util.HasNameAndLocation;
+import com.example.transport2.util.HasNameLocationComment;
 import com.example.transport2.util.StringPatterns;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StopEditDto implements HasNameAndLocation {
+public class StopEditDto implements HasNameLocationComment {
 
     @Positive
     @NotNull
@@ -21,6 +21,9 @@ public class StopEditDto implements HasNameAndLocation {
     @Size(min = 2)
     @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'название остановки' должно соответствовать ")
     String name;
+
+    @NotNull
+    String comment;
 
     @NotBlank
     @Size(min = 3)
