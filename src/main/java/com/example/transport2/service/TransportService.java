@@ -25,16 +25,16 @@ public class TransportService {
 
     public Transport save(@Valid Transport transport) {
         // Проверяем, существует ли уже транспорт такого типа с таким же именем в том же городе
-        List<Transport> existingTransports = transportRepository.findByNameIgnoreCaseAndLocationAndType(
+        boolean transportExists = transportRepository.existsByNameContainingIgnoreCaseAndLocationAndType(
                 transport.getName(),
                 transport.getLocation(),
                 transport.getType());
 
-        if (existingTransports.isEmpty()) {
-            // Если транспортов с таким именем в этом городе пуст, таких не найдено, сохраняем новую остановку
-            return transportRepository.save(transport);
+        if (transportExists) {
+            throw new EntityExistsException("Такой транспорт " + transport.getName() + " уже есть");
         }
-        throw new EntityExistsException("Такой транспорт " + transport.getName() + " уже есть");
+        // Если транспортов с таким именем в этом городе пуст, таких не найдено, сохраняем новую остановку
+        return transportRepository.save(transport);
     }
 
     public Page<Transport> getAllPages(int page, int size) {
@@ -85,29 +85,41 @@ public class TransportService {
     }
 
     public Transport update(@Valid Transport transport) {
+        //нужно изменить поля конкретного транспорта, у него есть ID
 
-        if (transportRepository.existsById(transport.getId())) { //если есть транспорт с таким ID
+        // Получаем существующий транспорт по ID или выбрасываем исключение, если он не найден
+        Transport existingTransport = transportRepository.findById(transport.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Транспорт с id " + transport.getId() + " не найден"));
 
-            //проверить что транспорта такого типа нет в городе назначения
-            //берем список всех транспортов с таким именем, в таком городе, такого типа
-            List<Transport> existingTransports = transportRepository.findByNameIgnoreCaseAndLocationAndType(
-                    transport.getName(),
-                    transport.getLocation(),
-                    transport.getType());
-            //если таких нет, список пуст то сохраняем
-            if (existingTransports.isEmpty() //такого нет
-                    ||!existingTransports.get(0).equals(transport) //??
-                    ||existingTransports.get(0).getId().equals(transport.getId() //тот же транспорт с тем же ID
-            ) ) {
-                return transportRepository.save(transport);
-            }
-//            return this.save(transport);
-            throw new EntityExistsException("Такой транспорт " + transport + " уже есть");
+        // Проверить что транспорта с таким именем такого типа нет в городе назначения
+        // Проверяем, существует ли другой транспорт с таким же именем, местоположением и типом, но с другим ID
+        List<Transport> conflictingTransports = transportRepository.findByNameIgnoreCaseAndLocationAndType(
+                        transport.getName(),
+                        transport.getLocation(),
+                        transport.getType())
+                .stream()
+                .filter(t -> !t.getId().equals(transport.getId()))
+                .toList();
+
+        // Если найден конфликтующий транспорт, выбрасываем исключение
+        if (!conflictingTransports.isEmpty()) {
+            throw new EntityExistsException("Такой транспорт " + transport.getName() + " уже есть");
         }
-        throw new EntityNotFoundException("Транспорт с id " + transport.getId() + " не найден");
+        // Обновляем поля существующего транспорта данными из полученного транспорта
+        existingTransport.setName(transport.getName());
+        existingTransport.setType(transport.getType());
+        existingTransport.setLocation(transport.getLocation());
+        existingTransport.setComment(transport.getComment());
+
+        // Сохраняем обновленный транспорт
+        return transportRepository.save(existingTransport);
     }
 
     public void delete(int id) {
         transportRepository.deleteById(id);
+    }
+
+    public Transport getTransportById(Integer id) {
+        return transportRepository.getTransportById(id);
     }
 }

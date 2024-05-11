@@ -63,6 +63,11 @@ button {
     text-decoration: none; /* Убрать подчеркивание при наведении */
 }
 
+.form-group {
+    font-size: 15px;
+}
+
+
 
 table {
     border-collapse: collapse; /* Убирает двойные границы */

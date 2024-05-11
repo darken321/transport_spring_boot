@@ -2,9 +2,10 @@ package com.example.transport2.mapper;
 
 import com.example.transport2.dto.PageDto;
 import com.example.transport2.dto.ShortTransportDto;
-import com.example.transport2.dto.transport.TransportDto;
+import com.example.transport2.dto.TransportDto;
 import com.example.transport2.dto.transport.TransportEditDto;
 import com.example.transport2.dto.transport.TransportSaveDto;
+import com.example.transport2.dto.transport.TransportViewDto;
 import com.example.transport2.model.Location;
 import com.example.transport2.model.Transport;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +69,17 @@ public class TransportMapper {
                 .type(dto.getType())
                 .location(Location.builder()
                         .id(dto.getLocationId())
-                        .name(dto.getLocationName())
+                        .build())
+                .build();
+    }
+    public Transport fromDto(TransportViewDto dto) {
+        return Transport.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .comment(dto.getComment())
+                .type(dto.getType())
+                .location(Location.builder()
+                        .id(dto.getLocationId())
                         .build())
                 .build();
     }
@@ -80,7 +91,6 @@ public class TransportMapper {
                 .type(dto.getType())
                 .location(Location.builder()
                         .id(dto.getLocationId())
-                        .name(dto.getLocationName())
                         .build())
                 .build();
     }

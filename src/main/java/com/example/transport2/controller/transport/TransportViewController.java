@@ -1,12 +1,13 @@
 package com.example.transport2.controller.transport;
 
-import com.example.transport2.dto.transport.TransportDto;
+import com.example.transport2.dto.TransportDto;
 import com.example.transport2.dto.transport.TransportEditDto;
 import com.example.transport2.dto.transport.TransportSaveDto;
 import com.example.transport2.mapper.TransportMapper;
+import com.example.transport2.model.Location;
 import com.example.transport2.model.Transport;
+import com.example.transport2.service.LocationService;
 import com.example.transport2.service.TransportService;
-import com.example.transport2.util.DtoUtils;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ public class TransportViewController {
     static final String REST_URL = "/transports";
 
     private final TransportService transportService;
+    private final LocationService locationService;
     private final TransportMapper transportMapper;
 
     @GetMapping("/table")
@@ -42,11 +44,14 @@ public class TransportViewController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") int id, Model model) {
-        TransportDto transportDto = transportMapper.toDto(transportService.getById(id));
-        model.addAttribute("transport", transportDto);
+    public String editTransport(@PathVariable Integer id, Model model) {
+        Transport transport = transportService.getTransportById(id);
+        List<Location> locations = locationService.getAll();
+        model.addAttribute("transport", transport);
+        model.addAttribute("locations", locations);
         return "edit-transport";
     }
+
     @PostMapping("/update")
     public String updateTransport(@ModelAttribute @Valid TransportEditDto dto) {
 //        DtoUtils.trimNameLocationComment(dto);

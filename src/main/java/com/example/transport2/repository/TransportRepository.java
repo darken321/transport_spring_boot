@@ -24,9 +24,13 @@ public interface TransportRepository extends JpaRepository<Transport, Integer> {
 
     List<Transport> findAllByType(TransportType t);
 
+    Transport getTransportById(Integer id);
+
     List<Transport> findAllByLocationIdAndTypeOrderByName(int locationId, TransportType transportType);
 
     List<Transport> findAllByNameContainingIgnoreCase(String name);
+
+    boolean existsByNameContainingIgnoreCaseAndLocationAndType(String name, Location location, TransportType type);
 
     /**
      * запрос информации по транспорту по id транспорта
@@ -46,4 +50,6 @@ public interface TransportRepository extends JpaRepository<Transport, Integer> {
     TransportInfo findTransportInfoById(Integer transportId);
 
     List<Transport> findByNameIgnoreCaseAndLocationAndType(String name, Location location, TransportType type);
+
 }
+

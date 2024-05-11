@@ -34,17 +34,40 @@
             <input type="text" id="type" name="type" th:value="${transport.type}" />
         </div>
         <br>
+
         <div class="form-group">
             <label for="locationId">Локация:</label>
             <br>
-            <input type="text" id="locationId" name="locationId" th:value="${transport.locationId}" required/>
+            <select id="locationId" name="locationId" class="form-group" required>
+                <!-- Первая опция - текущая локация транспорта -->
+                <option th:value="${transport.location.id}"
+                        th:text="${transport.location.name}">
+                    <!-- Текст будет заменен на имя текущей локации транспорта -->
+                </option>
+                <!-- Опции для выбора из всех доступных локаций, кроме текущей -->
+                <option th:each="location : ${locations}"
+                        th:value="${location.id}"
+                        th:text="${location.name}"
+                        th:selected="${location.id == transport.location.id}"
+                        th:if="${location.id != transport.location.id}">
+                    <!-- Остальные опции для выбора -->
+                </option>
+            </select>
         </div>
         <br>
-        <div class="form-group">
-            <label for="locationName">Локация:</label>
-            <br>
-            <input type="text" id="locationName" name="locationName" th:value="${transport.locationName}" required/>
-        </div>
+
+<!--        <div class="form-group">-->
+<!--            <label for="locationId">Локация:</label>-->
+<!--            <br>-->
+<!--            <input type="text" id="locationId" name="locationId" th:value="${transport.locationId}" required/>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <div class="form-group">-->
+<!--            <label for="locationName">Локация:</label>-->
+<!--            <br>-->
+<!--            <input type="text" id="locationName" name="locationName" th:value="${transport.locationName}" required/>-->
+<!--        </div>-->
+
         <br>
         <div class="form-group-buttons">
             <button type="submit" class="save-button">Сохранить изменения</button>
