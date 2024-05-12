@@ -6,6 +6,7 @@ import com.example.transport2.dto.transport.TransportSaveDto;
 import com.example.transport2.mapper.TransportMapper;
 import com.example.transport2.model.Location;
 import com.example.transport2.model.Transport;
+import com.example.transport2.model.TransportType;
 import com.example.transport2.service.LocationService;
 import com.example.transport2.service.TransportService;
 import jakarta.validation.Valid;
@@ -39,6 +40,9 @@ public class TransportViewController {
         } else {
             transports = transportMapper.toDto(transportService.getAll());
         }
+        List<Location> locations = locationService.getAll();
+        model.addAttribute("transportTypes", TransportType.values());
+        model.addAttribute("locations", locations);
         model.addAttribute("transports", transports);
         return "transport-CRUD";
     }
@@ -48,13 +52,13 @@ public class TransportViewController {
         Transport transport = transportService.getTransportById(id);
         List<Location> locations = locationService.getAll();
         model.addAttribute("transport", transport);
+        model.addAttribute("transportTypes", TransportType.values());
         model.addAttribute("locations", locations);
         return "edit-transport";
     }
 
     @PostMapping("/update")
     public String updateTransport(@ModelAttribute @Valid TransportEditDto dto) {
-//        DtoUtils.trimNameLocationComment(dto);
         Transport transport = transportMapper.fromDto(dto);
         transportService.update(transport);
         return "redirect:/transports/table";
@@ -68,7 +72,6 @@ public class TransportViewController {
 
     @PostMapping("/add")
     public String save(@ModelAttribute @Valid TransportSaveDto dto) {
-//        DtoUtils.trimNameLocationComment(dto);
         Transport transport = transportMapper.fromDto(dto);
         Transport save = transportService.save(transport);
         return "redirect:/transports/table"; // Перенаправление обратно на страницу управления данными

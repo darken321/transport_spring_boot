@@ -6,7 +6,6 @@ import com.example.transport2.dto.stop.StopSaveDto;
 import com.example.transport2.mapper.StopMapper;
 import com.example.transport2.model.Stop;
 import com.example.transport2.service.StopService;
-import com.example.transport2.util.DtoUtils;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +48,6 @@ public class StopViewController {
     }
     @PostMapping("/update")
     public String updateStop(@ModelAttribute @Valid StopEditDto dto) {
-        DtoUtils.trimNameLocationComment(dto);
         Stop stop = stopMapper.fromDto(dto);
         stopService.save(stop);
         return "redirect:/stops/table";
@@ -63,7 +61,6 @@ public class StopViewController {
 
     @PostMapping("/add")
     public String save(@ModelAttribute @Valid StopSaveDto dto) {
-        DtoUtils.trimNameLocationComment(dto);
         Stop stop = stopMapper.fromDto(dto);
         Stop save = stopService.save(stop);
         return "redirect:/stops/table"; // Перенаправление обратно на страницу управления данными

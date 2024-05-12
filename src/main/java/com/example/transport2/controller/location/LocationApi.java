@@ -6,7 +6,6 @@ import com.example.transport2.dto.location.LocationSaveDto;
 import com.example.transport2.mapper.LocationMapper;
 import com.example.transport2.model.Location;
 import com.example.transport2.service.LocationService;
-import com.example.transport2.util.DtoUtils;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,6 @@ public class LocationApi {
      */
     @PostMapping
     public LocationDto save(@RequestBody @Valid LocationSaveDto dto) {
-        DtoUtils.trimName(dto);
         Location location = locationMapper.fromDto(dto);
         Location save = locationService.save(location);
         return locationMapper.toDto(save);
@@ -53,14 +51,13 @@ public class LocationApi {
     @GetMapping
     public List<LocationDto> getByFilters(@RequestParam(required = false) @Size(min = 3)String name) {
         if (name != null) {
-            return locationMapper.toDto(locationService.findAllByNameContaining(name));
+            return locationMapper.toDto(locationService.findAllByNameContainingIgnoreCase(name));
         }
         return locationMapper.toDto(locationService.getAll());
     }
 
     @PutMapping
     public LocationDto update(@RequestBody @Valid LocationEditDto dto) {
-        DtoUtils.trimName(dto);
         Location location = locationMapper.fromDto(dto);
         Location update = locationService.update(location);
         return locationMapper.toDto(update);

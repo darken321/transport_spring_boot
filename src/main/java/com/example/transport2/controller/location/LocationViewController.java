@@ -32,7 +32,7 @@ public class LocationViewController {
     public String getAllLocationsTable(@RequestParam(required = false) String name, Model model) {
         List<LocationDto> locations;
         if (name != null && !name.isEmpty()) {
-            locations = locationMapper.toDto(locationService.findAllByNameContaining(name.trim()));
+            locations = locationMapper.toDto(locationService.findAllByNameContainingIgnoreCase(name.trim()));
         } else {
             locations = locationMapper.toDto(locationService.getAll());
         }
@@ -48,7 +48,6 @@ public class LocationViewController {
     }
     @PostMapping("/update")
     public String updateLocation(@ModelAttribute @Valid LocationEditDto dto) {
-        dto.setName(dto.getName().trim());
         Location location = locationMapper.fromDto(dto);
         locationService.save(location);
         return "redirect:/locations/location";
@@ -62,7 +61,6 @@ public class LocationViewController {
 
     @PostMapping("/add")
     public String save(@ModelAttribute @Valid LocationSaveDto dto) {
-        dto.setName(dto.getName().trim());
         Location location = locationMapper.fromDto(dto);
         Location save = locationService.save(location);
         return "redirect:/locations/location"; // Перенаправление обратно на страницу управления данными

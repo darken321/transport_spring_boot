@@ -8,21 +8,21 @@
 <body>
 
 <div class="edit-container">
-    <h2>Редактирование местоположения остановки </h2>
-    <form th:action="@{/locations/update}" method="post">
-        <div class="form-group">
+    <b>Редактирование местоположения остановки </b>
+    <form th:action="@{/locations/update}" method="post" class="input-forms">
+        <div>
             <label for="id">ID (только чтение):</label>
             <br>
             <input type="text" id="id" name="id" th:value="${location.id}" readonly/>
         </div>
         <br>
-        <div class="form-group">
+        <div>
             <label for="name">Местоположение:</label>
             <br>
             <input type="text" id="name" name="name" th:value="${location.name}" required/>
         </div>
         <br>
-        <div class="form-group">
+        <div>
             <button type="submit" class="save-button">Сохранить изменения</button>
             <a href="/locations/location" class="cancel-button">Отменить</a>
         </div>

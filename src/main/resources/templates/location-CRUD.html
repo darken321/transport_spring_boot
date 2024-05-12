@@ -53,14 +53,18 @@
         </td>
         <td class="top-aligned">
             <!-- Форма поиска -->
-            <form action="#" th:action="@{/locations/location}" method="get">
+            <b>Фильтр по части названия локации</b>
+            <form action="#" th:action="@{/locations/location}" method="get" class="input-forms">
                 <input type="text" name="name" placeholder="Введите часть названия местоположения"/>
+                <br>
                 <button type="submit">Поиск</button>
             </form>
             <br>
             <!-- Форма добавления локации -->
-            <form action="#" th:action="@{/locations/add}" method="post">
-                <input type="text" name="name" placeholder="Введите название места" required />
+            <b>Добавление нового места</b>
+            <form action="#" th:action="@{/locations/add}" method="post" class="input-forms">
+                <input type="text" name="name" placeholder="Введите название места" required/>
+                <br>
                 <button type="submit">Добавить место</button>
             </form>
         </td>

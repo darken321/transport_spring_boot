@@ -8,37 +8,43 @@
 <body>
 
 <div class="edit-container">
-    <h2>Редактирование транспорта </h2>
-    <form th:action="@{/transports/update}" method="post">
-        <div class="form-group">
+    <h3>Редактирование транспорта </h3>
+    <form th:action="@{/transports/update}" method="post" class="input-forms">
+        <div class="edit-forms">
             <label for="id">ID (только чтение):</label>
             <br>
             <input type="text" id="id" name="id" th:value="${transport.id}" readonly/>
         </div>
-        <br>
-        <div class="form-group">
+
+        <div class="edit-forms">
             <label for="name">Название:</label>
             <br>
             <input type="text" id="name" name="name" th:value="${transport.name}" required/>
         </div>
-        <br>
-        <div class="form-group">
+
+        <div class="edit-forms">
             <label for="comment">Комментарий:</label>
             <br>
             <input type="text" id="comment" name="comment" th:value="${transport.comment}" />
         </div>
-        <br>
-        <div class="form-group">
-            <label for="type">Тип транспорта:</label>
-            <br>
-            <input type="text" id="type" name="type" th:value="${transport.type}" />
-        </div>
-        <br>
 
-        <div class="form-group">
+        <div class="edit-forms">
+            <label for="type">Тип транспорта:</label>
+<!--            <br>-->
+            <select id="type" name="type" required>
+                <option value="" th:unless="${transport.type}" th:text="-- выберите тип транспорта --"></option>
+                <option th:each="type : ${transportTypes}"
+                        th:value="${type}"
+                        th:text="${type}"
+                        th:selected="${type == transport.type}">
+                </option>
+            </select>
+        </div>
+
+        <div class="edit-forms">
             <label for="locationId">Локация:</label>
-            <br>
-            <select id="locationId" name="locationId" class="form-group" required>
+<!--            <br>-->
+            <select id="locationId" name="locationId" class="edit-forms" required>
                 <!-- Первая опция - текущая локация транспорта -->
                 <option th:value="${transport.location.id}"
                         th:text="${transport.location.name}">
@@ -54,22 +60,8 @@
                 </option>
             </select>
         </div>
-        <br>
 
-<!--        <div class="form-group">-->
-<!--            <label for="locationId">Локация:</label>-->
-<!--            <br>-->
-<!--            <input type="text" id="locationId" name="locationId" th:value="${transport.locationId}" required/>-->
-<!--        </div>-->
-<!--        <br>-->
-<!--        <div class="form-group">-->
-<!--            <label for="locationName">Локация:</label>-->
-<!--            <br>-->
-<!--            <input type="text" id="locationName" name="locationName" th:value="${transport.locationName}" required/>-->
-<!--        </div>-->
-
-        <br>
-        <div class="form-group-buttons">
+        <div>
             <button type="submit" class="save-button">Сохранить изменения</button>
             <a href="/transports/table" class="cancel-button">Отменить</a>
         </div>

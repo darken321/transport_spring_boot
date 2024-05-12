@@ -1,7 +1,6 @@
 package com.example.transport2.dto.stop;
 
 
-import com.example.transport2.util.HasNameLocationComment;
 import com.example.transport2.util.StringPatterns;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -15,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StopDto implements HasNameLocationComment {
+public class StopDto {
 
     @Positive
     @NotNull

@@ -1,9 +1,6 @@
 package com.example.transport2.service;
 
-import com.example.transport2.model.RouteStops;
-import com.example.transport2.model.Transport;
-import com.example.transport2.model.TransportRoute;
-import com.example.transport2.model.TransportType;
+import com.example.transport2.model.*;
 import com.example.transport2.projection.TransportInfo;
 import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.TransportRepository;
@@ -24,6 +21,7 @@ public class TransportService {
     private final RouteStopRepository routeStopRepository;
 
     public Transport save(@Valid Transport transport) {
+        trimTransportFields(transport);
         // Проверяем, существует ли уже транспорт такого типа с таким же именем в том же городе
         boolean transportExists = transportRepository.existsByNameContainingIgnoreCaseAndLocationAndType(
                 transport.getName(),
@@ -85,6 +83,7 @@ public class TransportService {
     }
 
     public Transport update(@Valid Transport transport) {
+        trimTransportFields(transport);
         //нужно изменить поля конкретного транспорта, у него есть ID
 
         // Получаем существующий транспорт по ID или выбрасываем исключение, если он не найден
@@ -121,5 +120,13 @@ public class TransportService {
 
     public Transport getTransportById(Integer id) {
         return transportRepository.getTransportById(id);
+    }
+    private void trimTransportFields(Transport transport) {
+        if (transport.getName() != null) {
+            transport.setName(transport.getName().trim());
+        }
+       if (transport.getComment() != null) {
+           transport.setComment(transport.getComment().trim());
+       }
     }
 }

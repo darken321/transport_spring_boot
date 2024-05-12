@@ -10,7 +10,7 @@
 <table class="outer-table">
     <thead>
     <tr>
-        <th>Список Транспортов</th>
+        <th>Список транспортов</th>
         <th></th>
     </tr>
     </thead>
@@ -57,22 +57,35 @@
         </td>
         <td class="top-aligned">
             <!-- Форма поиска -->
-            <form action="#" th:action="@{/transports/table}" method="get">
+            <b>Фильтр по части названия транспорта</b>
+            <form action="#" th:action="@{/transports/table}" method="get" class="input-forms">
                 <input type="text" name="name" placeholder="Введите часть названия транспорта"/>
+                <br>
                 <button type="submit">Поиск</button>
             </form>
             <br>
             <!-- Форма добавления транспорта -->
-            <form action="#" th:action="@{/transports/add}" method="post">
+            <b>Добавление нового транспорта</b>
+            <form action="#" th:action="@{/transports/add}" method="post" class="input-forms">
                 <input type="text" name="name" placeholder="Введите название транспорта" required />
                 <br>
                 <input type="text" name="comment" placeholder="Введите комментарий" />
                 <br>
-                <input type="text" name="type" placeholder="Введите тип транспорта" required  value="TROLLEYBUS" />
+
+                <label for="type">Тип транспорта:</label>
+                <select id="type" name="type" required>
+                    <option value="" th:each="type : ${transportTypes}" th:value="${type}" th:text="${type}">Тип</option>
+                </select>
+
                 <br>
-                <input type="text" name="locationId" placeholder="Введите номер локации" required  value="1" />
-                <br>
-                <input type="text" name="locationName" placeholder="Введите местоположение, город" required  value="Брест" />
+                <label for="locationId">Локация:</label>
+                <select id="locationId" name="locationId" required>
+                    </option>
+                    <option th:each="location : ${locations}"
+                            th:value="${location.id}"
+                            th:text="${location.name}">
+                    </option>
+                </select>
                 <br>
                 <button type="submit">Добавить транспорт</button>
             </form>

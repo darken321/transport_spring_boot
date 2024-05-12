@@ -24,11 +24,12 @@ public class LocationService {
         return locationRepository.findAll();
     }
 
-    public List<Location> findAllByNameContaining(String name) {
+    public List<Location> findAllByNameContainingIgnoreCase(String name) {
         return locationRepository.findAllByNameContainingIgnoreCase(name);
     }
 
     public Location save(@Valid Location location) {
+        trimLocationFields(location);
         if (locationRepository.existsByNameLikeIgnoreCase(location.getName())) {
             throw new EntityExistsException("Место " + location.getName() + " уже есть в базе данных");
         }
@@ -36,6 +37,7 @@ public class LocationService {
     }
 
     public Location update(@Valid Location location) {
+        trimLocationFields(location);
         if (locationRepository.findById(location.getId()).isEmpty()) {
             throw new EntityNotFoundException("Место с id " + location.getId() + " не найдено");
         }
@@ -44,5 +46,11 @@ public class LocationService {
 
     public void delete(int id) {
         locationRepository.deleteById(id);
+    }
+
+    private void trimLocationFields(Location location) {
+        if (location.getName() != null) {
+            location.setName(location.getName().trim());
+        }
     }
 }

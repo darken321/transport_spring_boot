@@ -7,20 +7,27 @@ body {
     height: 100vh;
 }
 
-input[type="text"] {
+input {
     width: 250px; /* Устанавливает ширину поля ввода */
-    height: 16px; /* Устанавливает высоту поля ввода */
+    height: 14px; /* Устанавливает высоту поля ввода */
+    padding: 5px; /* Добавляет внутренние отступы в поле ввода */
+    font-size: 12px; /* Устанавливает размер шрифта в поле ввода */
+}
+
+select {
+    width: 250px; /* Устанавливает ширину поля ввода */
+    height: 30px; /* Устанавливает высоту поля ввода */
     padding: 5px; /* Добавляет внутренние отступы в поле ввода */
     font-size: 12px; /* Устанавливает размер шрифта в поле ввода */
 }
 
 /*кнопки поиск и добавить остановку*/
 button {
-    width: 130px; /* Устанавливает ширину кнопки */
+    /*width: 150px; !* Устанавливает ширину кнопки *!*/
     height: 27px; /* Устанавливает высоту кнопки */
     /*padding: 5px; !* Добавляет внутренние отступы в кнопку *!*/
     border: none; /* Убрать границу */
-    font-size: 12px; /* Устанавливает размер шрифта на кнопке */
+    font-size: 13px; /* Устанавливает размер шрифта на кнопке */
     cursor: pointer; /* Делает курсор в виде руки при наведении на кнопку */
     background-color: #0faf0f; /* Цвет фона */
     color: white; /* Цвет текста */
@@ -28,10 +35,10 @@ button {
 }
 
 /*кнопки сохранить и отменить при изменении остановки*/
-.save-button, .cancel-button {
+.save-button, .cancel-button{
     box-sizing: border-box; /*ширина и высота элементов без учета внутренних отступов и границ */
-    width: 130px; /* Ширина кнопки */
-    height: 40px;
+    width: 95%; /* Ширина кнопки Отменить */
+    height: 27px;
     padding: 5px; /* Внутренние отступы */
     border: none; /* Убрать границу */
     background-color: #0faf0f; /* Цвет фона */
@@ -39,7 +46,7 @@ button {
     text-align: center; /* Выравнивание текста по центру */
     text-decoration: none; /* Убрать подчеркивание текста */
     display: inline-block; /* Сделать элемент строчно-блочным */
-    font-size: 12px; /* Размер шрифта */
+    font-size: 13px; /* Размер шрифта */
     margin: 4px 2px; /* Внешние отступы */
     cursor: pointer; /* Курсор в виде указателя */
     border-radius: 5px; /* Скругление углов */
@@ -58,17 +65,6 @@ button {
     color: #0faf0f; /* Цвет иконки */
 }
 
-.edit-link:hover, .delete-button:hover  .save-button:hover, .cancel-button:hover {
-    color: #555; /* Цвет иконки при наведении */
-    text-decoration: none; /* Убрать подчеркивание при наведении */
-}
-
-.form-group {
-    font-size: 15px;
-}
-
-
-
 table {
     border-collapse: collapse; /* Убирает двойные границы */
     font-size: 14px; /* Задает размер шрифта для всей таблицы */
@@ -76,14 +72,54 @@ table {
 
 .top-aligned {
     vertical-align: top;
+    width: 350px;
+}
+
+.input-forms {
+    text-align: left; /* Выравнивание текста и элементов формы по правому краю */
+    font-size: 15px;
+}
+
+.input-forms input {
+    width: 90%; /* Задает ширину элементов формы равной ширине родительского элемента */
+    margin-bottom:5px; /* Добавляет небольшой отступ снизу для каждого элемента */
+    margin-top: 5px;
+}
+
+.input-forms select {
+    width: 95%; /* Задает ширину элементов формы равной ширине родительского элемента */
+    margin-bottom:5px; /* Добавляет небольшой отступ снизу для каждого элемента */
+    margin-top: 5px;
+}
+
+.input-forms button {
+    width: 95%; /* Задает ширину элементов формы равной ширине родительского элемента */
+    margin-bottom:5px; /* Добавляет небольшой отступ снизу для каждого элемента */
+    margin-top: 5px;
+}
+
+.edit-forms {
+    text-align: left; /* Выравнивание текста и элементов формы по правому краю */
+    font-size: 15px;
+}
+
+.edit-forms input,
+.edit-forms select,
+.edit-forms button {
+    margin-bottom: 10px; /* Добавляет небольшой отступ снизу для каждого элемента */
 }
 
 .outer-table, .outer-table th, .outer-table td {
-    border: none; /*Убрал границы для внешней таблицы*/
+    border: none; /*Убрал границы для внешней таблицы  none*/
     padding: 10px; /*Добавляет поля для внешней таблицы*/
 }
 
 .inner-table, .inner-table th, .inner-table td {
     border: 1px solid black; /* Добавляет границу вокруг таблицы и каждой ячейки */
     padding: 2px; /*Добавляет поля вокруг текста в каждой ячейке*/
+}
+
+.edit-container {
+    vertical-align: top;
+    width: 350px;
 }
