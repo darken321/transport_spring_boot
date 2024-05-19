@@ -5,6 +5,12 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * короткое DTO для update остановки по API,
+ * содержит id обновляемой остановки
+ * содержит id локации, к которой принадлежит остановка
+ */
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -24,8 +30,7 @@ public class StopEditDto {
     @NotNull
     String comment;
 
-    @NotBlank
-    @Size(min = 3)
-    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'локация' должно соответствовать ")
-    String location;
+    @NotNull
+    @Positive
+    Integer locationId;
 }

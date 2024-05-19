@@ -43,6 +43,16 @@ public class TransportMapper {
                 .build();
     }
 
+    public TransportViewDto toViewDto(Transport transport) {
+        return TransportViewDto.builder()
+                .id(transport.getId())
+                .name(transport.getName())
+                .comment(transport.getComment())
+                .type(transport.getType())
+                .locationId(transport.getLocation().getId())
+                .build();
+    }
+
     public List<TransportDto> toDto(List<Transport> transportList) {
         return transportList.stream()
                 .map(this::toDto)

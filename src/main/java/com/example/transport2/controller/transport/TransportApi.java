@@ -3,11 +3,15 @@ package com.example.transport2.controller.transport;
 import com.example.transport2.dto.LocationTransportDto;
 import com.example.transport2.dto.PageDto;
 import com.example.transport2.dto.TransportDto;
+import com.example.transport2.dto.transport.TransportEditDto;
+import com.example.transport2.dto.transport.TransportSaveDto;
+import com.example.transport2.dto.transport.TransportViewDto;
 import com.example.transport2.mapper.TransportMapper;
 import com.example.transport2.model.Transport;
 import com.example.transport2.model.TransportType;
 import com.example.transport2.service.LocationService;
 import com.example.transport2.service.TransportService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +28,19 @@ public class TransportApi {
     private final TransportService transportService;
     private final LocationService locationService;
     private final TransportMapper transportMapper;
+
+    /**
+     * Сохраняет транспорт в БД
+     *
+     * @param dto DTO транспорта
+     * @return имя и локация транспорта
+     */
+    @PostMapping
+    public TransportViewDto save(@RequestBody @Valid TransportSaveDto dto) {
+        Transport transport = transportMapper.fromDto(dto);
+        Transport save = transportService.save(transport);
+        return transportMapper.toViewDto(save);
+    }
 
     @GetMapping("{id}")
     public TransportDto getById(@PathVariable Integer id) {
@@ -54,5 +71,17 @@ public class TransportApi {
                 .transportType(type.name())
                 .transports(transportMapper.toShortTransportDto(byLocationIdAndType))
                 .build();
+    }
+
+    @PutMapping
+    public TransportViewDto update(@RequestBody @Valid TransportEditDto dto) {
+        Transport transport = transportMapper.fromDto(dto);
+        Transport update = transportService.update(transport);
+        return transportMapper.toViewDto(update);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Integer id) {
+        transportService.delete(id);
     }
 }

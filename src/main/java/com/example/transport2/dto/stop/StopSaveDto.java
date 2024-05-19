@@ -1,12 +1,15 @@
 package com.example.transport2.dto.stop;
 
 import com.example.transport2.util.StringPatterns;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+/**
+ * короткое DTO для save остановки по API,
+ * не содержит id обновляемой остановки
+ * содержит id локации, к которой принадлежит остановка
+ */
 
 @Data
 @Builder
@@ -23,8 +26,7 @@ public class StopSaveDto {
     @NotNull
     String comment;
 
-    @NotBlank
-    @Size(min = 3)
-    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'локация' должно соответствовать ")
-    String location;
+    @NotNull
+    @Positive
+    Integer locationId;
 }

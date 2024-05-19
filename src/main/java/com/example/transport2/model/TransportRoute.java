@@ -37,6 +37,4 @@ public class TransportRoute {
     Stop endStop;
 
     String name;
-
-    String note;
 }

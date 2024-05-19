@@ -1,6 +1,6 @@
 package com.example.transport2.controller.location;
 
-import com.example.transport2.dto.location.LocationDto;
+import com.example.transport2.dto.location.LocationViewDto;
 import com.example.transport2.dto.location.LocationEditDto;
 import com.example.transport2.dto.location.LocationSaveDto;
 import com.example.transport2.mapper.LocationMapper;
@@ -30,7 +30,7 @@ public class LocationApi {
      * @return имя локации
      */
     @PostMapping
-    public LocationDto save(@RequestBody @Valid LocationSaveDto dto) {
+    public LocationViewDto save(@RequestBody @Valid LocationSaveDto dto) {
         Location location = locationMapper.fromDto(dto);
         Location save = locationService.save(location);
         return locationMapper.toDto(save);
@@ -43,13 +43,13 @@ public class LocationApi {
      * @return
      */
     @GetMapping("{id}")
-    public LocationDto getById(@PathVariable Integer id) {
+    public LocationViewDto getById(@PathVariable Integer id) {
         Location location = locationService.getLocationById(id);
         return locationMapper.toDto(location);
     }
 
     @GetMapping
-    public List<LocationDto> getByFilters(@RequestParam(required = false) @Size(min = 3)String name) {
+    public List<LocationViewDto> getByFilters(@RequestParam(required = false) @Size(min = 3)String name) {
         if (name != null) {
             return locationMapper.toDto(locationService.findAllByNameContainingIgnoreCase(name));
         }
@@ -57,7 +57,7 @@ public class LocationApi {
     }
 
     @PutMapping
-    public LocationDto update(@RequestBody @Valid LocationEditDto dto) {
+    public LocationViewDto update(@RequestBody @Valid LocationEditDto dto) {
         Location location = locationMapper.fromDto(dto);
         Location update = locationService.update(location);
         return locationMapper.toDto(update);

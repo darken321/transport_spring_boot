@@ -9,12 +9,18 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+
+/**
+ * короткое DTO для возвращения остановки по API,
+ * содержит id локации, к которой принадлежит остановка
+ */
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StopDto {
+public class StopViewDto {
 
     @Positive
     @NotNull
@@ -29,7 +35,6 @@ public class StopDto {
     String comment;
 
     @NotNull
-    @Size(min = 3)
-    @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'локация' должно соответствовать ")
-    String location;
+    @Positive
+    Integer locationId;
 }

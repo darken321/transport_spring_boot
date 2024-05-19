@@ -1,6 +1,6 @@
 package com.example.transport2.mapper;
 
-import com.example.transport2.dto.location.LocationDto;
+import com.example.transport2.dto.location.LocationViewDto;
 import com.example.transport2.dto.location.LocationEditDto;
 import com.example.transport2.dto.location.LocationSaveDto;
 import com.example.transport2.model.Location;
@@ -15,21 +15,21 @@ import java.util.List;
 public class LocationMapper {
 
 
-    public LocationDto toDto(Location location) {
-        return LocationDto.builder()
+    public LocationViewDto toDto(Location location) {
+        return LocationViewDto.builder()
                 .id(location.getId())
                 .name(location.getName())
                 .build();
     }
 
-    public List<LocationDto> toDto(List<Location>  locationList) {
+    public List<LocationViewDto> toDto(List<Location>  locationList) {
         return locationList.stream()
                 .map(this::toDto)
                 .toList();
     }
 
 
-    public Location fromDto(@Valid LocationDto dto) {
+    public Location fromDto(@Valid LocationViewDto dto) {
         return Location.builder()
                 .id(dto.getId())
                 .name(dto.getName())

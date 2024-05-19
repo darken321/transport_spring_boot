@@ -80,7 +80,6 @@
                 <br>
                 <label for="locationId">Локация:</label>
                 <select id="locationId" name="locationId" required>
-                    </option>
                     <option th:each="location : ${locations}"
                             th:value="${location.id}"
                             th:text="${location.name}">

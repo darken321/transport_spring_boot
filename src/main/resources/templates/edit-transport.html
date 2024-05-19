@@ -30,7 +30,7 @@
 
         <div class="edit-forms">
             <label for="type">Тип транспорта:</label>
-<!--            <br>-->
+
             <select id="type" name="type" required>
                 <option value="" th:unless="${transport.type}" th:text="-- выберите тип транспорта --"></option>
                 <option th:each="type : ${transportTypes}"
@@ -43,7 +43,7 @@
 
         <div class="edit-forms">
             <label for="locationId">Локация:</label>
-<!--            <br>-->
+
             <select id="locationId" name="locationId" class="edit-forms" required>
                 <!-- Первая опция - текущая локация транспорта -->
                 <option th:value="${transport.location.id}"

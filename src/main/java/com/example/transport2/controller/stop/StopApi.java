@@ -1,7 +1,7 @@
 package com.example.transport2.controller.stop;
 
 import com.example.transport2.controller.swagger.StopApiSwagger;
-import com.example.transport2.dto.stop.StopDto;
+import com.example.transport2.dto.stop.StopViewDto;
 import com.example.transport2.dto.stop.StopEditDto;
 import com.example.transport2.dto.stop.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
@@ -29,15 +29,28 @@ public class StopApi implements StopApiSwagger {
     private final StopService stopService;
     private final StopMapper stopMapper;
 
+    /**
+     * Сохраняет остановку в БД
+     *
+     * @param dto DTO остановки
+     * @return имя и локация остановки
+     */
+    @PostMapping
+    public StopViewDto save(@RequestBody @Valid StopSaveDto dto) {
+        Stop stop = stopMapper.fromDto(dto);
+        Stop save = stopService.save(stop);
+        return stopMapper.toViewDto(save);
+    }
+
     @GetMapping
-    public List<StopDto> getByFilters(@Parameter(description = "часть наименования остановки")
+    public List<StopViewDto> getByFilters(@Parameter(description = "часть наименования остановки")
                                       @RequestParam(required = false) @Size(min = 3)
                                       String name) {
 
         if (name != null) {
-            return stopMapper.toDto(stopService.findAllByNameContaining(name));
+            return stopMapper.toViewDto(stopService.findAllByNameContaining(name));
         }
-        return stopMapper.toDto(stopService.getAll());
+        return stopMapper.toViewDto(stopService.getAll());
     }
 
     /**
@@ -54,25 +67,11 @@ public class StopApi implements StopApiSwagger {
     }
 
     @PutMapping
-    public StopDto update(@RequestBody @Valid StopEditDto dto) {
+    public StopViewDto update(@RequestBody @Valid StopEditDto dto) {
         Stop stop = stopMapper.fromDto(dto);
         Stop update = stopService.update(stop);
-        return stopMapper.toDto(update);
+        return stopMapper.toViewDto(update);
     }
-
-    /**
-     * Сохраняет остановку в БД
-     *
-     * @param dto DTO остановки
-     * @return имя и локация остановки
-     */
-    @PostMapping
-    public StopDto save(@RequestBody @Valid StopSaveDto dto) {
-        Stop stop = stopMapper.fromDto(dto);
-        Stop save = stopService.save(stop);
-        return stopMapper.toDto(save);
-    }
-
     @DeleteMapping("{id}")
     public void delete(@PathVariable Integer id) {
         stopService.delete(id);

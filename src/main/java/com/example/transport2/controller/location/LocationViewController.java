@@ -1,6 +1,6 @@
 package com.example.transport2.controller.location;
 
-import com.example.transport2.dto.location.LocationDto;
+import com.example.transport2.dto.location.LocationViewDto;
 import com.example.transport2.dto.location.LocationEditDto;
 import com.example.transport2.dto.location.LocationSaveDto;
 import com.example.transport2.mapper.LocationMapper;
@@ -30,7 +30,7 @@ public class LocationViewController {
 
     @GetMapping("/location")
     public String getAllLocationsTable(@RequestParam(required = false) String name, Model model) {
-        List<LocationDto> locations;
+        List<LocationViewDto> locations;
         if (name != null && !name.isEmpty()) {
             locations = locationMapper.toDto(locationService.findAllByNameContainingIgnoreCase(name.trim()));
         } else {
@@ -42,7 +42,7 @@ public class LocationViewController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") int id, Model model) {
-        LocationDto dto = locationMapper.toDto(locationService.getLocationById(id));
+        LocationViewDto dto = locationMapper.toDto(locationService.getLocationById(id));
         model.addAttribute("location", dto);
         return "edit-location";
     }

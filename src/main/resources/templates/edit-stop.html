@@ -8,27 +8,45 @@
 <body>
 
 <div class="edit-container">
-    <h2>Редактирование остановки </h2>
-    <form th:action="@{/stops/update}" method="post">
-        <div class="form-group">
+    <h3>Редактирование остановки</h3>
+    <form th:action="@{/stops/update}" method="post" class="input-forms">
+        <div class="edit-forms">
             <label for="id">ID (только чтение):</label>
             <br>
             <input type="text" id="id" name="id" th:value="${stop.id}" readonly/>
         </div>
-        <br>
-        <div class="form-group">
+
+        <div class="edit-forms">
             <label for="name">Название:</label>
             <br>
             <input type="text" id="name" name="name" th:value="${stop.name}" required/>
         </div>
-        <br>
-        <div class="form-group">
-            <label for="location">Локация:</label>
+
+        <div class="edit-forms">
+            <label for="comment">Комментарий:</label>
             <br>
-            <input type="text" id="location" name="location" th:value="${stop.location}" required/>
+            <input type="text" id="comment" name="comment" th:value="${stop.comment}" />
         </div>
-        <br>
-        <div class="form-group-buttons">
+
+        <div class="edit-forms">
+            <label for="locationId">Локация:</label>
+
+            <select id="locationId" name="locationId" class="edit-forms" required>
+                <!-- Первая опция - текущая локация остановки -->
+                <option th:value="${stop.locationId}"
+                        th:text="${stop.locationName}">
+                </option>
+                <!-- Опции для выбора из всех доступных локаций, кроме текущей -->
+                <option th:each="location : ${locations}"
+                        th:value="${location.id}"
+                        th:text="${location.name}"
+                        th:selected="${location.id == stop.locationId}"
+                        th:if="${location.id != stop.locationId}">
+                    <!-- Остальные опции для выбора -->
+                </option>
+            </select>
+        </div>
+        <div>
             <button type="submit" class="save-button">Сохранить изменения</button>
             <a href="/stops/table" class="cancel-button">Отменить</a>
         </div>

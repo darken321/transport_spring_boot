@@ -22,6 +22,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Название остановки</th>
+                    <th>Комментарий</th>
                     <th>Местоположение</th>
                     <th></th>
                     <th></th>
@@ -31,8 +32,9 @@
                 <tr th:each="stop : ${stops}">
                     <td th:text="${stop.id}">ID</td>
                     <td th:text="${stop.name}">Название остановки</td>
-                    <td th:text="${stop.location}">Локация</td>
-
+                    <td th:text="${stop.comment}">Комментарий</td>
+                    <td th:text="${stop.locationName}">Локация</td>
+                    <td th:text="${stop.locationId}">Локация</td>
                     <td>
                         <!-- Ссылка для изменения остановки -->
                         <a th:href="@{/stops/edit/{id}(id=${stop.id})}" class="edit-link" aria-label="Изменить">
@@ -54,18 +56,28 @@
         </td>
         <td class="top-aligned">
             <!-- Форма поиска -->
-            <form action="#" th:action="@{/stops/table}" method="get">
+            <b>Фильтр по части названия остановки</b>
+            <form action="#" th:action="@{/stops/table}" method="get" class="input-forms">
                 <input type="text" name="name" placeholder="Введите часть названия остановки"/>
+                <br>
                 <button type="submit">Поиск</button>
             </form>
             <br>
             <!-- Форма добавления остановки -->
-            <form action="#" th:action="@{/stops/add}" method="post">
-                <input type="text" name="name" placeholder="Введите название остановки" required />
+            <b>Добавление новой остановки</b>
+            <form action="#" th:action="@{/stops/add}" method="post" class="input-forms">
+                <input type="text" name="name" placeholder="Введите название остановки" required/>
                 <br>
-                <input type="text" name="location" placeholder="Введите местоположение, город" required  value="Брест" />
+                <input type="text" name="comment" placeholder="Введите комментарий"/>
                 <br>
-                <input type="text" name="comment" placeholder="Введите комментарий" />
+                <label for="locationId">Локация:</label>
+                <select id="locationId" name="locationId" required>
+                    <option th:each="location : ${locations}"
+                            th:value="${location.id}"
+                            th:text="${location.name}">
+                    </option>
+                </select>
+
                 <button type="submit">Добавить остановку</button>
             </form>
         </td>

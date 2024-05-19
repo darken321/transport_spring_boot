@@ -1,6 +1,5 @@
 package com.example.transport2.service;
 
-import com.example.transport2.model.Location;
 import com.example.transport2.model.Stop;
 import com.example.transport2.model.Transport;
 import com.example.transport2.repository.StopRepository;
@@ -44,10 +43,28 @@ public class StopService {
 
     public Stop update(@Valid Stop stop) {
         trimStopFields(stop);
-        if (stopRepository.findById(stop.getId()).isEmpty()) {
-            throw new EntityNotFoundException("Остановка с id " + stop.getId() + " не найдена");
+        // Получаем существующую остановку по ID или выбрасываем исключение, если она не найдена
+        Stop existingStop = stopRepository.findById(stop.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Остановка с id " + stop.getId() + " не найдена"));
+
+        // Проверяем, существует ли другая остановка с таким же именем и местоположением, но с другим ID
+        List<Stop> conflictingStops = stopRepository.findByNameIgnoreCaseAndLocation(stop.getName(), stop.getLocation())
+                .stream()
+                .filter(s -> !s.getId().equals(stop.getId()))
+                .toList();
+
+        // Если найдена конфликтующая остановка, выбрасываем исключение
+        if (!conflictingStops.isEmpty()) {
+            throw new EntityExistsException("Остановка с названием " + stop.getName() + " уже существует в городе " + stop.getLocation().getName());
         }
-        return this.save(stop);
+
+        // Обновляем поля существующей остановки данными из полученной остановки
+        existingStop.setName(stop.getName());
+        existingStop.setComment(stop.getComment());
+        existingStop.setLocation(stop.getLocation());
+
+        // Сохраняем обновленную остановку
+        return stopRepository.save(existingStop);
     }
 
     public void delete(int id) {
@@ -55,11 +72,7 @@ public class StopService {
     }
 
     private void trimStopFields(Stop stop) {
-        if (stop.getName() != null) {
-            stop.setName(stop.getName().trim());
-        }
-        if (stop.getComment() != null) {
-            stop.setComment(stop.getComment().trim());
-        }
+        if (stop.getName() != null) stop.setName(stop.getName().trim());
+        if (stop.getComment() != null) stop.setComment(stop.getComment().trim());
     }
 }

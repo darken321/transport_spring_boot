@@ -49,8 +49,6 @@ public class LocationService {
     }
 
     private void trimLocationFields(Location location) {
-        if (location.getName() != null) {
-            location.setName(location.getName().trim());
-        }
+        if (location.getName() != null) location.setName(location.getName().trim());
     }
 }

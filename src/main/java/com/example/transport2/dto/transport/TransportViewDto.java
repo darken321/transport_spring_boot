@@ -7,6 +7,11 @@ import jakarta.validation.constraints.Positive;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * короткое DTO для возвращения транспорта по API,
+ * содержит id локации
+ */
+
 @Data
 @Builder
 @AllArgsConstructor

@@ -1,14 +1,12 @@
 package com.example.transport2.mapper;
 
-import com.example.transport2.dto.stop.StopDto;
+import com.example.transport2.dto.StopDto;
+import com.example.transport2.dto.stop.StopViewDto;
 import com.example.transport2.dto.stop.StopEditDto;
 import com.example.transport2.dto.stop.StopSaveDto;
 import com.example.transport2.dto.StopTransportDto;
-import com.example.transport2.model.Location;
 import com.example.transport2.model.Stop;
-import com.example.transport2.repository.LocationRepository;
-import com.example.transport2.repository.RouteStopRepository;
-import com.example.transport2.repository.StopRepository;
+import com.example.transport2.service.LocationService;
 import com.example.transport2.service.RouteService;
 import com.example.transport2.service.StopService;
 import jakarta.validation.Valid;
@@ -22,18 +20,16 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class StopMapper {
-    LocationRepository locationRepository;
+    LocationService locationService;
     RouteService routeService;
     StopService stopService;
-    RouteStopRepository routeStopRepository;
-    StopRepository stopRepository;
 
-    public Stop fromDto(@Valid StopDto dto) {
+    public Stop fromDto(@Valid StopViewDto dto) {
         return Stop.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .comment(dto.getComment())
-                .location(Location.builder().name(dto.getLocation()).build())
+                .location(locationService.getLocationById(dto.getLocationId()))
                 .build();
     }
 
@@ -42,10 +38,7 @@ public class StopMapper {
                 .id(dto.getId())
                 .name(dto.getName())
                 .comment(dto.getComment())
-                .location(Location.builder()
-                        .id(locationRepository.findByName(dto.getLocation()).get().getId())
-                        .name(dto.getLocation())
-                        .build())
+                .location(locationService.getLocationById(dto.getLocationId()))
                 .build();
     }
 
@@ -53,17 +46,23 @@ public class StopMapper {
         return Stop.builder()
                 .name(dto.getName())
                 .comment(dto.getComment())
-                .location(Location.builder()
-                        .id(locationRepository.findByName(dto.getLocation()).get().getId())
-                        .name(dto.getLocation())
-                        .build())
+                .location(locationService.getLocationById(dto.getLocationId()))
                 .build();
     }
 
-    public List<Stop> fromDto(@Valid List<StopDto> dtolist) {
+    public List<Stop> fromDto(@Valid List<StopViewDto> dtolist) {
         return dtolist.stream()
                 .map(this::fromDto)
                 .toList();
+    }
+
+    public StopViewDto toViewDto(@Valid Stop stop) {
+        return StopViewDto.builder()
+                .id(stop.getId())
+                .name(stop.getName())
+                .comment(stop.getComment())
+                .locationId(stop.getLocation().getId())
+                .build();
     }
 
     public StopDto toDto(@Valid Stop stop) {
@@ -71,13 +70,19 @@ public class StopMapper {
                 .id(stop.getId())
                 .name(stop.getName())
                 .comment(stop.getComment())
-                .location(stop.getLocation().getName())
+                .locationId(stop.getLocation().getId())
+                .locationName(stop.getLocation().getName())
                 .build();
     }
 
     public List<StopDto> toDto(@Valid List<Stop> stopList) {
         return stopList.stream()
                 .map(this::toDto)
+                .toList();
+    }
+    public List<StopViewDto> toViewDto(@Valid List<Stop> stopList) {
+        return stopList.stream()
+                .map(this::toViewDto)
                 .toList();
     }
 

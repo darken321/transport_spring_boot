@@ -1,10 +1,14 @@
 package com.example.transport2.controller.stop;
 
-import com.example.transport2.dto.stop.StopDto;
+import com.example.transport2.dto.StopDto;
+import com.example.transport2.dto.location.LocationViewDto;
 import com.example.transport2.dto.stop.StopEditDto;
 import com.example.transport2.dto.stop.StopSaveDto;
+import com.example.transport2.mapper.LocationMapper;
 import com.example.transport2.mapper.StopMapper;
+import com.example.transport2.model.Location;
 import com.example.transport2.model.Stop;
+import com.example.transport2.service.LocationService;
 import com.example.transport2.service.StopService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -27,29 +31,38 @@ public class StopViewController {
 
     private final StopService stopService;
     private final StopMapper stopMapper;
+    private final LocationService locationService;
+    private final LocationMapper locationMapper;
+
 
     @GetMapping("/table")
     public String getAllStopsTable(@RequestParam(required = false) String name, Model model) {
         List<StopDto> stops;
+        List<LocationViewDto> locations;
         if (name != null && !name.isEmpty()) {
             stops = stopMapper.toDto(stopService.findAllByNameContaining(name.trim()));
         } else {
             stops = stopMapper.toDto(stopService.getAll());
         }
+        locations = locationMapper.toDto(locationService.getAll());
         model.addAttribute("stops", stops);
+        model.addAttribute("locations", locations);
         return "stop-CRUD";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") int id, Model model) {
         StopDto stopDto = stopMapper.toDto(stopService.getById(id));
+        List<Location> locations = locationService.getAll();
+        model.addAttribute("locations", locations);
         model.addAttribute("stop", stopDto);
         return "edit-stop";
     }
+
     @PostMapping("/update")
     public String updateStop(@ModelAttribute @Valid StopEditDto dto) {
         Stop stop = stopMapper.fromDto(dto);
-        stopService.save(stop);
+        stopService.update(stop);
         return "redirect:/stops/table";
     }
 
