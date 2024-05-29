@@ -12,6 +12,8 @@ import lombok.experimental.FieldDefaults;
  * список всех остановок этого транспорта в этом маршруте
  * ID остановки в таблице
  * stopName название остановки
+ * locationId Id локации, где находится остановка
+ * locationName название локации, где находится остановка
  */
 @Data
 @Builder
@@ -27,4 +29,11 @@ public class StopInfoDto {
     @NotBlank
     @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'локация' должно соответствовать ")
     String stopName;
+
+    @Positive
+    @NotNull
+    Integer locationId;
+
+    @NotBlank
+    String locationName;
 }

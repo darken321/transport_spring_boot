@@ -122,14 +122,19 @@ public class PopulateDB {
         routeArray[2] = new int[]{2, 1, 35};
         routeArray[3] = new int[]{2, 35, 1};
 
-        for (int[] ints : routeArray) {
+        String[] routeNames = {"В крепость", "На областную", "На автовокзал", "На областную"};
+
+        for (int i = 0; i < routeArray.length; i++) {
+            int[] ints = routeArray[i];
             transportRoute = TransportRoute.builder()
                     .transport(transportRepository.findById(ints[0]).orElseThrow())
                     .startStop(stopRepository.findById(ints[1]).orElseThrow())
                     .endStop(stopRepository.findById(ints[2]).orElseThrow())
+                    .name(routeNames[i])
                     .build();
             transportRouteRepository.save(transportRoute);
         }
+
         //100 троллейбус туда обратно
         int[][] routeStopsArray = new int[86][2];
         for (int i = 1; i <= 26; i++) {
