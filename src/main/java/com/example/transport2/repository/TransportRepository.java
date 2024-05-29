@@ -1,7 +1,6 @@
 package com.example.transport2.repository;
 
 import com.example.transport2.model.Location;
-import com.example.transport2.model.Stop;
 import com.example.transport2.model.Transport;
 import com.example.transport2.model.TransportType;
 import com.example.transport2.projection.TransportInfo;
@@ -30,7 +29,7 @@ public interface TransportRepository extends JpaRepository<Transport, Integer> {
 
     List<Transport> findAllByNameContainingIgnoreCase(String name);
 
-    boolean existsByNameContainingIgnoreCaseAndLocationAndType(String name, Location location, TransportType type);
+    boolean existsByNameIgnoreCaseAndLocationAndType(String name, Location location, TransportType type);
 
     /**
      * запрос информации по транспорту по id транспорта

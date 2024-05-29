@@ -30,6 +30,9 @@ public class StopInfoDto {
     @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'локация' должно соответствовать ")
     String stopName;
 
+    @NotNull
+    String comment;
+
     @Positive
     @NotNull
     Integer locationId;

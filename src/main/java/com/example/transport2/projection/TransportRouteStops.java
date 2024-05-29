@@ -8,6 +8,8 @@ public interface TransportRouteStops {
 
     String getStopName();
 
+    String getComment();
+
     Integer getLocationId();
 
     String getLocationName();

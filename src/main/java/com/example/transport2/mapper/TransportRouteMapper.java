@@ -67,6 +67,7 @@ public class TransportRouteMapper {
         return StopInfoDto.builder()
                 .stopId(stop.getStopId())
                 .stopName(stop.getStopName())
+                .comment(stop.getComment())
                 .locationId(stop.getLocationId())
                 .locationName(stop.getLocationName())
                 .build();

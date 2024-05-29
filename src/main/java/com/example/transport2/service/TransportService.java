@@ -23,7 +23,7 @@ public class TransportService {
     public Transport save(@Valid Transport transport) {
         trimTransportFields(transport);
         // Проверяем, существует ли уже транспорт такого типа с таким же именем в том же городе
-        boolean transportExists = transportRepository.existsByNameContainingIgnoreCaseAndLocationAndType(
+        boolean transportExists = transportRepository.existsByNameIgnoreCaseAndLocationAndType(
                 transport.getName(),
                 transport.getLocation(),
                 transport.getType());

@@ -37,16 +37,15 @@ public interface RouteStopRepository extends JpaRepository<RouteStops, Integer> 
      * @return список названий остановок c их id
      */
     @Query(value = """
-            SELECT stop.id AS stopId,
-                   stop.name AS stopName,
-                   location.id AS locationId,
-                   location.name AS locationName
-            FROM route_stops
-                    JOIN stop ON route_stops.stop_id = stop.id
-                    JOIN location ON stop.location_id = location.id
-            WHERE route_stops.route_id = :routeId
-            ORDER BY route_stops.stop_order
-                        """
-            , nativeQuery = true)
-    List<TransportRouteStops> findRouteStops(@Param("routeId") Integer routeId);
-}
+SELECT stop.id AS stopId,
+       stop.name AS stopName,
+       stop.comment AS comment,
+       location.id AS locationId,
+       location.name AS locationName
+FROM route_stops
+JOIN stop ON route_stops.stop_id = stop.id
+JOIN location ON stop.location_id = location.id
+WHERE route_stops.route_id = :routeId
+ORDER BY route_stops.stop_order
+""", nativeQuery = true)
+    List<TransportRouteStops> findRouteStops(@Param("routeId") Integer routeId);}
