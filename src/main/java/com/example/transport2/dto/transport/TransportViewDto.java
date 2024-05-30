@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 
 /**
  * короткое DTO для возвращения транспорта по API,
- * содержит id локации
  */
 
 @Data
@@ -31,8 +30,4 @@ public class TransportViewDto {
 
     @NotNull
     TransportType type;
-
-    @NotNull
-    @Positive
-    Integer locationId;
 }

@@ -43,7 +43,6 @@ public class PopulateDB {
         Transport transport;
         for (int i = 0; i <= 9; i++) {
             transport = Transport.builder()
-                    .location(locationRepository.findByName("Брест").orElseThrow())
                     .type(TROLLEYBUS)
                     .name("10" + i)
                     .comment("")
@@ -54,7 +53,6 @@ public class PopulateDB {
         List<String> autobus = new ArrayList<>(Arrays.asList("2", "2А", "1А", "1", "3", "5", "6"));
         for (String s : autobus) {
             transport = Transport.builder()
-                    .location(locationRepository.findByName("Брест").orElseThrow())
                     .type(BUS)
                     .name(s)
                     .comment("")

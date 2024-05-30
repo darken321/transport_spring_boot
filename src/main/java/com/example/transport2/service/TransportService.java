@@ -23,9 +23,9 @@ public class TransportService {
     public Transport save(@Valid Transport transport) {
         trimTransportFields(transport);
         // Проверяем, существует ли уже транспорт такого типа с таким же именем в том же городе
-        boolean transportExists = transportRepository.existsByNameIgnoreCaseAndLocationAndType(
+        boolean transportExists = transportRepository.existsByNameIgnoreCaseAndType(
                 transport.getName(),
-                transport.getLocation(),
+//                transport.getLocation(),
                 transport.getType());
 
         if (transportExists) {
@@ -49,8 +49,8 @@ public class TransportService {
                 .orElseThrow(() -> new EntityNotFoundException("transport with id " + id + " not found in DB."));
     }
 
-    public List<Transport> getByLocationIdAndType(int locationId, TransportType transportType) {
-        return transportRepository.findAllByLocationIdAndTypeOrderByName(locationId, transportType);
+    public List<Transport> getByLocationIdAndType(TransportType transportType) {
+        return transportRepository.findAllByTypeOrderByName(transportType);
     }
 
     public List<Transport> getByFilters(String name, TransportType transportType) {
@@ -92,9 +92,9 @@ public class TransportService {
 
         // Проверить что транспорта с таким именем такого типа нет в городе назначения
         // Проверяем, существует ли другой транспорт с таким же именем, местоположением и типом, но с другим ID
-        List<Transport> conflictingTransports = transportRepository.findByNameIgnoreCaseAndLocationAndType(
+        List<Transport> conflictingTransports = transportRepository.findByNameIgnoreCaseAndType(
                         transport.getName(),
-                        transport.getLocation(),
+//                        transport.getLocation(),
                         transport.getType())
                 .stream()
                 .filter(t -> !t.getId().equals(transport.getId()))
@@ -107,7 +107,7 @@ public class TransportService {
         // Обновляем поля существующего транспорта данными из полученного транспорта
         existingTransport.setName(transport.getName());
         existingTransport.setType(transport.getType());
-        existingTransport.setLocation(transport.getLocation());
+//        existingTransport.setLocation(transport.getLocation());
         existingTransport.setComment(transport.getComment());
 
         // Сохраняем обновленный транспорт

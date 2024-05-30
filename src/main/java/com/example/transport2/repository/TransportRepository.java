@@ -1,6 +1,5 @@
 package com.example.transport2.repository;
 
-import com.example.transport2.model.Location;
 import com.example.transport2.model.Transport;
 import com.example.transport2.model.TransportType;
 import com.example.transport2.projection.TransportInfo;
@@ -25,11 +24,12 @@ public interface TransportRepository extends JpaRepository<Transport, Integer> {
 
     Transport getTransportById(Integer id);
 
-    List<Transport> findAllByLocationIdAndTypeOrderByName(int locationId, TransportType transportType);
+    List<Transport> findAllByTypeOrderByName(TransportType transportType);
 
     List<Transport> findAllByNameContainingIgnoreCase(String name);
 
-    boolean existsByNameIgnoreCaseAndLocationAndType(String name, Location location, TransportType type);
+    boolean existsByNameIgnoreCaseAndType(String name,
+                                          TransportType type);
 
     /**
      * запрос информации по транспорту по id транспорта
@@ -48,7 +48,8 @@ public interface TransportRepository extends JpaRepository<Transport, Integer> {
             , nativeQuery = true)
     TransportInfo findTransportInfoById(Integer transportId);
 
-    List<Transport> findByNameIgnoreCaseAndLocationAndType(String name, Location location, TransportType type);
+    List<Transport> findByNameIgnoreCaseAndType(String name,
+                                                TransportType type);
 
 }
 

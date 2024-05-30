@@ -24,7 +24,6 @@
                     <th>Название транспорта</th>
                     <th>Коммент</th>
                     <th>Тип</th>
-                    <th>Место</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -35,7 +34,6 @@
                     <td th:text="${transport.name}">Название транспорта</td>
                     <td th:text="${transport.comment}">Коммент</td>
                     <td th:text="${transport.type}">Тип</td>
-                    <td th:text="${transport.locationName}">Место</td>
                     <td>
                         <!-- Ссылка для изменения транспорта -->
                         <a th:href="@{/transports/edit/{id}(id=${transport.id})}" class="edit-link" aria-label="Изменить">
@@ -77,14 +75,6 @@
                     <option value="" th:each="type : ${transportTypes}" th:value="${type}" th:text="${type}">Тип</option>
                 </select>
 
-                <br>
-                <label for="locationId">Локация:</label>
-                <select id="locationId" name="locationId" required>
-                    <option th:each="location : ${locations}"
-                            th:value="${location.id}"
-                            th:text="${location.name}">
-                    </option>
-                </select>
                 <br>
                 <button type="submit">Добавить транспорт</button>
             </form>

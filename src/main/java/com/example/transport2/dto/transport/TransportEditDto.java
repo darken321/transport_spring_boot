@@ -26,8 +26,4 @@ public class TransportEditDto {
 
     @NotNull
     TransportType type;
-
-    @NotNull
-    @Positive
-    Integer locationId;
 }

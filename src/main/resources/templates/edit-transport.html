@@ -41,26 +41,6 @@
             </select>
         </div>
 
-        <div class="edit-forms">
-            <label for="locationId">Локация:</label>
-
-            <select id="locationId" name="locationId" class="edit-forms" required>
-                <!-- Первая опция - текущая локация транспорта -->
-                <option th:value="${transport.location.id}"
-                        th:text="${transport.location.name}">
-                    <!-- Текст будет заменен на имя текущей локации транспорта -->
-                </option>
-                <!-- Опции для выбора из всех доступных локаций, кроме текущей -->
-                <option th:each="location : ${locations}"
-                        th:value="${location.id}"
-                        th:text="${location.name}"
-                        th:selected="${location.id == transport.location.id}"
-                        th:if="${location.id != transport.location.id}">
-                    <!-- Остальные опции для выбора -->
-                </option>
-            </select>
-        </div>
-
         <div>
             <button type="submit" class="save-button">Сохранить изменения</button>
             <a href="/transports/table" class="cancel-button">Отменить</a>

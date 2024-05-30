@@ -36,8 +36,4 @@ public class Transport {
 
     @Enumerated(EnumType.STRING)
     TransportType type;
-
-    @ManyToOne
-    @NonNull
-    Location location;
 }

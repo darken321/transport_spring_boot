@@ -6,7 +6,6 @@ import com.example.transport2.dto.TransportDto;
 import com.example.transport2.dto.transport.TransportEditDto;
 import com.example.transport2.dto.transport.TransportSaveDto;
 import com.example.transport2.dto.transport.TransportViewDto;
-import com.example.transport2.model.Location;
 import com.example.transport2.model.Transport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,8 +37,6 @@ public class TransportMapper {
                 .name(transport.getName())
                 .comment(transport.getComment())
                 .type(transport.getType())
-                .locationId(transport.getLocation().getId())
-                .locationName(transport.getLocation().getName())
                 .build();
     }
 
@@ -49,7 +46,6 @@ public class TransportMapper {
                 .name(transport.getName())
                 .comment(transport.getComment())
                 .type(transport.getType())
-                .locationId(transport.getLocation().getId())
                 .build();
     }
 
@@ -65,10 +61,6 @@ public class TransportMapper {
                 .name(dto.getName())
                 .comment(dto.getComment())
                 .type(dto.getType())
-                .location(Location.builder()
-                        .id(dto.getLocationId())
-                        .name(dto.getLocationName())
-                        .build())
                 .build();
     }
     public Transport fromDto(TransportEditDto dto) {
@@ -77,9 +69,6 @@ public class TransportMapper {
                 .name(dto.getName())
                 .comment(dto.getComment())
                 .type(dto.getType())
-                .location(Location.builder()
-                        .id(dto.getLocationId())
-                        .build())
                 .build();
     }
     public Transport fromDto(TransportViewDto dto) {
@@ -88,9 +77,6 @@ public class TransportMapper {
                 .name(dto.getName())
                 .comment(dto.getComment())
                 .type(dto.getType())
-                .location(Location.builder()
-                        .id(dto.getLocationId())
-                        .build())
                 .build();
     }
 
@@ -99,9 +85,6 @@ public class TransportMapper {
                 .name(dto.getName())
                 .comment(dto.getComment())
                 .type(dto.getType())
-                .location(Location.builder()
-                        .id(dto.getLocationId())
-                        .build())
                 .build();
     }
 

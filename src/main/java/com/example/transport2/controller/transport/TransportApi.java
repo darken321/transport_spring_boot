@@ -33,7 +33,7 @@ public class TransportApi {
      * Сохраняет транспорт в БД
      *
      * @param dto DTO транспорта
-     * @return имя и локация транспорта
+     * @return имя транспорта
      */
     @PostMapping
     public TransportViewDto save(@RequestBody @Valid TransportSaveDto dto) {
@@ -65,7 +65,7 @@ public class TransportApi {
     @GetMapping("location/{locationId}/type/{type}")
     public LocationTransportDto getByLocationIdAndType(@PathVariable int locationId,
                                                        @PathVariable @NotNull TransportType type) {
-        List<Transport> byLocationIdAndType = transportService.getByLocationIdAndType(locationId, type);
+        List<Transport> byLocationIdAndType = transportService.getByLocationIdAndType(type);
         return LocationTransportDto.builder()
                 .locationName(locationService.getLocationById(locationId).getName())
                 .transportType(type.name())
