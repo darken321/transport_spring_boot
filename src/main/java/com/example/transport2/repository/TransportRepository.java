@@ -34,14 +34,13 @@ public interface TransportRepository extends JpaRepository<Transport, Integer> {
     /**
      * запрос информации по транспорту по id транспорта
      * @param transportId id транспорта
-     * @return location, имя и тип транспорта
+     * @return location, имя, коммент и тип транспорта
      */
     @Query(value = """
-            SELECT l.name AS location,
-                   transport.type AS type,
-                   transport.name AS name
+            SELECT transport.type AS type,
+                   transport.name AS name,
+                   transport.comment AS comment
             FROM transport
-                     JOIN location l on transport.location_id = l.id
             WHERE transport.id = :transportId
 
             """

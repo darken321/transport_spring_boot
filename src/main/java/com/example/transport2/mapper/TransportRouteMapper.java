@@ -5,7 +5,7 @@ import com.example.transport2.dto.StopInfoDto;
 import com.example.transport2.projection.TransportInfo;
 import com.example.transport2.projection.TransportRouteNames;
 import com.example.transport2.projection.TransportRouteStops;
-import com.example.transport2.projection.TransportRoutesInfo;
+import com.example.transport2.projection.TransportRouteInfo;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -65,7 +65,9 @@ public class TransportRouteMapper {
 
     private StopInfoDto toDto(@Valid TransportRouteStops stop) {
         return StopInfoDto.builder()
+                .routeId(stop.getRouteId())
                 .stopId(stop.getStopId())
+                .stopNumber(stop.getStopNumber())
                 .stopName(stop.getStopName())
                 .comment(stop.getComment())
                 .locationId(stop.getLocationId())
@@ -93,26 +95,28 @@ public class TransportRouteMapper {
                 .build();
     }
 
-    public OneTransportRoutesDto allToDto(TransportInfo info, List<TransportRoutesInfo> transportRoutes) {
+    public OneTransportRoutesDto allToDto(TransportInfo info, List<TransportRouteInfo> transportRoutes) {
         return OneTransportRoutesDto.builder()
-                .location(info.getLocation())
                 .transportName(info.getName())
+                .comment(info.getComment())
                 .transportType(info.getType())
                 .routes(toDto(transportRoutes))
                 .build();
     }
 
-    private List<FullRouteInfoDto> toDto(List<TransportRoutesInfo> transportRoutes) {
+    private List<FullRouteInfoDto> toDto(List<TransportRouteInfo> transportRoutes) {
         return transportRoutes.stream()
                 .map(this::toDto)
                 .toList();
     }
 
-    private FullRouteInfoDto toDto(TransportRoutesInfo tr) {
+    public FullRouteInfoDto toDto(TransportRouteInfo tr) {
         return FullRouteInfoDto.builder()
                 .transportRouteId(tr.getId())
                 .startStopName(tr.getStartStopName())
+                .startStopLocation(tr.getStartStopLocation())
                 .endStopName(tr.getEndStopName())
+                .endStopLocation(tr.getEndStopLocation())
                 .transportRouteName(tr.getRouteName())
                 .build();
     }

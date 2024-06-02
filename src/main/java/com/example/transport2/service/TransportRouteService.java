@@ -5,7 +5,7 @@ import com.example.transport2.model.TransportRoute;
 import com.example.transport2.projection.TimeAndDayOfWeek;
 import com.example.transport2.projection.TransportRouteNames;
 import com.example.transport2.projection.TransportRouteStops;
-import com.example.transport2.projection.TransportRoutesInfo;
+import com.example.transport2.projection.TransportRouteInfo;
 import com.example.transport2.repository.RouteStopRepository;
 import com.example.transport2.repository.StopTimeRepository;
 import com.example.transport2.repository.TransportRouteRepository;
@@ -56,7 +56,7 @@ public class TransportRouteService {
         return routeStopRepository.findRouteStops(routeId);
     }
 
-    public List<TransportRoutesInfo> getTransportRoutes(Integer transportId) {
+    public List<TransportRouteInfo> getTransportRoutes(Integer transportId) {
         return routeStopRepository.findTransportRoutes(transportId);
     }
 }

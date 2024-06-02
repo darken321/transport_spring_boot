@@ -6,9 +6,9 @@ package com.example.transport2.projection;
 
 public interface TransportInfo {
 
-    String getLocation();
-
     String getType();
 
     String getName();
+
+    String getComment();
 }

@@ -24,7 +24,15 @@ public class StopInfoDto {
 
     @Positive
     @NotNull
+    Integer routeId;
+
+    @Positive
+    @NotNull
     Integer stopId;
+
+    @Positive
+    @NotNull
+    Integer stopNumber;
 
     @NotBlank
     @Pattern(regexp = StringPatterns.STOP_NAME_PATTERN , message = "поле 'локация' должно соответствовать ")
@@ -33,10 +41,10 @@ public class StopInfoDto {
     @NotNull
     String comment;
 
+    @NotBlank
+    String locationName;
+
     @Positive
     @NotNull
     Integer locationId;
-
-    @NotBlank
-    String locationName;
 }

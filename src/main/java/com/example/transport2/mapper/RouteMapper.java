@@ -1,9 +1,13 @@
 package com.example.transport2.mapper;
 
+import com.example.transport2.dto.RouteInfoDto;
 import com.example.transport2.dto.StopTransportDto;
+import com.example.transport2.dto.route.RouteViewDto;
 import com.example.transport2.model.TransportType;
 import com.example.transport2.projection.StopRoutesInfo;
 import com.example.transport2.projection.StopTransportInfo;
+import com.example.transport2.projection.TransportRouteInfo;
+import com.example.transport2.projection.TransportRouteStops;
 import com.example.transport2.util.TimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,7 +17,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class RoutesMapper {
+public class RouteMapper {
 
     private StopTransportDto.StopTransportTimeDto stopTransportDto(StopTransportInfo info, LocalTime currentTime) {
         return StopTransportDto.StopTransportTimeDto.builder()
@@ -47,6 +51,23 @@ public class RoutesMapper {
     public List<StopTransportDto.StopTransportInfoDto> allToTransportDto(List<StopRoutesInfo> sortedTransportTypes) {
         return sortedTransportTypes.stream()
                 .map(this::stopTransportInfoDto)
+                .toList();
+    }
+
+    private RouteViewDto toRouteViewDto(TransportRouteStops trs) {
+        return RouteViewDto.builder()
+                .routeId(trs.getRouteId())
+                .stopId(trs.getStopId())
+                .stopOrder(trs.getStopNumber())
+                .stopName(trs.getStopName())
+                .stopComment(trs.getComment())
+                .locationId(trs.getLocationId())
+                .locationName(trs.getLocationName())
+                .build();
+    }
+    public List<RouteViewDto> allToRouteViewDto(List<TransportRouteStops> routeStops) {
+        return routeStops.stream()
+                .map(this::toRouteViewDto)
                 .toList();
     }
 }

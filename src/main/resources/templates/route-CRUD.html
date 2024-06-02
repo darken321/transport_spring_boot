@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/setup-styles.css">
+    <meta charset="UTF-8">
+    <title>Управление данными маршрута транспорта в БД</title>
+</head>
+<body>
+
+<table class="outer-table">
+    <thead>
+    <tr>
+        <th>Список остановок маршрута номер <span th:text="${routeInfo.transportRouteId}"></span>
+            <br>
+            От <span th:text="${routeInfo.startStopName}"></span>, <span th:text="${routeInfo.startStopLocation}"></span>
+            до <span th:text="${routeInfo.endStopName}"></span>, <span th:text="${routeInfo.endStopLocation}"></span>
+            <br>
+            <span th:text="${routeInfo.transportRouteName}"></span>
+        </th>
+        <th>
+
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <table class="inner-table">
+                <thead>
+                <tr>
+                    <th>id <br> строки</th>
+                    <th>id <br> остановки</th>
+                    <th>№ <br> остановки</th>
+                    <th>Название остановки</th>
+                    <th>Комментарий</th>
+                    <th>Местоположение</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="stop : ${routeStops}">
+                    <td th:text="${stop.routeId}">ID</td>
+                    <td th:text="${stop.stopId}"></td>
+                    <td th:text="${stop.stopOrder}"></td>
+                    <td th:text="${stop.stopName}"></td>
+                    <td th:text="${stop.stopComment}"></td>
+                    <td th:text="${stop.locationName}"></td>
+                    <td>
+                        <!-- Ссылка для изменения остановки -->
+                        <a th:href="@{/stops/edit/{id}(id=${stop.routeId})}" class="edit-link" aria-label="Изменить">
+                            <img src="/images/edit.png" alt="Изменить" style="width: 15px; height: 15px;">
+                        </a>
+                    </td>
+                    <td>
+                        <!-- Форма для удаления остановки -->
+                        <form th:action="@{/stops/deleteStop/{id}(id=${stop.routeId})}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="delete-button" aria-label="Удалить">
+                                <img src="/images/delete.png" alt="Удалить" style="width: 15px; height: 15px;">
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="top-aligned">
+            <!-- Форма поиска -->
+            <b>Фильтр по части названия остановки</b>
+            <form action="#" th:action="@{/stops/table}" method="get" class="input-forms">
+                <input type="text" name="name" placeholder="Введите часть названия остановки"/>
+                <br>
+                <button type="submit">Поиск</button>
+            </form>
+            <br>
+            <!-- Форма добавления остановки -->
+            <b>Добавление новой остановки</b>
+            <form action="#" th:action="@{/stops/add}" method="post" class="input-forms">
+                <input type="text" name="name" placeholder="Введите название остановки" required/>
+                <br>
+                <input type="text" name="comment" placeholder="Введите комментарий"/>
+                <br>
+                <label for="locationId">Локация:</label>
+                <select id="locationId" name="locationId" required>
+                    <option th:each="location : ${locations}"
+                            th:value="${location.id}"
+                            th:text="${location.name}">
+                    </option>
+                </select>
+
+                <button type="submit">Добавить остановку</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

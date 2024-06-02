@@ -155,7 +155,7 @@ public class RouteApi {
         //взял инфу о транспорте
         TransportInfo transportInfo = transportService.getTransportInfoById(transportId);
         // берем инфу о маршрутах
-        List<TransportRoutesInfo> transportRoutes = transportRouteService.getTransportRoutes(transportId);
+        List<TransportRouteInfo> transportRoutes = transportRouteService.getTransportRoutes(transportId);
         // и раскладываю ее в DTO
         OneTransportRoutesDto oneTransportRoutesDto = transportRouteMapper.allToDto(transportInfo,transportRoutes);
 

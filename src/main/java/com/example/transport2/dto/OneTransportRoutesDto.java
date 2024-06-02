@@ -10,9 +10,8 @@ import lombok.experimental.FieldDefaults;
 import java.util.List;
 
 /**
- * DTO все маршруты одного транспорта
- * содержит:
- * информацию о транспорте
+ * DTO содержит информацию о транспорте и его маршруты
+ * информацию о транспорте (тип, название, комментарий)
  * routes список маршрутов этого транспорта
  * внутри routes лежит список остановок этого маршрута
  * переход из списка транспортов
@@ -24,11 +23,6 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OneTransportRoutesDto {
-
-    @NotBlank
-    @Size(min = 3)
-    String location;
-
     @NotBlank
     @Size(min = 2)
     String transportType;
@@ -36,6 +30,9 @@ public class OneTransportRoutesDto {
     @NotBlank
     @Size(min = 2)
     String transportName;
+
+    @NotNull
+    String comment;
 
     @NotNull
     List<FullRouteInfoDto> routes;
